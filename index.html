@@ -82,9 +82,10 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: color 0.3s;
+            cursor: pointer;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: var(--green-dark);
         }
 
@@ -121,10 +122,6 @@
             margin-bottom: 1rem;
         }
 
-        .hero-content .highlight {
-            color: var(--green-dark);
-        }
-
         .hero-content .tagline {
             font-size: 1.25rem;
             color: var(--gray-600);
@@ -137,6 +134,7 @@
             display: flex;
             gap: 2rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .stat {
@@ -147,6 +145,13 @@
             background: var(--white);
             border-radius: 12px;
             border: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat:hover {
+            border-color: var(--green-light);
+            transform: translateY(-2px);
         }
 
         .stat-icon {
@@ -165,6 +170,7 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
@@ -204,6 +210,26 @@
         .btn-secondary:hover {
             border-color: var(--green-light);
             color: var(--green-dark);
+        }
+
+        .btn-scratch {
+            background: linear-gradient(135deg, #F6A623, #F7B731);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-scratch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(246, 166, 35, 0.3);
         }
 
         .search-box {
@@ -302,7 +328,30 @@
             font-size: 0.9rem;
         }
 
-        /* Filter Tags */
+        .profile-tags {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .profile-tag {
+            background: var(--green-pale);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--green-dark);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .profile-tag:hover {
+            background: var(--green-light);
+            color: var(--white);
+        }
+
+        /* Filters */
         .filters {
             max-width: 1400px;
             margin: 0 auto;
@@ -385,6 +434,7 @@
             border: 1px solid var(--gray-200);
             transition: all 0.3s;
             cursor: pointer;
+            display: block;
         }
 
         .card:hover {
@@ -392,9 +442,12 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
+        .card.hidden {
+            display: none;
+        }
+
         .card-image {
             height: 200px;
-            background: linear-gradient(135deg, var(--green-pale), var(--gray-100));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -408,6 +461,8 @@
         .card-image.game { background: linear-gradient(135deg, #4ade80, #22c55e); }
         .card-image.mit { background: linear-gradient(135deg, #111827, #374151); color: white; }
         .card-image.sign { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+        .card-image.scratch { background: linear-gradient(135deg, #F6A623, #F7B731); color: white; }
+        .card-image.social { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
 
         .card-badge {
             position: absolute;
@@ -473,6 +528,19 @@
             gap: 1rem;
             font-size: 0.85rem;
             color: var(--gray-400);
+        }
+
+        /* No results */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-600);
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
         /* CTA Banner */
@@ -658,12 +726,12 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#" class="logo">Obed Abad</a>
+            <a href="#" class="logo" onclick="filterProjects('all')">Obed Abad</a>
             <div class="nav-links">
-                <a href="#explorar">Explorar</a>
-                <a href="#skills">Skills</a>
-                <a href="#proyectos">Proyectos</a>
-                <a href="#metas">Metas</a>
+                <a href="#" onclick="filterProjects('all')" class="nav-link active">Explorar</a>
+                <a href="#" onclick="filterProjects('ai')">Skills</a>
+                <a href="#" onclick="filterProjects('code')">Proyectos</a>
+                <a href="#" onclick="filterProjects('meta')">Metas</a>
                 <a href="#contacto" class="nav-cta">Contactar</a>
             </div>
         </div>
@@ -676,15 +744,15 @@
             <p class="tagline">"Donde las ideas se convierten en resultados."</p>
             
             <div class="hero-stats">
-                <div class="stat">
+                <div class="stat" onclick="filterProjects('ai')">
                     <span class="stat-icon">🤖</span>
                     <span class="stat-label">Inteligencia Artificial</span>
                 </div>
-                <div class="stat">
+                <div class="stat" onclick="filterProjects('code')">
                     <span class="stat-icon">💻</span>
                     <span class="stat-label">Programación</span>
                 </div>
-                <div class="stat">
+                <div class="stat" onclick="filterProjects('game')">
                     <span class="stat-icon">🎮</span>
                     <span class="stat-label">Desarrollo de Juegos</span>
                 </div>
@@ -697,10 +765,13 @@
                 <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="btn-secondary">
                     YouTube @InteligenciaIncaica
                 </a>
+                <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" class="btn-scratch">
+                    🐱 Scratch
+                </a>
             </div>
 
             <div class="search-box">
-                <input type="text" placeholder="Buscar en mi portfolio...">
+                <input type="text" id="searchInput" placeholder="Buscar en mi portfolio..." onkeyup="searchProjects()">
                 <button class="search-btn">→</button>
             </div>
         </div>
@@ -710,10 +781,10 @@
                 <div class="profile-avatar">OA</div>
                 <div class="profile-name">Obed Abad</div>
                 <div class="profile-role">Desarrollador & Creador</div>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
-                    <span style="background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--green-dark);">AI</span>
-                    <span style="background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--green-dark);">Code</span>
-                    <span style="background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--green-dark);">Games</span>
+                <div class="profile-tags">
+                    <span class="profile-tag" onclick="filterProjects('ai')">AI</span>
+                    <span class="profile-tag" onclick="filterProjects('code')">Code</span>
+                    <span class="profile-tag" onclick="filterProjects('game')">Games</span>
                 </div>
             </div>
         </div>
@@ -723,29 +794,29 @@
     <div class="filters">
         <span class="filter-label">Especialidades:</span>
         <div class="filter-tags">
-            <span class="tag active">Todo</span>
-            <span class="tag">Inteligencia Artificial</span>
-            <span class="tag">Programación</span>
-            <span class="tag">Videojuegos</span>
-            <span class="tag">Señas en Tiempo Real</span>
-            <span class="tag">MIT Goals</span>
+            <span class="tag active" onclick="filterProjects('all')">Todo</span>
+            <span class="tag" onclick="filterProjects('ai')">Inteligencia Artificial</span>
+            <span class="tag" onclick="filterProjects('code')">Programación</span>
+            <span class="tag" onclick="filterProjects('game')">Videojuegos</span>
+            <span class="tag" onclick="filterProjects('sign')">Señas en Tiempo Real</span>
+            <span class="tag" onclick="filterProjects('meta')">MIT Goals</span>
         </div>
     </div>
 
     <!-- Categories -->
     <div class="categories">
-        <span class="category active">Descubrir</span>
-        <span class="category">Proyectos AI</span>
-        <span class="category">Código</span>
-        <span class="category">Juegos</span>
-        <span class="category">Metas</span>
-        <span class="category">Educación</span>
-        <span class="category">Blog</span>
+        <span class="category active" onclick="filterProjects('all')">Descubrir</span>
+        <span class="category" onclick="filterProjects('ai')">Proyectos AI</span>
+        <span class="category" onclick="filterProjects('code')">Código</span>
+        <span class="category" onclick="filterProjects('game')">Juegos</span>
+        <span class="category" onclick="filterProjects('meta')">Metas</span>
+        <span class="category" onclick="filterProjects('edu')">Educación</span>
+        <span class="category" onclick="filterProjects('social')">Redes</span>
     </div>
 
     <!-- Gallery -->
-    <section class="gallery" id="proyectos">
-        <div class="card">
+    <section class="gallery" id="gallery">
+        <div class="card" data-category="sign">
             <div class="card-image sign">
                 👐
                 <span class="card-badge">Enfoque Actual</span>
@@ -765,7 +836,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="ai">
             <div class="card-image ai">
                 🧠
             </div>
@@ -784,7 +855,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-image code">
                 💻
             </div>
@@ -803,7 +874,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="game">
             <div class="card-image game">
                 🎮
             </div>
@@ -822,7 +893,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="meta">
             <div class="card-image mit">
                 🎓
                 <span class="card-badge">Meta Principal</span>
@@ -842,7 +913,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="meta">
             <div class="card-image code">
                 ⭐
             </div>
@@ -861,8 +932,8 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-image ai">
+        <div class="card" data-category="social">
+            <div class="card-image social">
                 📱
             </div>
             <div class="card-content">
@@ -880,7 +951,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="social">
             <div class="card-image game">
                 ▶️
             </div>
@@ -897,6 +968,32 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="card" data-category="game">
+            <div class="card-image scratch">
+                🐱
+                <span class="card-badge">Scratch</span>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Proyectos en Scratch</h3>
+                <p class="card-desc">Juegos educativos, animaciones interactivas y experimentos de programación visual para aprender jugando.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>🎨 Creatividad</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>No se encontraron proyectos</h3>
+            <p>Intenta con otra categoría o término de búsqueda</p>
         </div>
     </section>
 
@@ -923,20 +1020,20 @@
             <div class="footer-links">
                 <h4>Proyectos</h4>
                 <ul>
-                    <li><a href="#">Traductor de Señas</a></li>
-                    <li><a href="#">AI Experiments</a></li>
-                    <li><a href="#">Videojuegos</a></li>
-                    <li><a href="#">Open Source</a></li>
+                    <li><a href="#" onclick="filterProjects('sign')">Traductor de Señas</a></li>
+                    <li><a href="#" onclick="filterProjects('ai')">AI Experiments</a></li>
+                    <li><a href="#" onclick="filterProjects('game')">Videojuegos</a></li>
+                    <li><a href="#" onclick="filterProjects('code')">Open Source</a></li>
                 </ul>
             </div>
 
             <div class="footer-links">
                 <h4>Redes</h4>
                 <ul>
-                    <li><a href="https://instagram.com/QuipuNetwork">Instagram</a></li>
-                    <li><a href="https://youtube.com/@InteligenciaIncaica">YouTube</a></li>
+                    <li><a href="https://instagram.com/QuipuNetwork" target="_blank">Instagram</a></li>
+                    <li><a href="https://youtube.com/@InteligenciaIncaica" target="_blank">YouTube</a></li>
+                    <li><a href="https://scratch.mit.edu/users/ObedAbad" target="_blank">Scratch</a></li>
                     <li><a href="#">GitHub</a></li>
-                    <li><a href="#">LinkedIn</a></li>
                 </ul>
             </div>
 
@@ -958,10 +1055,96 @@
             <div class="social-links">
                 <a href="https://instagram.com/QuipuNetwork">📷</a>
                 <a href="https://youtube.com/@InteligenciaIncaica">▶️</a>
-                <a href="#">💻</a>
+                <a href="https://scratch.mit.edu/users/ObedAbad">🐱</a>
                 <a href="#">💼</a>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Filtrado de proyectos
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+
+            // Actualizar tags activos
+            document.querySelectorAll('.tag').forEach(tag => {
+                tag.classList.remove('active');
+                if (tag.textContent.toLowerCase().includes(category) || 
+                    (category === 'all' && tag.textContent === 'Todo') ||
+                    (category === 'sign' && tag.textContent.includes('Señas')) ||
+                    (category === 'meta' && tag.textContent.includes('MIT'))) {
+                    tag.classList.add('active');
+                }
+            });
+
+            // Actualizar categorías activas
+            document.querySelectorAll('.category').forEach(cat => {
+                cat.classList.remove('active');
+                if (cat.textContent.toLowerCase().includes(category) ||
+                    (category === 'all' && cat.textContent === 'Descubrir') ||
+                    (category === 'sign' && cat.textContent.includes('Señas')) ||
+                    (category === 'meta' && cat.textContent === 'Metas') ||
+                    (category === 'ai' && cat.textContent.includes('AI')) ||
+                    (category === 'code' && cat.textContent === 'Código') ||
+                    (category === 'game' && cat.textContent === 'Juegos') ||
+                    (category === 'social' && cat.textContent === 'Redes')) {
+                    cat.classList.add('active');
+                }
+            });
+
+            // Actualizar nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if ((category === 'all' && link.textContent === 'Explorar') ||
+                    (category === 'ai' && link.textContent === 'Skills') ||
+                    (category === 'code' && link.textContent === 'Proyectos') ||
+                    (category === 'meta' && link.textContent === 'Metas')) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Filtrar cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Mostrar/ocultar mensaje de no resultados
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // Búsqueda en tiempo real
+        function searchProjects() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            filterProjects('all');
+        });
+    </script>
 </body>
 </html>
