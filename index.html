@@ -29,6 +29,8 @@
 
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);transition:background .35s,color .35s;line-height:1.6}
+#particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:1}
+nav,section,footer,.cta-banner,.overlay,.toast,.cats-bar,.section-wrap{position:relative;z-index:1}
 
 /* ── NAV ── */
 nav{
@@ -443,6 +445,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:3rem;
 </head>
 <body>
 
+<canvas id="particles-canvas"></canvas>
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
@@ -836,6 +839,256 @@ function scrollToTop(){
 }
 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+</script>
+<script>
+(function(){
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const mouse = {x:-9999, y:-9999, active:false};
+  let meteors = [], sparks = [], ripples = [];
+
+  function isDark(){ return document.body.classList.contains('dark'); }
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  });
+  window.addEventListener('mouseleave', () => { mouse.active = false; mouse.x=-9999; mouse.y=-9999; });
+
+  // Click: explosion de chispas
+  window.addEventListener('click', e => {
+    for(let i = 0; i < 22; i++) sparks.push(new Spark(e.clientX, e.clientY));
+    ripples.push({x:e.clientX, y:e.clientY, r:0, maxR:120, alpha:1});
+  });
+
+  // Colores según tema
+  function getColors(){
+    if(isDark()) return {
+      head:'#a7f3d0', tail1:'rgba(74,222,128,0.9)', tail2:'rgba(26,61,26,0)',
+      glow:'rgba(74,222,128,0.25)', spark:'#4ade80', bg:'rgba(11,21,11,0.0)'
+    };
+    return {
+      head:'#1a3d1a', tail1:'rgba(45,90,45,0.85)', tail2:'rgba(220,252,231,0)',
+      glow:'rgba(74,222,128,0.18)', spark:'#2d5a2d', bg:'rgba(248,250,248,0.0)'
+    };
+  }
+
+  /* ── METEOR ── */
+  class Meteor {
+    constructor(fromClick, cx, cy){
+      this.reset(fromClick, cx, cy);
+    }
+    reset(fromClick, cx, cy){
+      if(fromClick){
+        this.x = cx + (Math.random()-0.5)*60;
+        this.y = cy - Math.random()*80;
+      } else {
+        this.x = Math.random()*(W+400) - 200;
+        this.y = -Math.random()*300 - 20;
+      }
+      // ángulo: mayormente diagonal abajo-derecha o abajo
+      this.angle = (Math.random()*0.55 + 0.18) * Math.PI; // ~32°–68° desde vertical
+      this.speed = Math.random()*7 + 5;
+      this.len = Math.random()*160 + 80;
+      this.width = Math.random()*2 + 0.8;
+      this.alpha = Math.random()*0.7 + 0.3;
+      this.alive = true;
+      this.trail = [];
+      this.trailLen = Math.floor(Math.random()*8+5);
+      // brillo pulsante
+      this.pulse = Math.random()*Math.PI*2;
+    }
+    update(){
+      this.pulse += 0.12;
+      const vx = Math.sin(this.angle) * this.speed;
+      const vy = Math.cos(this.angle) * this.speed * (-1) * -1; // cae hacia abajo
+      // corrección: caída hacia abajo-derecha
+      this.x += Math.sin(this.angle) * this.speed;
+      this.y += Math.cos(this.angle) * this.speed * 0.9 + this.speed * 0.4;
+
+      // Explosion al tocar el cursor
+      if(mouse.active){
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const d = Math.sqrt(dx*dx+dy*dy);
+        if(d < 22){
+          for(let i=0;i<28;i++) sparks.push(new Spark(this.x, this.y, false));
+          ripples.push({x:this.x, y:this.y, r:0, maxR:90, alpha:1});
+          this.alive = false;
+          return;
+        }
+        if(d < 80){
+          const pull = (80-d)/80 * 1.8;
+          this.x -= (dx/d)*pull;
+          this.y -= (dy/d)*pull;
+          if(Math.random()<0.3) sparks.push(new Spark(this.x, this.y, true));
+        }
+      }
+
+      this.trail.unshift({x:this.x, y:this.y});
+      if(this.trail.length > this.trailLen) this.trail.pop();
+
+      if(this.x > W+200 || this.y > H+200) this.alive = false;
+    }
+    draw(){
+      if(this.trail.length < 2) return;
+      const c = getColors();
+      const glow = 0.7 + Math.sin(this.pulse)*0.3;
+
+      ctx.save();
+      // Cola con gradiente
+      for(let i=1; i<this.trail.length; i++){
+        const t = 1 - i/this.trail.length;
+        ctx.beginPath();
+        ctx.moveTo(this.trail[i-1].x, this.trail[i-1].y);
+        ctx.lineTo(this.trail[i].x, this.trail[i].y);
+        ctx.strokeStyle = isDark()
+          ? `rgba(74,222,128,${t*this.alpha*0.9})`
+          : `rgba(26,61,26,${t*this.alpha*0.85})`;
+        ctx.lineWidth = this.width * t * 2.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+      // Cabeza brillante
+      const hx = this.trail[0].x, hy = this.trail[0].y;
+      const grad = ctx.createRadialGradient(hx,hy,0, hx,hy, this.width*5*glow);
+      grad.addColorStop(0, isDark() ? 'rgba(167,243,208,0.95)' : 'rgba(74,222,128,0.95)');
+      grad.addColorStop(0.4, isDark() ? 'rgba(74,222,128,0.5)' : 'rgba(45,90,45,0.4)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(hx, hy, this.width*5*glow, 0, Math.PI*2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Punto central cabeza
+      ctx.beginPath();
+      ctx.arc(hx, hy, this.width*1.2, 0, Math.PI*2);
+      ctx.fillStyle = isDark() ? '#fff' : '#1a3d1a';
+      ctx.globalAlpha = this.alpha * glow;
+      ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  /* ── SPARK ── */
+  class Spark {
+    constructor(x, y, small){
+      this.x = x; this.y = y;
+      const speed = small ? Math.random()*2.5+0.5 : Math.random()*5+1.5;
+      const a = Math.random()*Math.PI*2;
+      this.vx = Math.cos(a)*speed;
+      this.vy = Math.sin(a)*speed - (small?0:2);
+      this.life = 1;
+      this.decay = Math.random()*0.04+0.02;
+      this.r = small ? Math.random()*1.5+0.5 : Math.random()*2.5+1;
+    }
+    update(){
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vy += 0.08; // gravedad
+      this.vx *= 0.97;
+      this.life -= this.decay;
+    }
+    draw(){
+      if(this.life <= 0) return;
+      ctx.save();
+      ctx.globalAlpha = this.life * 0.9;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      ctx.fillStyle = isDark() ? '#4ade80' : '#1a3d1a';
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Cursor: halo que sigue el mouse
+  function drawCursor(){
+    if(!mouse.active) return;
+    const c = getColors();
+    ctx.save();
+    const grad = ctx.createRadialGradient(mouse.x,mouse.y,0, mouse.x,mouse.y,60);
+    grad.addColorStop(0, isDark() ? 'rgba(74,222,128,0.12)' : 'rgba(26,61,26,0.08)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, 60, 0, Math.PI*2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Anillo
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, 18, 0, Math.PI*2);
+    ctx.strokeStyle = isDark() ? 'rgba(74,222,128,0.35)' : 'rgba(26,61,26,0.22)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Crear meteoros iniciales
+  const METEOR_COUNT = 18;
+  for(let i=0; i<METEOR_COUNT; i++){
+    const m = new Meteor();
+    // escalonar posiciones iniciales
+    m.x = Math.random()*W;
+    m.y = Math.random()*H*0.6 - H*0.1;
+    meteors.push(m);
+  }
+
+  // Spawn continuo
+  let spawnTimer = 0;
+  function spawnMeteor(){
+    spawnTimer++;
+    if(spawnTimer % 28 === 0 && meteors.filter(m=>m.alive).length < 25){
+      meteors.push(new Meteor());
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+
+    spawnMeteor();
+
+    // Ripples de click
+    ripples = ripples.filter(r => r.alpha > 0);
+    ripples.forEach(r => {
+      r.r += 3.5;
+      r.alpha -= 0.025;
+      ctx.save();
+      ctx.globalAlpha = r.alpha * 0.6;
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, r.r, 0, Math.PI*2);
+      ctx.strokeStyle = isDark() ? '#4ade80' : '#1a3d1a';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // Meteoros
+    meteors = meteors.filter(m => m.alive);
+    while(meteors.length < METEOR_COUNT) meteors.push(new Meteor());
+    meteors.forEach(m => { m.update(); m.draw(); });
+
+    // Chispas
+    sparks = sparks.filter(s => s.life > 0);
+    sparks.forEach(s => { s.update(); s.draw(); });
+
+    // Cursor halo
+    drawCursor();
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
 </script>
 </body>
 </html>
