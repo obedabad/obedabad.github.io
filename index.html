@@ -1,960 +1,967 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inteligencia Incaica</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --gold:       #C28B2F;
-      --gold-light: #E8B455;
-      --gold-pale:  #FAE9C0;
-      --gold-bg:    #FDF6E7;
-      --dark:       #1A1108;
-      --dark-mid:   #2E1E07;
-      --ink:        #221505;
-      --muted:      #7A6340;
-      --border:     rgba(194,139,47,0.18);
-      --surface:    #FFFDF7;
-      --white:      #ffffff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obed Abad | Donde las ideas se convierten en resultados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --green-dark: #1a3d1a;
+            --green-medium: #2d5a2d;
+            --green-light: #4ade80;
+            --green-pale: #dcfce7;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
 
-    html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--surface);
-      color: var(--ink);
-      font-size: 15px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--gray-200);
+        }
 
-    /* ── NAV ─────────────────────────────────────── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255,253,247,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border);
-      padding: 0 5vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-      gap: 16px;
-    }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-    .logo-mark {
-      width: 34px;
-      height: 34px;
-      background: var(--gold);
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: -0.5px;
-    }
-    .logo-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--dark);
-    }
-    .logo-name span { color: var(--gold); }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 28px;
-    }
-    .nav-links a {
-      text-decoration: none;
-      font-size: 13px;
-      color: var(--muted);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--gold); }
+        .logo::before {
+            content: "◆";
+            color: var(--green-light);
+        }
 
-    .nav-right { display: flex; align-items: center; gap: 12px; }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
 
-    .btn-yt {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: #cc0000;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .btn-yt:hover { opacity: 0.88; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
 
-    .btn-primary {
-      background: var(--gold);
-      color: #fff;
-      border: none;
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .btn-primary:hover { background: #a8741e; }
+        .nav-links a:hover {
+            color: var(--green-dark);
+        }
 
-    /* ── HERO ────────────────────────────────────── */
-    .hero {
-      padding: 80px 5vw 60px;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 3rem;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        .nav-cta {
+            background: var(--green-dark);
+            color: var(--white) !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--gold-bg);
-      border: 0.5px solid var(--gold-light);
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-    }
-    .eyebrow-dot {
-      width: 6px; height: 6px;
-      background: var(--gold-light);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
+        .nav-cta:hover {
+            background: var(--green-medium);
+        }
 
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 800;
-      line-height: 1.1;
-      color: var(--dark);
-      margin-bottom: 18px;
-    }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--gold);
-    }
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
 
-    .hero-desc {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 28px;
-      max-width: 480px;
-    }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
 
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+        .hero-content .highlight {
+            color: var(--green-dark);
+        }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--gold);
-      border: 0.5px solid var(--gold);
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-    }
-    .btn-outline:hover { background: var(--gold); color: #fff; }
+        .hero-content .tagline {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
 
-    .hero-stats {
-      display: flex;
-      gap: 28px;
-      margin-top: 36px;
-      padding-top: 28px;
-      border-top: 0.5px solid var(--border);
-    }
-    .hero-stat-val {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 22px;
-      color: var(--gold);
-    }
-    .hero-stat-lbl {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
 
-    /* Hero card */
-    .hero-card {
-      background: var(--white);
-      border: 0.5px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-    }
-    .hero-card-header {
-      background: var(--dark);
-      padding: 28px;
-      text-align: center;
-    }
-    .avatar-ring {
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      border: 2.5px solid var(--gold);
-      margin: 0 auto 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--dark-mid);
-    }
-    .avatar-initials {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 22px;
-      color: var(--gold-light);
-    }
-    .card-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 17px;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .card-sub {
-      font-size: 12px;
-      color: var(--gold-light);
-    }
-    .hero-card-body { padding: 20px; }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .tag {
-      background: var(--gold-bg);
-      border: 0.5px solid var(--gold-light);
-      color: var(--gold);
-      font-size: 11px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-    .card-yt-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #cc0000;
-      border-radius: 10px;
-      padding: 12px 16px;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .card-yt-link:hover { opacity: 0.88; }
-    .card-yt-text { color: #fff; font-size: 13px; font-weight: 500; }
-    .card-yt-sub { color: rgba(255,255,255,0.65); font-size: 11px; }
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.2rem;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
 
-    /* ── FILTER BAR ──────────────────────────────── */
-    .filter-section {
-      border-top: 0.5px solid var(--border);
-      border-bottom: 0.5px solid var(--border);
-      padding: 0 5vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .filter-tabs {
-      display: flex;
-      list-style: none;
-      gap: 0;
-    }
-    .filter-tab {
-      padding: 14px 18px;
-      font-size: 13px;
-      color: var(--muted);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
-      white-space: nowrap;
-    }
-    .filter-tab.active, .filter-tab:hover {
-      color: var(--gold);
-      border-bottom-color: var(--gold);
-    }
-    .filter-right {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .filter-pill {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      color: var(--muted);
-      font-size: 12px;
-      padding: 5px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .filter-pill:hover, .filter-pill.active {
-      background: var(--gold-bg);
-      color: var(--gold);
-      border-color: var(--gold-light);
-    }
+        .stat-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--green-light);
+        }
 
-    /* ── MAIN GRID ───────────────────────────────── */
-    .main-layout {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2.5rem 5vw;
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 2.5rem;
-      align-items: start;
-    }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
 
-    /* Shots grid */
-    .shots-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-    .shot-card {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 0.5px solid var(--border);
-      background: var(--white);
-      cursor: pointer;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-    .shot-card:hover { transform: translateY(-3px); border-color: var(--gold-light); }
+        .btn-primary {
+            background: var(--green-dark);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
 
-    .shot-thumb {
-      width: 100%;
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      position: relative;
-      overflow: hidden;
-    }
-    .shot-thumb-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(26,17,8,0.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .shot-card:hover .shot-thumb-overlay { opacity: 1; }
-    .overlay-icon {
-      width: 36px; height: 36px;
-      background: var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        .btn-primary:hover {
+            background: var(--green-medium);
+            transform: translateY(-2px);
+        }
 
-    .shot-info {
-      padding: 10px 14px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .shot-title { font-size: 12px; font-weight: 500; color: var(--ink); }
-    .shot-meta { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-800);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid var(--gray-200);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
 
-    /* Themes for shot cards */
-    .th-amber { background: linear-gradient(135deg, #3d1f00 0%, #7a3d00 100%); }
-    .th-dark  { background: linear-gradient(135deg, #111 0%, #1e1e1e 100%); }
-    .th-teal  { background: linear-gradient(135deg, #003d33 0%, #006655 100%); }
-    .th-gold  { background: linear-gradient(135deg, #4a2e00 0%, #8a5500 100%); }
-    .th-navy  { background: linear-gradient(135deg, #0a0a2e 0%, #1a1a5e 100%); }
-    .th-rust  { background: linear-gradient(135deg, #3d1000 0%, #7a2500 100%); }
+        .btn-secondary:hover {
+            border-color: var(--green-light);
+            color: var(--green-dark);
+        }
 
-    .shot-label {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--gold-light);
-      text-align: center;
-      padding: 8px;
-    }
-    .shot-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(194,139,47,0.9);
-      color: #fff;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 3px 9px;
-      border-radius: 20px;
-    }
+        .search-box {
+            position: relative;
+            max-width: 500px;
+        }
 
-    /* ── SIDEBAR ─────────────────────────────────── */
-    .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .search-box input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
 
-    .sidebar-card {
-      background: var(--white);
-      border: 0.5px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-    }
+        .search-box input:focus {
+            border-color: var(--green-light);
+        }
 
-    .sidebar-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--dark);
-      margin-bottom: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--green-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
 
-    /* Metas */
-    .meta-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 14px;
-      padding-bottom: 14px;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .meta-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-    .meta-icon {
-      width: 34px; height: 34px;
-      border-radius: 9px;
-      background: var(--gold-bg);
-      border: 0.5px solid var(--gold-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 16px;
-    }
-    .meta-text-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
-    .meta-text-sub { font-size: 11px; color: var(--muted); line-height: 1.5; }
+        .hero-visual {
+            background: linear-gradient(135deg, var(--green-pale) 0%, var(--white) 100%);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    /* Progress bars */
-    .skill-row { margin-bottom: 12px; }
-    .skill-row:last-child { margin-bottom: 0; }
-    .skill-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
-    .skill-name { font-size: 12px; color: var(--ink); font-weight: 500; }
-    .skill-pct { font-size: 12px; color: var(--gold); }
-    .skill-bar { height: 5px; background: var(--gold-pale); border-radius: 3px; overflow: hidden; }
-    .skill-fill {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 3px;
-      transform-origin: left;
-      animation: grow 1.2s ease forwards;
-    }
-    @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        .hero-visual::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--green-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
 
-    /* Upcoming goals */
-    .goal-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .goal-item:last-child { margin-bottom: 0; }
-    .goal-check {
-      width: 18px; height: 18px;
-      border-radius: 5px;
-      border: 1.5px solid var(--gold-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .goal-check.done { background: var(--gold); border-color: var(--gold); }
-    .goal-check.done::after {
-      content: '';
-      width: 8px; height: 5px;
-      border-left: 1.5px solid #fff;
-      border-bottom: 1.5px solid #fff;
-      transform: rotate(-45deg) translateY(-1px);
-    }
-    .goal-text { font-size: 12px; color: var(--ink); }
-    .goal-text.done { text-decoration: line-through; color: var(--muted); }
+        .profile-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 300px;
+        }
 
-    /* Social row */
-    .social-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .social-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--gold-bg);
-      border: 0.5px solid var(--gold-light);
-      color: var(--gold);
-      font-size: 12px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-    .social-pill:hover { background: var(--gold); color: #fff; }
-    .social-pill svg { width: 13px; height: 13px; flex-shrink: 0; }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--green-light), var(--green-dark));
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--white);
+            font-weight: 700;
+        }
 
-    /* ── FOOTER ──────────────────────────────────── */
-    footer {
-      border-top: 0.5px solid var(--border);
-      padding: 28px 5vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .footer-left { font-size: 12px; color: var(--muted); }
-    .footer-left span { color: var(--gold); font-weight: 500; }
-    .footer-links { display: flex; gap: 20px; list-style: none; }
-    .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
-    .footer-links a:hover { color: var(--gold); }
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
 
-    /* ── RESPONSIVE ──────────────────────────────── */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-card { max-width: 420px; }
-      .main-layout { grid-template-columns: 1fr; }
-      .sidebar { order: -1; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 480px) {
-      .filter-tabs { gap: 0; overflow-x: auto; }
-      .hero-stats { gap: 18px; }
-    }
-  </style>
+        .profile-role {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        /* Filter Tags */
+        .filters {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-right: 1rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tag:hover, .tag.active {
+            background: var(--green-dark);
+            color: var(--white);
+            border-color: var(--green-dark);
+        }
+
+        /* Categories */
+        .categories {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            overflow-x: auto;
+        }
+
+        .category {
+            padding: 1rem 0;
+            color: var(--gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .category:hover, .category.active {
+            color: var(--green-dark);
+            border-bottom-color: var(--green-light);
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .card-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--green-pale), var(--gray-100));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image.ai { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+        .card-image.code { background: linear-gradient(135deg, #1a3d1a, #2d5a2d); color: white; }
+        .card-image.game { background: linear-gradient(135deg, #4ade80, #22c55e); }
+        .card-image.mit { background: linear-gradient(135deg, #111827, #374151); color: white; }
+        .card-image.sign { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+
+        .card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--green-dark);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .card-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(90deg, var(--green-dark), var(--green-medium));
+            margin: 3rem auto;
+            max-width: 1400px;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--white);
+        }
+
+        .cta-text {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cta-rocket {
+            font-size: 1.5rem;
+        }
+
+        .cta-btn {
+            background: var(--white);
+            color: var(--green-dark);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--gray-200);
+            margin-top: 4rem;
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-brand::before {
+            content: "◆";
+            color: var(--green-light);
+        }
+
+        .footer-desc {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--green-dark);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--green-light);
+            color: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-banner {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Obed Abad</a>
+            <div class="nav-links">
+                <a href="#explorar">Explorar</a>
+                <a href="#skills">Skills</a>
+                <a href="#proyectos">Proyectos</a>
+                <a href="#metas">Metas</a>
+                <a href="#contacto" class="nav-cta">Contactar</a>
+            </div>
+        </div>
+    </nav>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">
-      <div class="logo-mark">II</div>
-      <span class="logo-name">Inteligencia <span>Incaica</span></span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#proyectos">Proyectos</a></li>
-      <li><a href="#metas">Metas</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-    <div class="nav-right">
-      <a href="https://www.youtube.com/@InteligenciaIncaica" target="_blank" class="btn-yt">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/><polygon fill="#cc0000" points="9.75,15.02 15.5,12 9.75,8.98"/><polygon fill="white" points="9.75,15.02 15.5,12 9.75,8.98"/></svg>
-        YouTube
-      </a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Obed Abad</h1>
+            <p class="tagline">"Donde las ideas se convierten en resultados."</p>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-icon">🤖</span>
+                    <span class="stat-label">Inteligencia Artificial</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">💻</span>
+                    <span class="stat-label">Programación</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">🎮</span>
+                    <span class="stat-label">Desarrollo de Juegos</span>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="https://instagram.com/QuipuNetwork" target="_blank" class="btn-primary">
+                    Instagram @QuipuNetwork
+                </a>
+                <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="btn-secondary">
+                    YouTube @InteligenciaIncaica
+                </a>
+            </div>
+
+            <div class="search-box">
+                <input type="text" placeholder="Buscar en mi portfolio...">
+                <button class="search-btn">→</button>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="profile-card">
+                <div class="profile-avatar">OA</div>
+                <div class="profile-name">Obed Abad</div>
+                <div class="profile-role">Desarrollador & Creador</div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
+                    <span style="background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--green-dark);">AI</span>
+                    <span style="background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--green-dark);">Code</span>
+                    <span style="background: var(--green-pale); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--green-dark);">Games</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters">
+        <span class="filter-label">Especialidades:</span>
+        <div class="filter-tags">
+            <span class="tag active">Todo</span>
+            <span class="tag">Inteligencia Artificial</span>
+            <span class="tag">Programación</span>
+            <span class="tag">Videojuegos</span>
+            <span class="tag">Señas en Tiempo Real</span>
+            <span class="tag">MIT Goals</span>
+        </div>
     </div>
-  </nav>
 
-  <!-- HERO -->
-  <section class="hero" id="inicio">
-    <div class="hero-text">
-      <div class="hero-eyebrow">
-        <div class="eyebrow-dot"></div>
-        Tecnología + IA desde Perú
-      </div>
-      <h1>Aprende <em>Inteligencia Artificial</em> con identidad peruana</h1>
-      <p class="hero-desc">Soy creador de contenido apasionado por la IA, la programación y el futuro digital. Comparto lo que aprendo para que tú también puedas crecer en tecnología.</p>
-      <div class="hero-actions">
-        <a href="https://www.youtube.com/@InteligenciaIncaica" target="_blank" class="btn-primary">Ver canal</a>
-        <a href="#proyectos" class="btn-outline">Ver proyectos</a>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="hero-stat-val">IA</div>
-          <div class="hero-stat-lbl">Especialidad principal</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">14</div>
-          <div class="hero-stat-lbl">Años, creando futuro</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">Peru</div>
-          <div class="hero-stat-lbl">Hecho con orgullo</div>
-        </div>
-      </div>
+    <!-- Categories -->
+    <div class="categories">
+        <span class="category active">Descubrir</span>
+        <span class="category">Proyectos AI</span>
+        <span class="category">Código</span>
+        <span class="category">Juegos</span>
+        <span class="category">Metas</span>
+        <span class="category">Educación</span>
+        <span class="category">Blog</span>
     </div>
 
-    <div class="hero-card">
-      <div class="hero-card-header">
-        <div class="avatar-ring">
-          <div class="avatar-initials">II</div>
+    <!-- Gallery -->
+    <section class="gallery" id="proyectos">
+        <div class="card">
+            <div class="card-image sign">
+                👐
+                <span class="card-badge">Enfoque Actual</span>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Traductor de Lenguaje de Señas</h3>
+                <p class="card-desc">Sistema de traducción en tiempo real utilizando visión por computadora e inteligencia artificial.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>⚡ En desarrollo</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-name">Inteligencia Incaica</div>
-        <div class="card-sub">@InteligenciaIncaica</div>
-      </div>
-      <div class="hero-card-body">
-        <div class="skill-tags">
-          <span class="tag">Inteligencia Artificial</span>
-          <span class="tag">Programación</span>
-          <span class="tag">Contenido</span>
-          <span class="tag">YouTube</span>
-          <span class="tag">Perú</span>
+
+        <div class="card">
+            <div class="card-image ai">
+                🧠
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Proyectos de IA</h3>
+                <p class="card-desc">Experimentos con modelos de machine learning, NLP y visión computacional aplicados a problemas reales.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>🤖 AI</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="https://www.youtube.com/@InteligenciaIncaica" target="_blank" class="card-yt-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/><polygon fill="#cc0000" points="9.75,15.02 15.5,12 9.75,8.98"/><polygon fill="white" points="9.75,15.02 15.5,12 9.75,8.98"/></svg>
-          <div>
-            <div class="card-yt-text">Inteligencia Incaica</div>
-            <div class="card-yt-sub">Ver canal en YouTube</div>
-          </div>
-        </a>
-      </div>
+
+        <div class="card">
+            <div class="card-image code">
+                💻
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Arquitectura de Software</h3>
+                <p class="card-desc">Diseño de sistemas escalables, algoritmos eficientes y mejores prácticas de desarrollo.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>⚙️ Code</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image game">
+                🎮
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Desarrollo de Juegos</h3>
+                <p class="card-desc">Creación de experiencias interactivas, mecánicas innovadoras y mundos virtuales inmersivos.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>🎯 Game Dev</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image mit">
+                🎓
+                <span class="card-badge">Meta Principal</span>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">MIT - Massachusetts Institute of Technology</h3>
+                <p class="card-desc">Meta académica: Ingresar al MIT para estudiar ciencias de la computación e inteligencia artificial.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>🚀 En camino</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image code">
+                ⭐
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Mejor Programador</h3>
+                <p class="card-desc">Compromiso con la excelencia técnica, aprendizaje continuo y contribución a la comunidad dev.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>💪 Meta</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image ai">
+                📱
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">@QuipuNetwork</h3>
+                <p class="card-desc">Comunidad y contenido sobre tecnología, cultura digital y desarrollo en español.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>📸 Instagram</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image game">
+                ▶️
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">@InteligenciaIncaica</h3>
+                <p class="card-desc">Canal de YouTube dedicado a IA, programación y tecnología con perspectiva latinoamericana.</p>
+                <div class="card-footer">
+                    <div class="card-author">
+                        <div class="author-avatar">OA</div>
+                        <span>Obed Abad</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>🎥 YouTube</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <div class="cta-banner">
+        <div class="cta-text">
+            <span class="cta-rocket">🚀</span>
+            <span>¿Tienes un proyecto en mente? Conectemos y construyamos algo increíble juntos.</span>
+        </div>
+        <a href="#contacto" class="cta-btn">Colaborar</a>
     </div>
-  </section>
 
-  <!-- FILTER BAR -->
-  <div class="filter-section" id="proyectos">
-    <ul class="filter-tabs">
-      <li class="filter-tab active" onclick="setTab(this,'all')">Todo</li>
-      <li class="filter-tab" onclick="setTab(this,'ia')">IA</li>
-      <li class="filter-tab" onclick="setTab(this,'code')">Programación</li>
-      <li class="filter-tab" onclick="setTab(this,'content')">Contenido</li>
-    </ul>
-    <div class="filter-right">
-      <span class="filter-pill active">Recientes</span>
-      <span class="filter-pill">Populares</span>
-    </div>
-  </div>
-
-  <!-- MAIN LAYOUT -->
-  <div class="main-layout">
-
-    <!-- SHOTS GRID -->
-    <div class="shots-grid" id="shots-grid">
-
-      <div class="shot-card" data-cat="ia">
-        <div class="shot-thumb th-amber">
-          <div class="shot-badge">IA</div>
-          <div class="shot-label">Cómo funciona<br>ChatGPT</div>
-          <div class="shot-thumb-overlay">
-            <div class="overlay-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">Obed Abad</div>
+                <p class="footer-desc">
+                    Desarrollador apasionado por la inteligencia artificial, la programación y la creación de videojuegos. 
+                    "Donde las ideas se convierten en resultados."
+                </p>
             </div>
-          </div>
-        </div>
-        <div class="shot-info">
-          <span class="shot-title">Tutorial IA</span>
-          <span class="shot-meta">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            148
-          </span>
-        </div>
-      </div>
-
-      <div class="shot-card" data-cat="code">
-        <div class="shot-thumb th-dark">
-          <div class="shot-badge">Código</div>
-          <div class="shot-label">Python<br>desde cero</div>
-          <div class="shot-thumb-overlay">
-            <div class="overlay-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+            
+            <div class="footer-links">
+                <h4>Proyectos</h4>
+                <ul>
+                    <li><a href="#">Traductor de Señas</a></li>
+                    <li><a href="#">AI Experiments</a></li>
+                    <li><a href="#">Videojuegos</a></li>
+                    <li><a href="#">Open Source</a></li>
+                </ul>
             </div>
-          </div>
-        </div>
-        <div class="shot-info">
-          <span class="shot-title">Programación</span>
-          <span class="shot-meta">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            97
-          </span>
-        </div>
-      </div>
 
-      <div class="shot-card" data-cat="ia">
-        <div class="shot-thumb th-teal">
-          <div class="shot-badge">IA</div>
-          <div class="shot-label">Claude vs<br>ChatGPT</div>
-          <div class="shot-thumb-overlay">
-            <div class="overlay-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+            <div class="footer-links">
+                <h4>Redes</h4>
+                <ul>
+                    <li><a href="https://instagram.com/QuipuNetwork">Instagram</a></li>
+                    <li><a href="https://youtube.com/@InteligenciaIncaica">YouTube</a></li>
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
             </div>
-          </div>
-        </div>
-        <div class="shot-info">
-          <span class="shot-title">Comparativa IA</span>
-          <span class="shot-meta">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            212
-          </span>
-        </div>
-      </div>
 
-      <div class="shot-card" data-cat="content">
-        <div class="shot-thumb th-gold">
-          <div class="shot-badge">Contenido</div>
-          <div class="shot-label">Cómo crecer<br>en YouTube</div>
-          <div class="shot-thumb-overlay">
-            <div class="overlay-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+            <div class="footer-links">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Colaboraciones</a></li>
+                    <li><a href="#">Mentorías</a></li>
+                    <li><a href="#">Prensa</a></li>
+                </ul>
             </div>
-          </div>
         </div>
-        <div class="shot-info">
-          <span class="shot-title">Creación de contenido</span>
-          <span class="shot-meta">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            183
-          </span>
-        </div>
-      </div>
 
-      <div class="shot-card" data-cat="code">
-        <div class="shot-thumb th-navy">
-          <div class="shot-badge">Código</div>
-          <div class="shot-label">Mi primera<br>página web</div>
-          <div class="shot-thumb-overlay">
-            <div class="overlay-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+        <div class="footer-bottom">
+            <div>
+                © 2026 Obed Abad. Todos los derechos reservados.
             </div>
-          </div>
-        </div>
-        <div class="shot-info">
-          <span class="shot-title">HTML &amp; CSS</span>
-          <span class="shot-meta">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            76
-          </span>
-        </div>
-      </div>
-
-      <div class="shot-card" data-cat="ia">
-        <div class="shot-thumb th-rust">
-          <div class="shot-badge">IA</div>
-          <div class="shot-label">IA para<br>estudiantes</div>
-          <div class="shot-thumb-overlay">
-            <div class="overlay-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+            <div class="social-links">
+                <a href="https://instagram.com/QuipuNetwork">📷</a>
+                <a href="https://youtube.com/@InteligenciaIncaica">▶️</a>
+                <a href="#">💻</a>
+                <a href="#">💼</a>
             </div>
-          </div>
         </div>
-        <div class="shot-info">
-          <span class="shot-title">Educación + IA</span>
-          <span class="shot-meta">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            291
-          </span>
-        </div>
-      </div>
-
-    </div><!-- /shots-grid -->
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="metas">
-
-      <!-- Metas -->
-      <div class="sidebar-card">
-        <div class="sidebar-title">Mis metas</div>
-
-        <div style="background:var(--gold-bg);border:1.5px solid var(--gold-light);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-            <span style="font-size:18px;">🏛️</span>
-            <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gold);">Meta principal</span>
-          </div>
-          <div style="font-size:15px;font-weight:500;color:var(--dark);margin-bottom:3px;">Estudiar Ciberseguridad en el MIT</div>
-          <div style="font-size:12px;color:var(--muted);">Massachusetts Institute of Technology — Cambridge, EE.UU.</div>
-          <div style="margin-top:10px;height:5px;background:var(--gold-pale);border-radius:3px;overflow:hidden;">
-            <div style="width:12%;height:100%;background:var(--gold);border-radius:3px;"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:4px;">
-            <span style="font-size:10px;color:var(--muted);">En camino</span>
-            <span style="font-size:10px;color:var(--gold);font-weight:500;">2029 →</span>
-          </div>
-        </div>
-
-        <div class="meta-item">
-          <div class="meta-icon">🔐</div>
-          <div>
-            <div class="meta-text-title">Dominar ciberseguridad</div>
-            <div class="meta-text-sub">Ethical hacking, redes, criptografía y seguridad con IA</div>
-          </div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-icon">📈</div>
-          <div>
-            <div class="meta-text-title">Crecer en YouTube</div>
-            <div class="meta-text-sub">Compartir mi camino hacia el MIT con mi comunidad</div>
-          </div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-icon">💻</div>
-          <div>
-            <div class="meta-text-title">Dominar la programación</div>
-            <div class="meta-text-sub">Python, redes y herramientas de seguridad</div>
-          </div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-icon">🚀</div>
-          <div>
-            <div class="meta-text-title">Crear mi startup de seguridad</div>
-            <div class="meta-text-sub">Ciberseguridad con IA, hecho desde Perú para el mundo</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Especialidades -->
-      <div class="sidebar-card">
-        <div class="sidebar-title">Especialidades</div>
-        <div class="skill-row">
-          <div class="skill-header">
-            <span class="skill-name">Inteligencia Artificial</span>
-            <span class="skill-pct">85%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-header">
-            <span class="skill-name">Creación de contenido</span>
-            <span class="skill-pct">80%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:80%; animation-delay:0.15s"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-header">
-            <span class="skill-name">Programación</span>
-            <span class="skill-pct">65%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:65%; animation-delay:0.3s"></div></div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-header">
-            <span class="skill-name">Diseño web</span>
-            <span class="skill-pct">50%</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" style="width:50%; animation-delay:0.45s"></div></div>
-        </div>
-      </div>
-
-      <!-- Goals checklist -->
-      <div class="sidebar-card">
-        <div class="sidebar-title">Camino al MIT 🏛️</div>
-        <div class="goal-item">
-          <div class="goal-check done"></div>
-          <span class="goal-text done">Lanzar canal de YouTube</span>
-        </div>
-        <div class="goal-item">
-          <div class="goal-check done"></div>
-          <span class="goal-text done">Aprender fundamentos de IA</span>
-        </div>
-        <div class="goal-item">
-          <div class="goal-check"></div>
-          <span class="goal-text">Aprender Python y redes</span>
-        </div>
-        <div class="goal-item">
-          <div class="goal-check"></div>
-          <span class="goal-text">Obtener certificación en ciberseguridad</span>
-        </div>
-        <div class="goal-item">
-          <div class="goal-check"></div>
-          <span class="goal-text">Dominar inglés avanzado</span>
-        </div>
-        <div class="goal-item">
-          <div class="goal-check"></div>
-          <span class="goal-text">Participar en competencias CTF</span>
-        </div>
-        <div class="goal-item">
-          <div class="goal-check"></div>
-          <span class="goal-text">Aplicar al MIT 🎯</span>
-        </div>
-      </div>
-
-      <!-- Social -->
-      <div class="sidebar-card" id="contacto">
-        <div class="sidebar-title">Encuéntrame en</div>
-        <div class="social-row">
-          <a href="https://www.youtube.com/@InteligenciaIncaica" target="_blank" class="social-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/></svg>
-            YouTube
-          </a>
-          <a href="#" class="social-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-            Instagram
-          </a>
-          <a href="#" class="social-pill">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            X / Twitter
-          </a>
-        </div>
-      </div>
-
-    </aside>
-  </div><!-- /main-layout -->
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-left">© 2025 <span>Inteligencia Incaica</span> — Hecho con orgullo desde Perú</div>
-    <ul class="footer-links">
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Proyectos</a></li>
-      <li><a href="#">YouTube</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </footer>
-
-  <script>
-    function setTab(el, cat) {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      el.classList.add('active');
-      document.querySelectorAll('.shot-card').forEach(card => {
-        if (cat === 'all' || card.dataset.cat === cat) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-  </script>
+    </footer>
 </body>
 </html>
