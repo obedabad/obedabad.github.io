@@ -1,1447 +1,841 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obed Abad | Donde las ideas se convierten en resultados</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --green-dark: #1a3d1a;
-            --green-medium: #2d5a2d;
-            --green-light: #4ade80;
-            --green-pale: #dcfce7;
-            --white: #ffffff;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-400: #9ca3af;
-            --gray-600: #4b5563;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--gray-50);
-            color: var(--gray-900);
-            line-height: 1.6;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--green-dark);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .logo::before {
-            content: "◆";
-            color: var(--green-light);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray-600);
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--green-dark);
-        }
-
-        .nav-cta {
-            background: var(--green-dark);
-            color: var(--white) !important;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            font-weight: 600;
-        }
-
-        .nav-cta:hover {
-            background: var(--green-medium);
-        }
-
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.1;
-            color: var(--gray-900);
-            margin-bottom: 1rem;
-        }
-
-        .hero-content .tagline {
-            font-size: 1.25rem;
-            color: var(--gray-600);
-            font-weight: 400;
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.2rem;
-            background: var(--white);
-            border-radius: 12px;
-            border: 1px solid var(--gray-200);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .stat:hover {
-            border-color: var(--green-light);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
-        }
-
-        .stat-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--gray-600);
-            font-weight: 500;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background: var(--green-dark);
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background: var(--green-medium);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(26, 61, 26, 0.3);
-        }
-
-        .btn-secondary {
-            background: var(--white);
-            color: var(--gray-800);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            border: 2px solid var(--gray-200);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--green-light);
-            color: var(--green-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-scratch {
-            background: linear-gradient(135deg, #F6A623, #F7B731);
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-scratch:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(246, 166, 35, 0.3);
-        }
-
-        .search-box {
-            position: relative;
-            max-width: 500px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 1rem 3rem 1rem 1.5rem;
-            border: 2px solid var(--gray-200);
-            border-radius: 50px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--green-light);
-            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
-        }
-
-        .search-btn {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--green-light);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            background: var(--green-dark);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .hero-visual {
-            background: linear-gradient(135deg, var(--green-pale) 0%, var(--white) 100%);
-            border-radius: 24px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-visual::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, var(--green-light) 0%, transparent 70%);
-            opacity: 0.3;
-        }
-
-        .profile-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            max-width: 300px;
-            transition: transform 0.3s;
-        }
-
-        .profile-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--green-light), var(--green-dark));
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: var(--white);
-            font-weight: 700;
-        }
-
-        .profile-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-role {
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        .profile-tags {
-            margin-top: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .profile-tag {
-            background: var(--green-pale);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: var(--green-dark);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-        }
-
-        .profile-tag:hover {
-            background: var(--green-light);
-            color: var(--white);
-            transform: scale(1.05);
-        }
-
-        /* Filters */
-        .filters {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem 2rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filter-label {
-            font-weight: 600;
-            color: var(--gray-800);
-            margin-right: 1rem;
-        }
-
-        .filter-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            padding: 0.5rem 1rem;
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--gray-600);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tag:hover, .tag.active {
-            background: var(--green-dark);
-            color: var(--white);
-            border-color: var(--green-dark);
-        }
-
-        /* Categories */
-        .categories {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            gap: 2rem;
-            border-bottom: 1px solid var(--gray-200);
-            overflow-x: auto;
-        }
-
-        .category {
-            padding: 1rem 0;
-            color: var(--gray-600);
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .category:hover, .category.active {
-            color: var(--green-dark);
-            border-bottom-color: var(--green-light);
-        }
-
-        /* Gallery Grid */
-        .gallery {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            min-height: 200px;
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--gray-200);
-            transition: all 0.3s;
-            cursor: pointer;
-            display: block;
-            text-decoration: none;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .card.hidden {
-            display: none;
-        }
-
-        .card-image {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-image.ai { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
-        .card-image.code { background: linear-gradient(135deg, #1a3d1a, #2d5a2d); color: white; }
-        .card-image.game { background: linear-gradient(135deg, #4ade80, #22c55e); }
-        .card-image.mit { background: linear-gradient(135deg, #111827, #374151); color: white; }
-        .card-image.sign { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
-        .card-image.scratch { background: linear-gradient(135deg, #F6A623, #F7B731); color: white; }
-        .card-image.social { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
-
-        .card-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--green-dark);
-            color: var(--white);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: var(--gray-600);
-            line-height: 1.5;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .card-author {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--gray-600);
-        }
-
-        .author-avatar {
-            width: 24px;
-            height: 24px;
-            background: var(--green-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: var(--white);
-            font-weight: 600;
-        }
-
-        .card-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: var(--gray-400);
-        }
-
-        /* No results */
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--gray-600);
-            display: none;
-        }
-
-        .no-results.show {
-            display: block;
-        }
-
-        .no-results-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* CTA Banner */
-        .cta-banner {
-            background: linear-gradient(90deg, var(--green-dark), var(--green-medium));
-            margin: 3rem auto;
-            max-width: 1400px;
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--white);
-        }
-
-        .cta-text {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .cta-rocket {
-            font-size: 1.5rem;
-        }
-
-        .cta-btn {
-            background: var(--white);
-            color: var(--green-dark);
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .cta-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        /* Contact Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            background: var(--white);
-            border-radius: 24px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: modalSlide 0.3s ease;
-        }
-
-        @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray-400);
-            transition: color 0.3s;
-        }
-
-        .modal-close:hover {
-            color: var(--gray-900);
-        }
-
-        .modal h2 {
-            color: var(--green-dark);
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid var(--gray-200);
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--green-light);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--green-dark);
-            color: var(--white);
-            padding: 1rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: var(--green-medium);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--white);
-            border-top: 1px solid var(--gray-200);
-            margin-top: 4rem;
-            padding: 3rem 2rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .footer-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--green-dark);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .footer-brand::before {
-            content: "◆";
-            color: var(--green-light);
-        }
-
-        .footer-desc {
-            color: var(--gray-600);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            max-width: 300px;
-        }
-
-        .footer-links h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-links a {
-            color: var(--gray-600);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .footer-links a:hover {
-            color: var(--green-dark);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 3rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid var(--gray-200);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--gray-400);
-            font-size: 0.85rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--gray-100);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray-600);
-            text-decoration: none;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .social-links a:hover {
-            background: var(--green-light);
-            color: var(--white);
-            transform: translateY(-3px);
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--green-dark);
-            color: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: none;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 3000;
-            animation: toastSlide 0.3s ease;
-        }
-
-        .toast.show {
-            display: flex;
-        }
-
-        @keyframes toastSlide {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .hero {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-
-            .cta-banner {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-stats {
-                flex-wrap: wrap;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obed Abad | Donde las ideas se convierten en resultados</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g1:#1a3d1a;--g2:#2d5a2d;--g3:#4ade80;--g4:#dcfce7;--g5:#bbf7d0;
+  --bg:#f8faf8;--bg2:#ffffff;
+  --t1:#0d1f0d;--t2:#3d5c3d;--t3:#6b8f6b;
+  --border:#e2ede2;--border2:#c8dfc8;
+  --shadow:0 2px 12px rgba(26,61,26,.08);
+  --shadow-lg:0 8px 40px rgba(26,61,26,.13);
+  --radius:14px;--radius-lg:20px;--radius-xl:28px;
+  --nav-bg:rgba(248,250,248,.95);
+}
+.dark{
+  --bg:#0b150b;--bg2:#111d11;
+  --t1:#e8f5e8;--t2:#a8c8a8;--t3:#6b8f6b;
+  --border:#1e3a1e;--border2:#2d5a2d;
+  --shadow:0 2px 12px rgba(0,0,0,.3);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.4);
+  --nav-bg:rgba(11,21,11,.95);
+  --bg4:#0f1f0f;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);transition:background .35s,color .35s;line-height:1.6}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  background:var(--nav-bg);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  z-index:1000;transition:background .35s,border-color .35s
+}
+.nav-inner{
+  max-width:1360px;margin:0 auto;
+  padding:.9rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center
+}
+.logo{
+  font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:700;
+  color:var(--g1);text-decoration:none;display:flex;align-items:center;gap:.45rem;
+  cursor:pointer;transition:color .2s
+}
+.dark .logo{color:var(--g3)}
+.logo-gem{
+  width:18px;height:18px;
+  background:var(--g3);
+  clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);
+  flex-shrink:0
+}
+.nav-links{display:flex;gap:.25rem;align-items:center}
+.nav-links button, .nav-links a{
+  background:none;border:none;
+  color:var(--t2);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;
+  padding:.5rem .9rem;border-radius:50px;cursor:pointer;
+  text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.nav-links button:hover,.nav-links a:hover,.nav-links button.active{color:var(--g1);background:var(--g4)}
+.dark .nav-links button:hover,.dark .nav-links a:hover,.dark .nav-links button.active{color:var(--g3);background:rgba(74,222,128,.1)}
+.nav-cta{
+  background:var(--g1)!important;color:#fff!important;
+  padding:.55rem 1.3rem!important;border-radius:50px!important;font-weight:600!important;
+  transition:all .2s!important
+}
+.dark .nav-cta{background:var(--g3)!important;color:#0b150b!important}
+.nav-cta:hover{opacity:.88;transform:translateY(-1px)!important}
+.dark-toggle{
+  background:none;border:1.5px solid var(--border2);color:var(--t2);
+  padding:.45rem .85rem;border-radius:50px;cursor:pointer;font-size:.8rem;
+  display:flex;align-items:center;gap:.3rem;transition:all .2s;font-family:'DM Sans',sans-serif
+}
+.dark-toggle:hover{border-color:var(--g3);color:var(--g1)}
+.dark .dark-toggle:hover{color:var(--g3)}
+
+/* ── HERO ── */
+.hero{
+  margin-top:72px;
+  max-width:1360px;margin-left:auto;margin-right:auto;
+  padding:4rem 2.5rem 2.5rem;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:4rem;align-items:center
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--g4);color:var(--g1);
+  padding:.35rem .9rem;border-radius:50px;font-size:.8rem;font-weight:600;
+  margin-bottom:1.2rem;letter-spacing:.04em;text-transform:uppercase
+}
+.dark .hero-eyebrow{background:rgba(74,222,128,.12);color:var(--g3)}
+.hero-eyebrow-dot{width:7px;height:7px;background:var(--g3);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.4rem,4vw,3.8rem);font-weight:800;
+  line-height:1.05;color:var(--t1);margin-bottom:.7rem;
+  letter-spacing:-.02em
+}
+.tagline{
+  font-size:1.1rem;color:var(--t3);font-style:italic;
+  margin-bottom:2rem;font-weight:300
+}
+.stats-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.stat-chip{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.55rem 1rem;background:var(--bg2);
+  border:1.5px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:all .22s;
+  font-size:.82rem;font-weight:500;color:var(--t2)
+}
+.stat-chip:hover{border-color:var(--g3);color:var(--g1);transform:translateY(-2px);box-shadow:var(--shadow)}
+.dark .stat-chip{background:var(--bg2)}
+.dark .stat-chip:hover{color:var(--g3)}
+.cta-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.btn{
+  padding:.75rem 1.5rem;border-radius:50px;font-weight:600;
+  font-size:.88rem;cursor:pointer;border:none;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.45rem;
+  transition:all .22s;font-family:'DM Sans',sans-serif
+}
+.btn-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#f77737);color:#fff}
+.btn-ig:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(253,29,29,.35)}
+.btn-yt{background:var(--bg2);color:var(--t1);border:1.5px solid var(--border)}
+.btn-yt:hover{border-color:#ff0000;color:#cc0000;transform:translateY(-2px)}
+.dark .btn-yt{background:var(--bg2);color:var(--t1)}
+.btn-sc{background:linear-gradient(135deg,#f6a623,#f7b731);color:#fff}
+.btn-sc:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(246,166,35,.35)}
+.search-wrap{position:relative;max-width:440px}
+.search-wrap input{
+  width:100%;padding:.78rem 3rem .78rem 1.3rem;
+  border:1.5px solid var(--border);border-radius:50px;
+  font-size:.9rem;background:var(--bg2);color:var(--t1);
+  font-family:'DM Sans',sans-serif;outline:none;transition:border-color .22s,box-shadow .22s
+}
+.search-wrap input:focus{border-color:var(--g3);box-shadow:0 0 0 3px rgba(74,222,128,.12)}
+.search-wrap input::placeholder{color:var(--t3)}
+.search-btn{
+  position:absolute;right:5px;top:50%;transform:translateY(-50%);
+  background:var(--g3);border:none;width:36px;height:36px;
+  border-radius:50%;cursor:pointer;color:#0b150b;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:all .2s
+}
+.search-btn:hover{background:var(--g1);color:#fff}
+
+/* ── PROFILE CARD ── */
+.hero-visual{
+  background:linear-gradient(135deg,var(--g4) 0%,var(--bg2) 100%);
+  border-radius:var(--radius-xl);padding:2.5rem;
+  display:flex;align-items:center;justify-content:center;
+  min-height:380px;position:relative;overflow:hidden;
+  border:1px solid var(--border)
+}
+.dark .hero-visual{background:linear-gradient(135deg,rgba(74,222,128,.06) 0%,var(--bg2) 100%)}
+.hero-visual::before{
+  content:"";position:absolute;
+  top:-60%;right:-40%;width:70%;height:70%;
+  background:radial-gradient(circle,var(--g3) 0%,transparent 65%);
+  opacity:.18;pointer-events:none
+}
+.profile-card{
+  background:var(--bg2);border-radius:var(--radius-lg);
+  padding:2rem 1.8rem;
+  box-shadow:0 24px 64px rgba(26,61,26,.14);
+  position:relative;z-index:1;text-align:center;width:260px;
+  border:1px solid var(--border);
+  transition:transform .3s
+}
+.profile-card:hover{transform:translateY(-6px)}
+.avatar{
+  width:90px;height:90px;
+  background:linear-gradient(135deg,var(--g3),var(--g1));
+  border-radius:50%;margin:0 auto 1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700;color:#fff
+}
+.pname{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;color:var(--t1);margin-bottom:.3rem}
+.prole{font-size:.82rem;color:var(--t3);font-weight:400}
+.ptags{margin-top:.9rem;display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap}
+.ptag{
+  background:var(--g4);padding:.28rem .8rem;border-radius:20px;
+  font-size:.72rem;color:var(--g1);cursor:pointer;border:none;
+  transition:all .2s;font-weight:600;font-family:'DM Sans',sans-serif
+}
+.dark .ptag{background:rgba(74,222,128,.12);color:var(--g3)}
+.ptag:hover{background:var(--g3);color:#0b150b;transform:scale(1.06)}
+
+/* ── FILTERS ── */
+.section-wrap{max-width:1360px;margin:0 auto;padding:0 2.5rem}
+.filter-row{
+  display:flex;align-items:center;gap:.6rem;
+  flex-wrap:wrap;padding:1.2rem 0
+}
+.filter-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--t1);margin-right:.5rem}
+.tag{
+  padding:.42rem .95rem;background:var(--bg2);
+  border:1.5px solid var(--border);border-radius:50px;
+  font-size:.8rem;color:var(--t2);cursor:pointer;
+  transition:all .2s;font-weight:500;font-family:'DM Sans',sans-serif
+}
+.tag:hover,.tag.active{background:var(--g1);color:#fff;border-color:var(--g1)}
+.dark .tag.active{background:var(--g3);color:#0b150b;border-color:var(--g3)}
+
+/* ── CATEGORIES ── */
+.cats-bar{
+  max-width:1360px;margin:0 auto;
+  padding:0 2.5rem;
+  display:flex;gap:.25rem;
+  border-bottom:1.5px solid var(--border);
+  overflow-x:auto;scrollbar-width:none
+}
+.cats-bar::-webkit-scrollbar{display:none}
+.cat{
+  padding:.9rem .1rem;margin-right:1.8rem;
+  color:var(--t3);font-size:.88rem;font-weight:500;
+  cursor:pointer;white-space:nowrap;
+  border:none;border-bottom:2.5px solid transparent;background:none;
+  font-family:'DM Sans',sans-serif;transition:all .2s
+}
+.cat:hover,.cat.active{color:var(--g1);border-bottom-color:var(--g3)}
+.dark .cat:hover,.dark .cat.active{color:var(--g3)}
+
+/* ── GALLERY ── */
+.gallery{
+  max-width:1360px;margin:2rem auto;padding:0 2.5rem;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem
+}
+@media(max-width:1200px){.gallery{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.gallery{grid-template-columns:1fr}}
+
+.card{
+  background:var(--bg2);border-radius:var(--radius-lg);
+  border:1px solid var(--border);overflow:hidden;
+  cursor:pointer;text-decoration:none;display:block;
+  transition:all .25s;color:var(--t1)
+}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--border2)}
+.card.hidden{display:none}
+
+.card-img{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;position:relative;overflow:hidden
+}
+.ci-sign{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
+.ci-ai{background:linear-gradient(135deg,#ecfdf5,#d1fae5)}
+.ci-code{background:linear-gradient(135deg,#1a3d1a,#2d5a2d)}
+.ci-game{background:linear-gradient(135deg,#4ade80,#16a34a)}
+.ci-mit{background:linear-gradient(135deg,#0d1f0d,#1a3d1a)}
+.ci-scratch{background:linear-gradient(135deg,#f6a623,#f7b731)}
+.ci-social-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#f77737)}
+.ci-yt{background:linear-gradient(135deg,#1a0000,#cc0000)}
+.ci-star{background:linear-gradient(135deg,#1a3d1a,#2d5a2d)}
+
+.badge{
+  position:absolute;top:.8rem;right:.8rem;
+  background:var(--g1);color:#fff;
+  padding:.22rem .65rem;border-radius:20px;
+  font-size:.68rem;font-weight:700;letter-spacing:.03em
+}
+.dark .badge{background:var(--g3);color:#0b150b}
+
+.card-body{padding:1.3rem 1.3rem 1.1rem}
+.card-title{
+  font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;
+  color:var(--t1);margin-bottom:.38rem;line-height:1.3
+}
+.card-desc{font-size:.8rem;color:var(--t2);line-height:1.55;font-weight:400}
+.card-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:.85rem;padding-top:.85rem;border-top:1px solid var(--border)
+}
+.card-author{display:flex;align-items:center;gap:.45rem;font-size:.75rem;color:var(--t3)}
+.aa{
+  width:22px;height:22px;background:var(--g3);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;color:#0b150b;font-weight:700
+}
+.card-stat{font-size:.72rem;color:var(--t3);font-weight:500}
+
+.no-res{
+  grid-column:1/-1;text-align:center;
+  padding:4rem 2rem;color:var(--t3);display:none
+}
+.no-res.show{display:block}
+.no-res-icon{font-size:2.5rem;margin-bottom:.6rem}
+
+/* ── CTA BANNER ── */
+.cta-banner{
+  max-width:1360px;margin:2.5rem auto;
+  border-radius:var(--radius-lg);
+  padding:1.5rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  background:linear-gradient(90deg,var(--g1) 0%,var(--g2) 100%);
+  color:#fff
+}
+.dark .cta-banner{background:linear-gradient(90deg,#0d2b0d,#1a3d1a)}
+.cta-left{display:flex;align-items:center;gap:.9rem}
+.cta-rocket{font-size:1.4rem}
+.cta-text-main{font-family:'Syne',sans-serif;font-weight:600;font-size:.98rem}
+.cta-btn{
+  background:#fff;color:var(--g1);
+  padding:.7rem 1.5rem;border-radius:50px;
+  font-weight:700;font-size:.88rem;border:none;cursor:pointer;
+  transition:all .2s;font-family:'DM Sans',sans-serif;white-space:nowrap
+}
+.cta-btn:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+/* ── MODAL ── */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:2000;
+  justify-content:center;align-items:center;
+  backdrop-filter:blur(6px)
+}
+.overlay.show{display:flex}
+.modal{
+  background:var(--bg2);border-radius:var(--radius-xl);
+  padding:2.2rem;max-width:460px;width:90%;
+  max-height:90vh;overflow-y:auto;position:relative;
+  border:1px solid var(--border);
+  animation:mslide .28s cubic-bezier(.22,.68,0,1.2)
+}
+@keyframes mslide{from{opacity:0;transform:translateY(-20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{
+  position:absolute;top:1.1rem;right:1.1rem;
+  background:var(--bg);border:1px solid var(--border);
+  width:32px;height:32px;border-radius:50%;
+  font-size:1rem;cursor:pointer;color:var(--t3);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s
+}
+.modal-close:hover{background:var(--g4);color:var(--g1)}
+.modal-icon{font-size:2rem;margin-bottom:.6rem}
+.modal h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--g1);margin-bottom:.4rem}
+.dark .modal h2{color:var(--g3)}
+.modal p{font-size:.85rem;color:var(--t2);margin-bottom:1.4rem}
+.ig-note{
+  background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(247,119,55,.08));
+  border:1px solid rgba(131,58,180,.18);
+  border-radius:12px;padding:.9rem;margin-bottom:1.2rem;
+  font-size:.8rem;color:var(--t2);line-height:1.5
+}
+.ig-note strong{color:#833ab4;font-weight:600}
+.form-g{margin-bottom:1rem}
+.form-g label{display:block;margin-bottom:.4rem;color:var(--t2);font-size:.8rem;font-weight:500}
+.form-g input,.form-g textarea{
+  width:100%;padding:.75rem 1.1rem;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;
+  background:var(--bg);color:var(--t1);outline:none;transition:border-color .2s
+}
+.form-g input:focus,.form-g textarea:focus{border-color:var(--g3)}
+.form-g textarea{resize:vertical;min-height:95px}
+.submit-btn{
+  width:100%;background:linear-gradient(135deg,#833ab4,#fd1d1d,#f77737);
+  color:#fff;padding:.95rem;border:none;border-radius:12px;
+  font-size:.95rem;font-weight:700;cursor:pointer;
+  transition:all .2s;font-family:'DM Sans',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:.5rem
+}
+.submit-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 8px 24px rgba(253,29,29,.3)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:1.8rem;right:1.8rem;
+  background:var(--g1);color:#fff;
+  padding:.9rem 1.4rem;border-radius:14px;
+  box-shadow:0 10px 32px rgba(26,61,26,.3);
+  display:none;align-items:center;gap:.55rem;z-index:3000;
+  font-size:.88rem;font-weight:500;
+  animation:tslide .3s ease
+}
+.toast.show{display:flex}
+.dark .toast{background:var(--g3);color:#0b150b}
+@keyframes tslide{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── FOOTER ── */
+footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:3rem;padding:3rem 2.5rem 2rem}
+.footer-inner{
+  max-width:1360px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem
+}
+.footer-brand{
+  font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;
+  color:var(--g1);margin-bottom:.7rem;
+  display:flex;align-items:center;gap:.45rem;cursor:pointer
+}
+.dark .footer-brand{color:var(--g3)}
+.footer-desc{font-size:.82rem;color:var(--t3);line-height:1.65;max-width:280px}
+.footer-links h4{
+  font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;
+  color:var(--t1);margin-bottom:.9rem;
+  text-transform:uppercase;letter-spacing:.08em
+}
+.footer-links ul{list-style:none}
+.footer-links li{margin-bottom:.45rem}
+.footer-links a{
+  color:var(--t3);text-decoration:none;font-size:.82rem;
+  cursor:pointer;transition:color .2s
+}
+.footer-links a:hover{color:var(--g1)}
+.dark .footer-links a:hover{color:var(--g3)}
+.footer-bottom{
+  max-width:1360px;margin:2rem auto 0;padding-top:1.5rem;
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  color:var(--t3);font-size:.78rem
+}
+.social-row{display:flex;gap:.55rem}
+.soc{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;text-decoration:none;color:var(--t2);
+  transition:all .22s
+}
+.soc:hover{background:var(--g3);color:#0b150b;transform:translateY(-2px);border-color:var(--g3)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .hero-visual{display:none}
+  .footer-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .nav-inner{padding:.75rem 1.2rem}
+  .hero{padding:2.5rem 1.2rem 1.5rem;margin-top:65px}
+  .section-wrap{padding:0 1.2rem}
+  .cats-bar{padding:0 1.2rem}
+  .gallery{padding:0 1.2rem;margin:1.5rem auto}
+  .cta-banner{flex-direction:column;text-align:center;padding:1.3rem 1.5rem;margin:1.5rem 1.2rem}
+  footer{padding:2.5rem 1.2rem 1.5rem}
+  .footer-inner{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:.8rem;text-align:center}
+  .nav-links button:not(.nav-cta):not(.dark-toggle){display:none}
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="logo" onclick="scrollToTop(); return false;">Obed Abad</a>
-            <div class="nav-links">
-                <a href="#" onclick="filterProjects('all'); return false;" class="nav-link active">Explorar</a>
-                <a href="#" onclick="filterProjects('ai'); return false;">Skills</a>
-                <a href="#" onclick="filterProjects('code'); return false;">Proyectos</a>
-                <a href="#" onclick="filterProjects('meta'); return false;">Metas</a>
-                <a href="#" onclick="openModal(); return false;" class="nav-cta">Contactar</a>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <h1>Obed Abad</h1>
-            <p class="tagline">"Donde las ideas se convierten en resultados."</p>
-            
-            <div class="hero-stats">
-                <div class="stat" onclick="filterProjects('ai'); return false;">
-                    <span class="stat-icon">🤖</span>
-                    <span class="stat-label">Inteligencia Artificial</span>
-                </div>
-                <div class="stat" onclick="filterProjects('code'); return false;">
-                    <span class="stat-icon">💻</span>
-                    <span class="stat-label">Programación</span>
-                </div>
-                <div class="stat" onclick="filterProjects('game'); return false;">
-                    <span class="stat-icon">🎮</span>
-                    <span class="stat-label">Desarrollo de Juegos</span>
-                </div>
-            </div>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" onclick="scrollToTop()">
+      <div class="logo-gem"></div>
+      Obed Abad
+    </a>
+    <div class="nav-links">
+      <button class="active" onclick="filterProjects('all')">Explorar</button>
+      <button onclick="filterProjects('ai')">Skills</button>
+      <button onclick="filterProjects('code')">Proyectos</button>
+      <button onclick="filterProjects('meta')">Metas</button>
+      <a href="https://instagram.com/QuipuNetwork" target="_blank" class="nav-cta">Contactar</a>
+      <button class="dark-toggle" id="darkBtn" onclick="toggleDark()">🌙 Oscuro</button>
+    </div>
+  </div>
+</nav>
 
-            <div class="hero-cta">
-                <a href="https://instagram.com/QuipuNetwork" target="_blank" class="btn-primary">
-                    📷 Instagram @QuipuNetwork
-                </a>
-                <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="btn-secondary">
-                    ▶️ YouTube @InteligenciaIncaica
-                </a>
-                <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" class="btn-scratch">
-                    🐱 Scratch
-                </a>
-            </div>
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Portafolio 2026
+    </div>
+    <h1>Obed Abad</h1>
+    <p class="tagline">"Donde las ideas se convierten en resultados."</p>
 
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar en mi portfolio..." onkeyup="searchProjects()">
-                <button class="search-btn" onclick="searchProjects()">→</button>
-            </div>
-        </div>
-
-        <div class="hero-visual">
-            <div class="profile-card">
-                <div class="profile-avatar">OA</div>
-                <div class="profile-name">Obed Abad</div>
-                <div class="profile-role">Desarrollador & Creador</div>
-                <div class="profile-tags">
-                    <button class="profile-tag" onclick="filterProjects('ai')">AI</button>
-                    <button class="profile-tag" onclick="filterProjects('code')">Code</button>
-                    <button class="profile-tag" onclick="filterProjects('game')">Games</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Filters -->
-    <div class="filters">
-        <span class="filter-label">Especialidades:</span>
-        <div class="filter-tags">
-            <button class="tag active" onclick="filterProjects('all')">Todo</button>
-            <button class="tag" onclick="filterProjects('ai')">Inteligencia Artificial</button>
-            <button class="tag" onclick="filterProjects('code')">Programación</button>
-            <button class="tag" onclick="filterProjects('game')">Videojuegos</button>
-            <button class="tag" onclick="filterProjects('sign')">Señas en Tiempo Real</button>
-            <button class="tag" onclick="filterProjects('meta')">MIT Goals</button>
-        </div>
+    <div class="stats-row">
+      <div class="stat-chip" onclick="filterProjects('ai')">🤖 Inteligencia Artificial</div>
+      <div class="stat-chip" onclick="filterProjects('code')">💻 Programación</div>
+      <div class="stat-chip" onclick="filterProjects('game')">🎮 Desarrollo de Juegos</div>
     </div>
 
-    <!-- Categories -->
-    <div class="categories">
-        <button class="category active" onclick="filterProjects('all')">Descubrir</button>
-        <button class="category" onclick="filterProjects('ai')">Proyectos AI</button>
-        <button class="category" onclick="filterProjects('code')">Código</button>
-        <button class="category" onclick="filterProjects('game')">Juegos</button>
-        <button class="category" onclick="filterProjects('meta')">Metas</button>
-        <button class="category" onclick="filterProjects('edu')">Educación</button>
-        <button class="category" onclick="filterProjects('social')">Redes</button>
+    <div class="cta-row">
+      <a href="https://instagram.com/QuipuNetwork" target="_blank" class="btn btn-ig">📷 Instagram @QuipuNetwork</a>
+      <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="btn btn-yt">▶️ YouTube @InteligenciaIncaica</a>
+      <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" class="btn btn-sc">🐱 Scratch</a>
     </div>
 
-    <!-- Gallery -->
-    <section class="gallery" id="proyectos">
-        <!-- Señas -->
-        <a href="https://github.com/obedabad/traductor-senas" target="_blank" class="card" data-category="sign" data-title="traductor señas lenguaje tiempo real">
-            <div class="card-image sign">
-                👐
-                <span class="card-badge">Enfoque Actual</span>
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Traductor de Lenguaje de Señas</h3>
-                <p class="card-desc">Sistema de traducción en tiempo real utilizando visión por computadora e inteligencia artificial.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>⚡ En desarrollo</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- AI -->
-        <a href="https://github.com/obedabad/ai-experiments" target="_blank" class="card" data-category="ai" data-title="proyectos ia inteligencia artificial machine learning">
-            <div class="card-image ai">
-                🧠
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Proyectos de IA</h3>
-                <p class="card-desc">Experimentos con modelos de machine learning, NLP y visión computacional aplicados a problemas reales.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>🤖 AI</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Código -->
-        <a href="https://github.com/obedabad" target="_blank" class="card" data-category="code" data-title="arquitectura software algoritmos desarrollo">
-            <div class="card-image code">
-                💻
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Arquitectura de Software</h3>
-                <p class="card-desc">Diseño de sistemas escalables, algoritmos eficientes y mejores prácticas de desarrollo.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>⚙️ Code</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Juegos -->
-        <a href="https://github.com/obedabad/games" target="_blank" class="card" data-category="game" data-title="desarrollo juegos videojuegos gaming">
-            <div class="card-image game">
-                🎮
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Desarrollo de Juegos</h3>
-                <p class="card-desc">Creación de experiencias interactivas, mecánicas innovadoras y mundos virtuales inmersivos.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>🎯 Game Dev</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- MIT -->
-        <div class="card" data-category="meta" data-title="mit massachusetts institute technology meta objetivo">
-            <div class="card-image mit">
-                🎓
-                <span class="card-badge">Meta Principal</span>
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">MIT - Massachusetts Institute of Technology</h3>
-                <p class="card-desc">Meta académica: Ingresar al MIT para estudiar ciencias de la computación e inteligencia artificial.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>🚀 En camino</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mejor Programador -->
-        <div class="card" data-category="meta" data-title="mejor programador excelencia técnica aprendizaje">
-            <div class="card-image code">
-                ⭐
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Mejor Programador</h3>
-                <p class="card-desc">Compromiso con la excelencia técnica, aprendizaje continuo y contribución a la comunidad dev.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>💪 Meta</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Instagram -->
-        <a href="https://instagram.com/QuipuNetwork" target="_blank" class="card" data-category="social" data-title="instagram quipu network redes sociales">
-            <div class="card-image social">
-                📱
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">@QuipuNetwork</h3>
-                <p class="card-desc">Comunidad y contenido sobre tecnología, cultura digital y desarrollo en español.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>📸 Instagram</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- YouTube -->
-        <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="card" data-category="social" data-title="youtube inteligencia incaica canal video">
-            <div class="card-image game">
-                ▶️
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">@InteligenciaIncaica</h3>
-                <p class="card-desc">Canal de YouTube dedicado a IA, programación y tecnología con perspectiva latinoamericana.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>🎥 YouTube</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Scratch -->
-        <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" class="card" data-category="game" data-title="scratch proyectos educativos programación visual">
-            <div class="card-image scratch">
-                🐱
-                <span class="card-badge">Scratch</span>
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">Proyectos en Scratch</h3>
-                <p class="card-desc">Juegos educativos, animaciones interactivas y experimentos de programación visual para aprender jugando.</p>
-                <div class="card-footer">
-                    <div class="card-author">
-                        <div class="author-avatar">OA</div>
-                        <span>Obed Abad</span>
-                    </div>
-                    <div class="card-stats">
-                        <span>🎨 Creatividad</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- No results message -->
-        <div class="no-results" id="noResults">
-            <div class="no-results-icon">🔍</div>
-            <h3>No se encontraron proyectos</h3>
-            <p>Intenta con otra categoría o término de búsqueda</p>
-        </div>
-    </section>
-
-    <!-- CTA Banner -->
-    <div class="cta-banner">
-        <div class="cta-text">
-            <span class="cta-rocket">🚀</span>
-            <span>¿Tienes un proyecto en mente? Conectemos y construyamos algo increíble juntos.</span>
-        </div>
-        <button class="cta-btn" onclick="openModal()">Colaborar</button>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Buscar en mi portfolio..." oninput="searchProjects()">
+      <button class="search-btn" onclick="searchProjects()">→</button>
     </div>
+  </div>
 
-    <!-- Contact Modal -->
-    <div class="modal-overlay" id="contactModal" onclick="closeModal(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal()">×</button>
-            <h2>¡Hagamos algo increíble!</h2>
-            <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Cuéntame sobre tu proyecto y te responderé pronto.</p>
-            
-            <form onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label>Nombre</label>
-                    <input type="text" required placeholder="Tu nombre">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" required placeholder="tu@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Proyecto</label>
-                    <textarea required placeholder="Describe tu idea o proyecto..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Enviar mensaje</button>
-            </form>
-        </div>
+  <div class="hero-visual">
+    <div class="profile-card">
+      <div class="avatar">OA</div>
+      <div class="pname">Obed Abad</div>
+      <div class="prole">Desarrollador &amp; Creador</div>
+      <div class="ptags">
+        <button class="ptag" onclick="filterProjects('ai')">AI</button>
+        <button class="ptag" onclick="filterProjects('code')">Code</button>
+        <button class="ptag" onclick="filterProjects('game')">Games</button>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <span>✓</span>
-        <span id="toastMessage">Mensaje enviado correctamente</span>
+<!-- FILTERS -->
+<div class="section-wrap">
+  <div class="filter-row">
+    <span class="filter-label">Especialidades:</span>
+    <button class="tag active" onclick="filterProjects('all')">Todo</button>
+    <button class="tag" onclick="filterProjects('ai')">Inteligencia Artificial</button>
+    <button class="tag" onclick="filterProjects('code')">Programación</button>
+    <button class="tag" onclick="filterProjects('game')">Videojuegos</button>
+    <button class="tag" onclick="filterProjects('sign')">Señas en Tiempo Real</button>
+    <button class="tag" onclick="filterProjects('meta')">MIT Goals</button>
+    <button class="tag" onclick="filterProjects('social')">Redes</button>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="cats-bar">
+  <button class="cat active" onclick="filterProjects('all')">Descubrir</button>
+  <button class="cat" onclick="filterProjects('ai')">Proyectos AI</button>
+  <button class="cat" onclick="filterProjects('code')">Código</button>
+  <button class="cat" onclick="filterProjects('game')">Juegos</button>
+  <button class="cat" onclick="filterProjects('meta')">Metas</button>
+  <button class="cat" onclick="filterProjects('edu')">Educación</button>
+  <button class="cat" onclick="filterProjects('social')">Redes</button>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery" id="proyectos">
+
+  <a href="https://github.com/obedabad/traductor-senas" target="_blank" class="card" data-category="sign" data-title="traductor señas lenguaje tiempo real visión computadora">
+    <div class="card-img ci-sign">👐<span class="badge">Enfoque Actual</span></div>
+    <div class="card-body">
+      <div class="card-title">Traductor de Lenguaje de Señas</div>
+      <div class="card-desc">Sistema de traducción en tiempo real usando visión por computadora e inteligencia artificial.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">⚡ En desarrollo</div>
+      </div>
     </div>
+  </a>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div>
-                <div class="footer-brand" onclick="scrollToTop()">Obed Abad</div>
-                <p class="footer-desc">
-                    Desarrollador apasionado por la inteligencia artificial, la programación y la creación de videojuegos. 
-                    "Donde las ideas se convierten en resultados."
-                </p>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Proyectos</h4>
-                <ul>
-                    <li><a onclick="filterProjects('sign')">Traductor de Señas</a></li>
-                    <li><a onclick="filterProjects('ai')">AI Experiments</a></li>
-                    <li><a onclick="filterProjects('game')">Videojuegos</a></li>
-                    <li><a onclick="filterProjects('code')">Open Source</a></li>
-                </ul>
-            </div>
+  <a href="https://github.com/obedabad/ai-experiments" target="_blank" class="card" data-category="ai" data-title="proyectos ia inteligencia artificial machine learning nlp">
+    <div class="card-img ci-ai">🧠</div>
+    <div class="card-body">
+      <div class="card-title">Proyectos de IA</div>
+      <div class="card-desc">Experimentos con machine learning, NLP y visión computacional aplicados a problemas reales.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">🤖 AI</div>
+      </div>
+    </div>
+  </a>
 
-            <div class="footer-links">
-                <h4>Redes</h4>
-                <ul>
-                    <li><a href="https://instagram.com/QuipuNetwork" target="_blank">Instagram</a></li>
-                    <li><a href="https://youtube.com/@InteligenciaIncaica" target="_blank">YouTube</a></li>
-                    <li><a href="https://scratch.mit.edu/users/ObedAbad" target="_blank">Scratch</a></li>
-                    <li><a href="https://github.com/obedabad" target="_blank">GitHub</a></li>
-                </ul>
-            </div>
+  <a href="https://github.com/obedabad" target="_blank" class="card" data-category="code" data-title="arquitectura software algoritmos desarrollo open source">
+    <div class="card-img ci-code">💻</div>
+    <div class="card-body">
+      <div class="card-title">Arquitectura de Software</div>
+      <div class="card-desc">Diseño de sistemas escalables, algoritmos eficientes y mejores prácticas de desarrollo.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">⚙️ Code</div>
+      </div>
+    </div>
+  </a>
 
-            <div class="footer-links">
-                <h4>Contacto</h4>
-                <ul>
-                    <li><a onclick="openModal()">Email</a></li>
-                    <li><a onclick="openModal()">Colaboraciones</a></li>
-                    <li><a onclick="openModal()">Mentorías</a></li>
-                    <li><a onclick="showToast('Próximamente')">Prensa</a></li>
-                </ul>
-            </div>
-        </div>
+  <a href="https://github.com/obedabad/games" target="_blank" class="card" data-category="game" data-title="desarrollo juegos videojuegos gaming mecánicas">
+    <div class="card-img ci-game">🎮</div>
+    <div class="card-body">
+      <div class="card-title">Desarrollo de Juegos</div>
+      <div class="card-desc">Creación de experiencias interactivas, mecánicas innovadoras y mundos virtuales inmersivos.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">🎯 Game Dev</div>
+      </div>
+    </div>
+  </a>
 
-        <div class="footer-bottom">
-            <div>
-                © 2026 Obed Abad. Todos los derechos reservados.
-            </div>
-            <div class="social-links">
-                <a href="https://instagram.com/QuipuNetwork" target="_blank" title="Instagram">📷</a>
-                <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" title="YouTube">▶️</a>
-                <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" title="Scratch">🐱</a>
-                <a href="https://github.com/obedabad" target="_blank" title="GitHub">💻</a>
-            </div>
-        </div>
-    </footer>
+  <div class="card" data-category="meta" data-title="mit massachusetts institute technology meta objetivo universitario">
+    <div class="card-img ci-mit">🎓<span class="badge">Meta Principal</span></div>
+    <div class="card-body">
+      <div class="card-title">MIT — Massachusetts Institute of Technology</div>
+      <div class="card-desc">Meta académica: ingresar al MIT para estudiar ciencias de la computación e inteligencia artificial.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">🚀 En camino</div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        // Filtrado de proyectos
-        function filterProjects(category) {
-            const cards = document.querySelectorAll('.card');
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
+  <div class="card" data-category="meta" data-title="mejor programador excelencia técnica aprendizaje continuo">
+    <div class="card-img ci-star">⭐</div>
+    <div class="card-body">
+      <div class="card-title">Mejor Programador</div>
+      <div class="card-desc">Compromiso con la excelencia técnica, aprendizaje continuo y contribución a la comunidad dev.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">💪 Meta</div>
+      </div>
+    </div>
+  </div>
 
-            // Actualizar tags activos
-            document.querySelectorAll('.tag').forEach(tag => {
-                tag.classList.remove('active');
-                if ((category === 'all' && tag.textContent === 'Todo') ||
-                    (category === 'ai' && tag.textContent.includes('Inteligencia')) ||
-                    (category === 'code' && tag.textContent === 'Programación') ||
-                    (category === 'game' && tag.textContent === 'Videojuegos') ||
-                    (category === 'sign' && tag.textContent.includes('Señas')) ||
-                    (category === 'meta' && tag.textContent.includes('MIT'))) {
-                    tag.classList.add('active');
-                }
-            });
+  <a href="https://instagram.com/QuipuNetwork" target="_blank" class="card" data-category="social" data-title="instagram quipu network redes sociales comunidad tecnología">
+    <div class="card-img ci-social-ig">📱</div>
+    <div class="card-body">
+      <div class="card-title">@QuipuNetwork</div>
+      <div class="card-desc">Comunidad y contenido sobre tecnología, cultura digital y desarrollo en español.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">📸 Instagram</div>
+      </div>
+    </div>
+  </a>
 
-            // Actualizar categorías activas
-            document.querySelectorAll('.category').forEach(cat => {
-                cat.classList.remove('active');
-                if ((category === 'all' && cat.textContent === 'Descubrir') ||
-                    (category === 'ai' && cat.textContent.includes('AI')) ||
-                    (category === 'code' && cat.textContent === 'Código') ||
-                    (category === 'game' && cat.textContent === 'Juegos') ||
-                    (category === 'meta' && cat.textContent === 'Metas') ||
-                    (category === 'social' && cat.textContent === 'Redes')) {
-                    cat.classList.add('active');
-                }
-            });
+  <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="card" data-category="social" data-title="youtube inteligencia incaica canal video latinoamerica">
+    <div class="card-img ci-yt">▶️</div>
+    <div class="card-body">
+      <div class="card-title">@InteligenciaIncaica</div>
+      <div class="card-desc">Canal de YouTube dedicado a IA, programación y tecnología con perspectiva latinoamericana.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">🎥 YouTube</div>
+      </div>
+    </div>
+  </a>
 
-            // Actualizar nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if ((category === 'all' && link.textContent === 'Explorar') ||
-                    (category === 'ai' && link.textContent === 'Skills') ||
-                    (category === 'code' && link.textContent === 'Proyectos') ||
-                    (category === 'meta' && link.textContent === 'Metas')) {
-                    link.classList.add('active');
-                }
-            });
+  <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" class="card" data-category="game" data-title="scratch proyectos educativos programación visual juegos animaciones">
+    <div class="card-img ci-scratch">🐱<span class="badge">Scratch</span></div>
+    <div class="card-body">
+      <div class="card-title">Proyectos en Scratch</div>
+      <div class="card-desc">Juegos educativos, animaciones interactivas y experimentos de programación visual.</div>
+      <div class="card-foot">
+        <div class="card-author"><div class="aa">OA</div>Obed Abad</div>
+        <div class="card-stat">🎨 Creatividad</div>
+      </div>
+    </div>
+  </a>
 
-            // Filtrar cards
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+  <div class="no-res" id="noResults">
+    <div class="no-res-icon">🔍</div>
+    <strong>No se encontraron proyectos</strong>
+    <p style="font-size:.85rem;margin-top:.3rem">Intenta con otro término o categoría</p>
+  </div>
+</section>
 
-            // Mostrar/ocultar mensaje de no resultados
-            if (visibleCount === 0) {
-                noResults.classList.add('show');
-            } else {
-                noResults.classList.remove('show');
-            }
+<!-- CTA BANNER -->
+<div class="cta-banner" style="margin-left:2.5rem;margin-right:2.5rem">
+  <div class="cta-left">
+    <span class="cta-rocket">🚀</span>
+    <span class="cta-text-main">¿Tienes un proyecto en mente? Conectemos y construyamos algo increíble juntos.</span>
+  </div>
+  <button class="cta-btn" onclick="openModal()">Colaborar</button>
+</div>
 
-            // Scroll suave a proyectos si no estamos ahí
-            if (window.scrollY > 500) {
-                document.getElementById('proyectos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+<!-- MODAL -->
+<div class="overlay" id="contactModal" onclick="closeModalBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-icon">✨</div>
+    <h2>¡Hagamos algo increíble!</h2>
+    <p>Cuéntame tu proyecto. Te responderé por Instagram DM lo antes posible.</p>
+    <div class="ig-note">
+      📲 Tu mensaje irá a <strong>@QuipuNetwork</strong> en Instagram. Sígueme para que pueda responderte.
+    </div>
+    <div class="form-g">
+      <label>Tu nombre</label>
+      <input type="text" id="f-name" placeholder="Tu nombre completo">
+    </div>
+    <div class="form-g">
+      <label>Tu Instagram (opcional)</label>
+      <input type="text" id="f-ig" placeholder="@tuusuario">
+    </div>
+    <div class="form-g">
+      <label>Tu proyecto o idea</label>
+      <textarea id="f-msg" placeholder="Describe tu idea o proyecto..."></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitForm()">
+      <span>📲</span> Enviar y abrir Instagram DM
+    </button>
+  </div>
+</div>
 
-            return false;
-        }
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span>✓</span>
+  <span id="toastMsg">Acción completada</span>
+</div>
 
-        // Búsqueda en tiempo real
-        function searchProjects() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.card');
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand" onclick="scrollToTop()">
+        <div class="logo-gem"></div>
+        Obed Abad
+      </div>
+      <p class="footer-desc">
+        Desarrollador apasionado por la inteligencia artificial, la programación y la creación de videojuegos.
+        "Donde las ideas se convierten en resultados."
+      </p>
+    </div>
+    <div class="footer-links">
+      <h4>Proyectos</h4>
+      <ul>
+        <li><a onclick="filterProjects('sign')">Traductor de Señas</a></li>
+        <li><a onclick="filterProjects('ai')">AI Experiments</a></li>
+        <li><a onclick="filterProjects('game')">Videojuegos</a></li>
+        <li><a onclick="filterProjects('code')">Open Source</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Redes</h4>
+      <ul>
+        <li><a href="https://instagram.com/QuipuNetwork" target="_blank">Instagram</a></li>
+        <li><a href="https://youtube.com/@InteligenciaIncaica" target="_blank">YouTube</a></li>
+        <li><a href="https://scratch.mit.edu/users/ObedAbad" target="_blank">Scratch</a></li>
+        <li><a href="https://github.com/obedabad" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a onclick="openModal()">Colaboraciones</a></li>
+        <li><a onclick="openModal()">Mentorías</a></li>
+        <li><a onclick="openModal()">Proyectos</a></li>
+        <li><a href="https://instagram.com/QuipuNetwork" target="_blank">Instagram DM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Obed Abad. Todos los derechos reservados.</div>
+    <div class="social-row">
+      <a href="https://instagram.com/QuipuNetwork" target="_blank" class="soc" title="Instagram">📷</a>
+      <a href="https://youtube.com/@InteligenciaIncaica" target="_blank" class="soc" title="YouTube">▶️</a>
+      <a href="https://scratch.mit.edu/users/ObedAbad" target="_blank" class="soc" title="Scratch">🐱</a>
+      <a href="https://github.com/obedabad" target="_blank" class="soc" title="GitHub">💻</a>
+    </div>
+  </div>
+</footer>
 
-            // Resetear filtros visuales
-            document.querySelectorAll('.tag, .category').forEach(el => el.classList.remove('active'));
-            document.querySelector('.tag').classList.add('active'); // "Todo"
+<script>
+let dark = false;
 
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
-                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
-                const keywords = card.dataset.title || '';
-                
-                if (searchTerm === '' || title.includes(searchTerm) || desc.includes(searchTerm) || keywords.includes(searchTerm)) {
-                    card.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+function toggleDark(){
+  dark = !dark;
+  document.body.classList.toggle('dark', dark);
+  document.getElementById('darkBtn').textContent = dark ? '☀️ Claro' : '🌙 Oscuro';
+}
 
-            if (visibleCount === 0) {
-                noResults.classList.add('show');
-            } else {
-                noResults.classList.remove('show');
-            }
-        }
+function filterProjects(cat){
+  const cards = document.querySelectorAll('.card[data-category]');
+  const noRes = document.getElementById('noResults');
+  let vis = 0;
+  cards.forEach(c => {
+    const show = cat === 'all' || c.dataset.category === cat;
+    c.classList.toggle('hidden', !show);
+    if(show) vis++;
+  });
+  noRes.classList.toggle('show', vis === 0);
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cat').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-links button:not(.nav-cta):not(.dark-toggle)').forEach(t => t.classList.remove('active'));
+  const tagMap = {all:'Todo',ai:'Inteligencia Artificial',code:'Programación',game:'Videojuegos',sign:'Señas en Tiempo Real',meta:'MIT Goals',social:'Redes'};
+  document.querySelectorAll('.tag').forEach(t => { if(t.textContent.trim() === tagMap[cat]) t.classList.add('active'); });
+  const catMap = {all:'Descubrir',ai:'Proyectos AI',code:'Código',game:'Juegos',meta:'Metas',edu:'Educación',social:'Redes'};
+  document.querySelectorAll('.cat').forEach(t => { if(t.textContent.trim() === catMap[cat]) t.classList.add('active'); });
+  const navTxt = {all:'Explorar',ai:'Skills',code:'Proyectos',meta:'Metas'};
+  if(navTxt[cat]){
+    document.querySelectorAll('.nav-links button:not(.nav-cta):not(.dark-toggle)').forEach(t => {
+      if(t.textContent.trim() === navTxt[cat]) t.classList.add('active');
+    });
+  }
+  document.getElementById('searchInput').value = '';
+}
 
-        // Modal de contacto
-        function openModal() {
-            document.getElementById('contactModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
+function searchProjects(){
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.card[data-category]');
+  const noRes = document.getElementById('noResults');
+  let vis = 0;
+  cards.forEach(c => {
+    const title = (c.querySelector('.card-title')?.textContent || '').toLowerCase();
+    const desc = (c.querySelector('.card-desc')?.textContent || '').toLowerCase();
+    const kw = (c.dataset.title || '').toLowerCase();
+    const show = !q || title.includes(q) || desc.includes(q) || kw.includes(q);
+    c.classList.toggle('hidden', !show);
+    if(show) vis++;
+  });
+  noRes.classList.toggle('show', vis === 0);
+  document.querySelectorAll('.tag,.cat').forEach(t => t.classList.remove('active'));
+  if(!q){
+    document.querySelectorAll('.tag')[0]?.classList.add('active');
+    document.querySelectorAll('.cat')[0]?.classList.add('active');
+  }
+}
 
-        function closeModal(event) {
-            if (!event || event.target.id === 'contactModal' || event.target.classList.contains('modal-close')) {
-                document.getElementById('contactModal').classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        }
+function openModal(){
+  document.getElementById('contactModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
 
-        // Enviar formulario
-        function submitForm(event) {
-            event.preventDefault();
-            closeModal();
-            showToast('¡Mensaje enviado! Te contactaré pronto.');
-            event.target.reset();
-        }
+function closeModal(){
+  document.getElementById('contactModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
 
-        // Toast notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
+function closeModalBg(e){
+  if(e.target.id === 'contactModal') closeModal();
+}
 
-        // Scroll to top
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            return false;
-        }
+function submitForm(){
+  const name = document.getElementById('f-name').value.trim();
+  const ig = document.getElementById('f-ig').value.trim();
+  const msg = document.getElementById('f-msg').value.trim();
+  if(!name || !msg){ showToast('Completa tu nombre y describe el proyecto'); return; }
+  closeModal();
+  showToast('¡Abriendo Instagram DM...');
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-ig').value = '';
+  document.getElementById('f-msg').value = '';
+  setTimeout(() => { window.open('https://ig.me/m/QuipuNetwork', '_blank'); }, 500);
+}
 
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
 
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            filterProjects('all');
-        });
-    </script>
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+</script>
 </body>
 </html>
