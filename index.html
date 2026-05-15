@@ -3,110 +3,750 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi página web</title>
+  <title>Obed | Portafolio</title>
+  <meta name="description" content="Portafolio personal de Obed: proyectos, aprendizaje y tecnología." />
 
   <style>
+    :root {
+      --bg: #f4efe7;
+      --bg-soft: #ebe3d7;
+      --text: #151515;
+      --muted: #666158;
+      --card: rgba(255, 252, 247, 0.72);
+      --card-solid: #fffaf2;
+      --border: rgba(21, 21, 21, 0.12);
+      --accent: #1f7a4d;
+      --accent-soft: rgba(31, 122, 77, 0.12);
+      --shadow: 0 24px 70px rgba(30, 24, 15, 0.12);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      color: #222;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
       line-height: 1.6;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-glow {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(31, 122, 77, 0.22), transparent 68%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 20%;
+      filter: blur(10px);
+      z-index: -1;
+      transition: opacity 0.3s ease;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(21, 21, 21, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 21, 21, 0.03) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, black, transparent 75%);
+    }
+
+    .container {
+      width: min(1120px, 90%);
+      margin: 0 auto;
+    }
+
     header {
-      background: #1f2937;
-      color: white;
-      padding: 20px;
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .nav {
+      width: min(920px, 90%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 250, 242, 0.68);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 14px 44px rgba(30, 24, 15, 0.08);
+      pointer-events: auto;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-button {
+      color: #fffaf2;
+      background: var(--text);
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(21, 21, 21, 0.18);
+    }
+
+    main {
+      position: relative;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 8rem 0 5rem;
       text-align: center;
     }
 
-    nav {
-      margin-top: 10px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 1.2rem;
+      padding: 0.42rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 250, 242, 0.56);
+      color: var(--muted);
+      font-size: 0.9rem;
+      animation: reveal 1s ease forwards;
+      opacity: 0;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(31, 122, 77, 0.5);
+    }
+
+    h1 {
+      max-width: 940px;
+      margin: 0 auto;
+      font-size: clamp(4rem, 12vw, 10.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.095em;
+      font-weight: 850;
+      animation: reveal 1.1s 0.12s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-title-small {
+      display: block;
+      font-size: clamp(2rem, 5vw, 4.4rem);
+      letter-spacing: -0.075em;
+      color: var(--muted);
+      margin-top: 0.85rem;
+      font-weight: 700;
+    }
+
+    .hero-text {
+      max-width: 620px;
+      margin: 1.6rem auto 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.22rem);
+      animation: reveal 1.1s 0.28s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-actions {
+      margin-top: 2.1rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      animation: reveal 1.1s 0.42s ease forwards;
+      opacity: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.78rem 1rem;
+      border-radius: 999px;
+      font-weight: 750;
+      border: 1px solid var(--border);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: #fffaf2;
+      border-color: transparent;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 250, 242, 0.56);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 38px rgba(30, 24, 15, 0.14);
     }
 
     section {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 6rem 0;
     }
 
-    h1, h2 {
-      margin-bottom: 10px;
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 2rem;
+      margin-bottom: 1.6rem;
     }
 
-    .project {
-      background: #f9fafb;
-      padding: 15px;
-      border-left: 4px solid #22c55e;
-      margin-top: 15px;
-      border-radius: 8px;
+    .section-head h2 {
+      font-size: clamp(2.2rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 420px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      min-height: 240px;
+      padding: 1.35rem;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 55px rgba(30, 24, 15, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 20%), rgba(31, 122, 77, 0.16), transparent 30%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(31, 122, 77, 0.28);
+      box-shadow: 0 26px 80px rgba(30, 24, 15, 0.13);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .card-label {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.55rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .tag {
+      padding: 0.36rem 0.58rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 250, 242, 0.5);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 650;
+    }
+
+    .learning-list {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .learning-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255, 250, 242, 0.5);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .learning-item:hover {
+      transform: translateX(6px);
+      border-color: rgba(31, 122, 77, 0.28);
+    }
+
+    .learning-item span:first-child {
+      font-weight: 750;
+    }
+
+    .learning-item span:last-child {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .goals {
+      border-radius: 38px;
+      padding: clamp(2rem, 6vw, 5rem);
+      background: #151515;
+      color: #fffaf2;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .goals::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      right: -160px;
+      top: -160px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(31, 122, 77, 0.46), transparent 64%);
+    }
+
+    .goals-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .goals h2 {
+      max-width: 780px;
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.08em;
+    }
+
+    .goals p {
+      max-width: 580px;
+      margin-top: 1rem;
+      color: rgba(255, 250, 242, 0.7);
+    }
+
+    .goal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .goal-pill {
+      border: 1px solid rgba(255, 250, 242, 0.16);
+      background: rgba(255, 250, 242, 0.06);
+      border-radius: 999px;
+      padding: 0.9rem 1rem;
+      text-align: center;
+      color: rgba(255, 250, 242, 0.86);
+      backdrop-filter: blur(14px);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .goal-pill:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 250, 242, 0.1);
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.08em;
+    }
+
+    .contact p {
+      max-width: 560px;
+      margin: 1rem auto 1.8rem;
+      color: var(--muted);
     }
 
     footer {
+      padding: 2.5rem 0;
+      color: var(--muted);
       text-align: center;
-      padding: 20px;
-      color: #666;
+      border-top: 1px solid var(--border);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      filter: blur(8px);
+      transition: opacity 0.85s ease, transform 0.85s ease, filter 0.85s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+        filter: blur(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @media (max-width: 880px) {
+      .nav-links {
+        display: none;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 0.75rem;
+      }
+
+      .grid-3,
+      .grid-2,
+      .goal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 92vh;
+      }
+
+      .card {
+        min-height: 210px;
+      }
     }
   </style>
 </head>
-<body>
-  <header>
-    <h1>Hola, soy Obed</h1>
-    <p>Esta es mi primera página web en GitHub Pages.</p>
 
-    <nav>
-      <a href="#sobre-mi">Sobre mí</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#contacto">Contacto</a>
+<body>
+  <div class="page-glow" id="pageGlow"></div>
+  <div class="noise"></div>
+
+  <header>
+    <nav class="nav">
+      <a class="brand" href="#inicio">Obed</a>
+      <div class="nav-links">
+        <a href="#proyectos">Proyectos</a>
+        <a href="#aprendizaje">Aprendizaje</a>
+        <a href="#metas">Metas</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <a class="nav-button" href="https://github.com/obedabad" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
 
-  <section id="sobre-mi">
-    <h2>Sobre mí</h2>
-    <p>
-      Hola, soy Obed. Estoy aprendiendo a crear páginas web y quiero usar este sitio
-      para mostrar mis proyectos, ideas y avances.
-    </p>
-  </section>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container">
+        <div class="eyebrow">
+          <span class="dot"></span>
+          Portafolio personal
+        </div>
 
-  <section id="proyectos">
-    <h2>Mis proyectos</h2>
+        <h1>
+          Obed
+          <span class="hero-title-small">creando paso a paso.</span>
+        </h1>
 
-    <div class="project">
-      <h3>Proyecto 1</h3>
-      <p>Descripción corta de mi primer proyecto.</p>
-    </div>
+        <p class="hero-text">
+          Estoy aprendiendo desarrollo web, tecnología e inteligencia artificial. Este espacio será mi portafolio para mostrar proyectos, avances e ideas.
+        </p>
 
-    <div class="project">
-      <h3>Proyecto 2</h3>
-      <p>Descripción corta de mi segundo proyecto.</p>
-    </div>
-  </section>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+          <a class="btn btn-secondary" href="#aprendizaje">Ver aprendizaje</a>
+        </div>
+      </div>
+    </section>
 
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <p>Puedes escribirme a: <strong>tu-correo@ejemplo.com</strong></p>
-    <p>Mi GitHub: <strong>github.com/tu-usuario</strong></p>
-  </section>
+    <section id="proyectos">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Proyectos seleccionados</h2>
+          <p>Pocos proyectos, pero bien presentados. Aquí iré agregando lo que construya y mejore.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card reveal interactive-card">
+            <div class="card-content">
+              <div>
+                <div class="card-label">Web</div>
+                <h3>Mi portafolio</h3>
+                <p>Mi primera página web personal creada con HTML, CSS, JavaScript y GitHub Pages.</p>
+              </div>
+              <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">JavaScript</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal interactive-card">
+            <div class="card-content">
+              <div>
+                <div class="card-label">AI</div>
+                <h3>Experimentos con IA</h3>
+                <p>Pruebas usando inteligencia artificial para crear ideas, textos, imágenes y herramientas simples.</p>
+              </div>
+              <div class="tags">
+                <span class="tag">AI</span>
+                <span class="tag">Creatividad</span>
+                <span class="tag">Ideas</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal interactive-card">
+            <div class="card-content">
+              <div>
+                <div class="card-label">Learning</div>
+                <h3>Ruta de aprendizaje</h3>
+                <p>Un registro de lo que voy aprendiendo mientras construyo proyectos reales.</p>
+              </div>
+              <div class="tags">
+                <span class="tag">GitHub</span>
+                <span class="tag">Diseño</span>
+                <span class="tag">Progreso</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="aprendizaje">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Actualmente aprendiendo</h2>
+          <p>La idea es que esta sección vaya cambiando cada vez que aprenda algo nuevo.</p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card reveal">
+            <div class="card-content">
+              <div>
+                <div class="card-label">Skills</div>
+                <h3>Base técnica</h3>
+                <p>Estoy construyendo una base sólida para crear páginas, proyectos y herramientas digitales.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="learning-list reveal">
+            <div class="learning-item">
+              <span>HTML & estructura web</span>
+              <span>En progreso</span>
+            </div>
+            <div class="learning-item">
+              <span>CSS & diseño moderno</span>
+              <span>En progreso</span>
+            </div>
+            <div class="learning-item">
+              <span>JavaScript & animaciones</span>
+              <span>Practicando</span>
+            </div>
+            <div class="learning-item">
+              <span>GitHub Pages</span>
+              <span>Publicado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="metas">
+      <div class="container">
+        <div class="goals reveal">
+          <div class="goals-content">
+            <h2>Mi meta es aprender creando.</h2>
+            <p>
+              Este portafolio no tiene que estar perfecto desde el primer día. La idea es mejorarlo por versiones, agregando proyectos reales y aprendiendo en el proceso.
+            </p>
+
+            <div class="goal-grid">
+              <div class="goal-pill">Crear proyectos</div>
+              <div class="goal-pill">Aprender JavaScript</div>
+              <div class="goal-pill">Mejorar diseño</div>
+              <div class="goal-pill">Subir avances</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto">
+      <div class="container reveal">
+        <h2>Sigamos construyendo.</h2>
+        <p>
+          Puedes ver mis proyectos en GitHub. Más adelante agregaré más enlaces, demos y formas de contacto.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/obedabad" target="_blank" rel="noreferrer">Abrir GitHub</a>
+          <a class="btn btn-secondary" href="mailto:tu-correo@ejemplo.com">Contactar</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>© 2026 Obed</p>
+    <div class="container">
+      <p>© 2026 Obed. Portafolio en construcción.</p>
+    </div>
   </footer>
+
+  <script>
+    const glow = document.getElementById("pageGlow");
+
+    window.addEventListener("pointermove", (event) => {
+      const x = event.clientX;
+      const y = event.clientY;
+      glow.animate(
+        { left: `${x}px`, top: `${y}px` },
+        { duration: 700, fill: "forwards", easing: "ease-out" }
+      );
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+
+    revealElements.forEach((element, index) => {
+      element.style.transitionDelay = `${Math.min(index * 70, 280)}ms`;
+      observer.observe(element);
+    });
+
+    const cards = document.querySelectorAll(".interactive-card");
+
+    cards.forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+        card.style.setProperty("--x", `${x}%`);
+        card.style.setProperty("--y", `${y}%`);
+      });
+    });
+  </script>
 </body>
 </html>
