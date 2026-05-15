@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Obed | Portafolio</title>
-  <meta name="description" content="Portafolio personal de Obed: proyectos, aprendizaje y tecnología." />
+  <title>Obed — Portfolio</title>
 
   <style>
     :root {
-      --bg: #f4efe7;
-      --bg-soft: #ebe3d7;
-      --text: #151515;
-      --muted: #666158;
-      --card: rgba(255, 252, 247, 0.72);
-      --card-solid: #fffaf2;
-      --border: rgba(21, 21, 21, 0.12);
-      --accent: #1f7a4d;
-      --accent-soft: rgba(31, 122, 77, 0.12);
-      --shadow: 0 24px 70px rgba(30, 24, 15, 0.12);
+      --bg: #0B0F14;
+      --bg-secondary: #111827;
+      --green: #22C55E;
+      --green-bright: #4ADE80;
+      --text: #F3F4F6;
+      --text-secondary: #9CA3AF;
+      --border: rgba(255,255,255,0.06);
+      --surface: rgba(17, 24, 39, 0.72);
+      --shadow: 0 20px 80px rgba(0,0,0,0.45);
     }
 
     * {
@@ -31,722 +29,672 @@
     }
 
     body {
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
-      line-height: 1.6;
+      min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,0.12), transparent 28rem),
+        radial-gradient(circle at bottom right, rgba(74,222,128,0.08), transparent 24rem);
+      pointer-events: none;
+      z-index: -2;
     }
 
-    .page-glow {
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: -3;
+    }
+
+    .cursor-glow {
       position: fixed;
       width: 420px;
       height: 420px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(31, 122, 77, 0.22), transparent 68%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,197,94,0.14), transparent 70%);
       pointer-events: none;
-      transform: translate(-50%, -50%);
-      left: 50%;
-      top: 20%;
       filter: blur(10px);
+      transform: translate(-50%, -50%);
       z-index: -1;
-      transition: opacity 0.3s ease;
-    }
-
-    .noise {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.35;
-      z-index: -2;
-      background-image:
-        linear-gradient(rgba(21, 21, 21, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(21, 21, 21, 0.03) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: linear-gradient(to bottom, black, transparent 75%);
     }
 
     .container {
-      width: min(1120px, 90%);
+      width: min(1180px, 90%);
       margin: 0 auto;
     }
 
     header {
       position: fixed;
-      top: 18px;
+      top: 20px;
       left: 0;
       right: 0;
-      z-index: 50;
-      pointer-events: none;
+      z-index: 100;
     }
 
-    .nav {
-      width: min(920px, 90%);
-      margin: 0 auto;
+    .navbar {
+      width: min(950px, 92%);
+      margin: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      padding: 0.8rem 1rem;
+      padding: 0.85rem 1rem;
       border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255, 250, 242, 0.68);
+      background: rgba(11,15,20,0.7);
       backdrop-filter: blur(18px);
-      box-shadow: 0 14px 44px rgba(30, 24, 15, 0.08);
-      pointer-events: auto;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
     }
 
-    .brand {
+    .logo {
+      font-size: 1rem;
       font-weight: 800;
       letter-spacing: -0.04em;
     }
 
     .nav-links {
       display: flex;
+      gap: 0.3rem;
       align-items: center;
-      gap: 1rem;
-      color: var(--muted);
-      font-size: 0.92rem;
     }
 
     .nav-links a {
-      transition: color 0.2s ease;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.65rem 0.85rem;
+      border-radius: 999px;
+      transition: 0.25s ease;
+      font-size: 0.95rem;
     }
 
     .nav-links a:hover {
       color: var(--text);
+      background: rgba(255,255,255,0.05);
     }
 
-    .nav-button {
-      color: #fffaf2;
-      background: var(--text);
-      padding: 0.55rem 0.85rem;
-      border-radius: 999px;
+    .github-btn {
+      background: var(--green);
+      color: #04130a !important;
       font-weight: 700;
-      font-size: 0.88rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .nav-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(21, 21, 21, 0.18);
-    }
-
-    main {
-      position: relative;
     }
 
     .hero {
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 8rem 0 5rem;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 0.45rem;
-      margin-bottom: 1.2rem;
-      padding: 0.42rem 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255, 250, 242, 0.56);
-      color: var(--muted);
-      font-size: 0.9rem;
-      animation: reveal 1s ease forwards;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 1100px;
+    }
+
+    .hero-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .hero-name {
+      font-size: clamp(5rem, 16vw, 12rem);
+      font-weight: 900;
+      letter-spacing: -0.09em;
+      line-height: 0.85;
+    }
+
+    .hero-line {
+      font-size: clamp(1.5rem, 3vw, 2.6rem);
+      color: var(--text-secondary);
+      letter-spacing: -0.05em;
+      font-weight: 600;
+    }
+
+    .ag-word {
+      display: inline-block;
       opacity: 0;
+      transform: translateY(90px) rotate(8deg) scale(0.9);
+      filter: blur(18px);
+      animation: reveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
+      will-change: transform;
+      transition: transform 0.15s linear;
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 18px rgba(31, 122, 77, 0.5);
-    }
-
-    h1 {
-      max-width: 940px;
-      margin: 0 auto;
-      font-size: clamp(4rem, 12vw, 10.5rem);
-      line-height: 0.88;
-      letter-spacing: -0.095em;
-      font-weight: 850;
-      animation: reveal 1.1s 0.12s ease forwards;
+    .hero-description {
+      max-width: 700px;
+      margin: auto;
+      color: var(--text-secondary);
+      font-size: 1.08rem;
+      line-height: 1.8;
       opacity: 0;
-    }
-
-    .hero-title-small {
-      display: block;
-      font-size: clamp(2rem, 5vw, 4.4rem);
-      letter-spacing: -0.075em;
-      color: var(--muted);
-      margin-top: 0.85rem;
-      font-weight: 700;
-    }
-
-    .hero-text {
-      max-width: 620px;
-      margin: 1.6rem auto 0;
-      color: var(--muted);
-      font-size: clamp(1.02rem, 2vw, 1.22rem);
-      animation: reveal 1.1s 0.28s ease forwards;
-      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s 1s forwards;
     }
 
     .hero-actions {
-      margin-top: 2.1rem;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      animation: reveal 1.1s 0.42s ease forwards;
+      gap: 1rem;
+      margin-top: 2.5rem;
       opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s 1.2s forwards;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0.78rem 1rem;
+      padding: 0.95rem 1.2rem;
       border-radius: 999px;
-      font-weight: 750;
       border: 1px solid var(--border);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      text-decoration: none;
+      transition: 0.25s ease;
+      font-weight: 700;
     }
 
     .btn-primary {
-      background: var(--text);
-      color: #fffaf2;
-      border-color: transparent;
+      background: var(--green);
+      color: #04130a;
     }
 
     .btn-secondary {
-      background: rgba(255, 250, 242, 0.56);
       color: var(--text);
+      background: rgba(255,255,255,0.03);
     }
 
     .btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 16px 38px rgba(30, 24, 15, 0.14);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
     }
 
     section {
-      padding: 6rem 0;
+      padding: 8rem 0;
     }
 
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 2rem;
-      margin-bottom: 1.6rem;
+    .section-header {
+      margin-bottom: 3rem;
     }
 
-    .section-head h2 {
-      font-size: clamp(2.2rem, 5vw, 4.8rem);
+    .section-header h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: -0.08em;
       line-height: 0.95;
-      letter-spacing: -0.075em;
+      margin-bottom: 1rem;
     }
 
-    .section-head p {
-      color: var(--muted);
-      max-width: 420px;
+    .section-header p {
+      max-width: 620px;
+      color: var(--text-secondary);
+      line-height: 1.8;
     }
 
-    .grid {
+    .info-grid {
       display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
     }
 
-    .grid-3 {
-      grid-template-columns: repeat(3, 1fr);
+    .info-item {
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(16px);
+      transition: 0.25s ease;
     }
 
-    .grid-2 {
-      grid-template-columns: repeat(2, 1fr);
+    .info-item:hover {
+      transform: translateY(-6px);
+      border-color: rgba(34,197,94,0.2);
     }
 
-    .card {
+    .info-label {
+      color: var(--green-bright);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    .info-value {
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .project-card {
       position: relative;
       overflow: hidden;
-      min-height: 240px;
-      padding: 1.35rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      padding: 2rem;
+      border-radius: 36px;
       border: 1px solid var(--border);
-      border-radius: 30px;
-      background: var(--card);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 55px rgba(30, 24, 15, 0.08);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      transition: 0.3s ease;
     }
 
-    .card::before {
+    .project-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at var(--x, 50%) var(--y, 20%), rgba(31, 122, 77, 0.16), transparent 30%);
+      background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(34,197,94,0.12), transparent 35%);
       opacity: 0;
       transition: opacity 0.25s ease;
-      pointer-events: none;
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(31, 122, 77, 0.28);
-      box-shadow: 0 26px 80px rgba(30, 24, 15, 0.13);
-    }
-
-    .card:hover::before {
+    .project-card:hover::before {
       opacity: 1;
     }
 
-    .card-content {
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(34,197,94,0.18);
+    }
+
+    .project-left,
+    .project-right {
       position: relative;
-      z-index: 1;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 2rem;
+      z-index: 2;
     }
 
-    .card-label {
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 850;
-      letter-spacing: 0.08em;
+    .project-type {
+      color: var(--green-bright);
+      font-size: 0.8rem;
       text-transform: uppercase;
-      margin-bottom: 0.7rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      font-weight: 700;
     }
 
-    .card h3 {
-      font-size: 1.35rem;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.55rem;
+    .project-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: -0.07em;
+      line-height: 0.95;
+      margin-bottom: 1rem;
     }
 
-    .card p {
-      color: var(--muted);
-      font-size: 0.98rem;
+    .project-description {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 520px;
     }
 
-    .tags {
+    .project-tags {
       display: flex;
+      gap: 0.6rem;
       flex-wrap: wrap;
-      gap: 0.45rem;
+      margin-top: 1.5rem;
     }
 
     .tag {
-      padding: 0.36rem 0.58rem;
-      border: 1px solid var(--border);
+      padding: 0.5rem 0.7rem;
       border-radius: 999px;
-      background: rgba(255, 250, 242, 0.5);
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 650;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-secondary);
+      font-size: 0.84rem;
     }
 
-    .learning-list {
-      display: grid;
-      gap: 0.7rem;
-    }
-
-    .learning-item {
+    .placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background:
+        linear-gradient(135deg, rgba(34,197,94,0.12), transparent),
+        rgba(255,255,255,0.02);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.1rem;
+      justify-content: center;
+      color: rgba(255,255,255,0.25);
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .contact-panel {
+      border-radius: 40px;
+      padding: 4rem;
+      background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(17,24,39,0.9));
       border: 1px solid var(--border);
-      border-radius: 20px;
-      background: rgba(255, 250, 242, 0.5);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-
-    .learning-item:hover {
-      transform: translateX(6px);
-      border-color: rgba(31, 122, 77, 0.28);
-    }
-
-    .learning-item span:first-child {
-      font-weight: 750;
-    }
-
-    .learning-item span:last-child {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .goals {
-      border-radius: 38px;
-      padding: clamp(2rem, 6vw, 5rem);
-      background: #151515;
-      color: #fffaf2;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .goals::before {
-      content: "";
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      right: -160px;
-      top: -160px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(31, 122, 77, 0.46), transparent 64%);
-    }
-
-    .goals-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .goals h2 {
-      max-width: 780px;
-      font-size: clamp(2.4rem, 7vw, 6rem);
-      line-height: 0.95;
-      letter-spacing: -0.08em;
-    }
-
-    .goals p {
-      max-width: 580px;
-      margin-top: 1rem;
-      color: rgba(255, 250, 242, 0.7);
-    }
-
-    .goal-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      margin-top: 2rem;
-    }
-
-    .goal-pill {
-      border: 1px solid rgba(255, 250, 242, 0.16);
-      background: rgba(255, 250, 242, 0.06);
-      border-radius: 999px;
-      padding: 0.9rem 1rem;
-      text-align: center;
-      color: rgba(255, 250, 242, 0.86);
-      backdrop-filter: blur(14px);
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .goal-pill:hover {
-      transform: translateY(-4px);
-      background: rgba(255, 250, 242, 0.1);
-    }
-
-    .contact {
       text-align: center;
     }
 
-    .contact h2 {
-      font-size: clamp(2.4rem, 7vw, 6rem);
-      line-height: 0.95;
+    .contact-panel h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
       letter-spacing: -0.08em;
+      line-height: 0.95;
+      margin-bottom: 1rem;
     }
 
-    .contact p {
-      max-width: 560px;
-      margin: 1rem auto 1.8rem;
-      color: var(--muted);
+    .contact-panel p {
+      max-width: 600px;
+      margin: auto;
+      color: var(--text-secondary);
+      line-height: 1.8;
     }
 
     footer {
-      padding: 2.5rem 0;
-      color: var(--muted);
+      padding: 3rem 0;
       text-align: center;
-      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
     }
 
-    .reveal {
+    .reveal-item {
       opacity: 0;
-      transform: translateY(26px);
-      filter: blur(8px);
-      transition: opacity 0.85s ease, transform 0.85s ease, filter 0.85s ease;
+      transform: translateY(40px);
+      filter: blur(10px);
+      transition: 0.9s cubic-bezier(0.22,1,0.36,1);
     }
 
-    .reveal.visible {
+    .reveal-item.visible {
       opacity: 1;
       transform: translateY(0);
       filter: blur(0);
     }
 
     @keyframes reveal {
-      from {
+      0% {
         opacity: 0;
-        transform: translateY(26px);
-        filter: blur(10px);
+        transform: translateY(90px) rotate(8deg) scale(0.9);
+        filter: blur(18px);
       }
-      to {
+
+      60% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-12px) rotate(-2deg) scale(1.03);
+        filter: blur(2px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1);
         filter: blur(0);
       }
     }
 
-    @media (max-width: 880px) {
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
       .nav-links {
         display: none;
       }
 
-      .section-head {
-        display: block;
-      }
-
-      .section-head p {
-        margin-top: 0.75rem;
-      }
-
-      .grid-3,
-      .grid-2,
-      .goal-grid {
+      .info-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero {
-        min-height: 92vh;
+      .project-card {
+        grid-template-columns: 1fr;
       }
 
-      .card {
-        min-height: 210px;
+      .contact-panel {
+        padding: 2rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
 </head>
-
 <body>
-  <div class="page-glow" id="pageGlow"></div>
-  <div class="noise"></div>
+
+  <div class="cursor-glow" id="glow"></div>
 
   <header>
-    <nav class="nav">
-      <a class="brand" href="#inicio">Obed</a>
+    <nav class="navbar">
+      <div class="logo">Obed</div>
+
       <div class="nav-links">
-        <a href="#proyectos">Proyectos</a>
-        <a href="#aprendizaje">Aprendizaje</a>
-        <a href="#metas">Metas</a>
-        <a href="#contacto">Contacto</a>
+        <a href="#home">Home</a>
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+        <a class="github-btn" href="https://github.com/obedabad" target="_blank">GitHub</a>
       </div>
-      <a class="nav-button" href="https://github.com/obedabad" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" id="inicio">
-      <div class="container">
-        <div class="eyebrow">
-          <span class="dot"></span>
-          Portafolio personal
+
+    <section class="hero" id="home">
+      <div class="container hero-content">
+
+        <div class="hero-title">
+          <div class="hero-name">
+            <span class="ag-word" style="animation-delay:0.1s">O</span>
+            <span class="ag-word" style="animation-delay:0.18s">b</span>
+            <span class="ag-word" style="animation-delay:0.26s">e</span>
+            <span class="ag-word" style="animation-delay:0.34s">d</span>
+          </div>
+
+          <div class="hero-line">
+            <span class="ag-word" style="animation-delay:0.55s">Welcome</span>
+            <span class="ag-word" style="animation-delay:0.65s">to</span>
+            <span class="ag-word" style="animation-delay:0.75s">my</span>
+            <span class="ag-word" style="animation-delay:0.85s">portfolio.</span>
+          </div>
+
+          <div class="hero-line">
+            <span class="ag-word" style="animation-delay:1s">Where</span>
+            <span class="ag-word" style="animation-delay:1.1s">ideas</span>
+            <span class="ag-word" style="animation-delay:1.2s">become</span>
+            <span class="ag-word" style="animation-delay:1.3s">reality.</span>
+          </div>
         </div>
 
-        <h1>
-          Obed
-          <span class="hero-title-small">creando paso a paso.</span>
-        </h1>
-
-        <p class="hero-text">
-          Estoy aprendiendo desarrollo web, tecnología e inteligencia artificial. Este espacio será mi portafolio para mostrar proyectos, avances e ideas.
+        <p class="hero-description">
+          Creating modern web experiences, interactive interfaces and technology-driven projects with a clean and professional approach.
         </p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
-          <a class="btn btn-secondary" href="#aprendizaje">Ver aprendizaje</a>
+          <a href="#work" class="btn btn-primary">View Work</a>
+          <a href="#contact" class="btn btn-secondary">Contact</a>
         </div>
+
       </div>
     </section>
 
-    <section id="proyectos">
+    <section id="experience">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>Proyectos seleccionados</h2>
-          <p>Pocos proyectos, pero bien presentados. Aquí iré agregando lo que construya y mejore.</p>
+
+        <div class="section-header reveal-item">
+          <h2>Experience</h2>
+          <p>
+            This section is intentionally minimal for now. Future projects, experience and technologies will be added progressively.
+          </p>
         </div>
 
-        <div class="grid grid-3">
-          <article class="card reveal interactive-card">
-            <div class="card-content">
-              <div>
-                <div class="card-label">Web</div>
-                <h3>Mi portafolio</h3>
-                <p>Mi primera página web personal creada con HTML, CSS, JavaScript y GitHub Pages.</p>
-              </div>
-              <div class="tags">
-                <span class="tag">HTML</span>
-                <span class="tag">CSS</span>
-                <span class="tag">JavaScript</span>
-              </div>
-            </div>
-          </article>
+        <div class="info-grid">
 
-          <article class="card reveal interactive-card">
-            <div class="card-content">
-              <div>
-                <div class="card-label">AI</div>
-                <h3>Experimentos con IA</h3>
-                <p>Pruebas usando inteligencia artificial para crear ideas, textos, imágenes y herramientas simples.</p>
-              </div>
-              <div class="tags">
-                <span class="tag">AI</span>
-                <span class="tag">Creatividad</span>
-                <span class="tag">Ideas</span>
-              </div>
-            </div>
-          </article>
+          <div class="info-item reveal-item">
+            <div class="info-label">Skills</div>
+            <div class="info-value">Coming soon</div>
+          </div>
 
-          <article class="card reveal interactive-card">
-            <div class="card-content">
-              <div>
-                <div class="card-label">Learning</div>
-                <h3>Ruta de aprendizaje</h3>
-                <p>Un registro de lo que voy aprendiendo mientras construyo proyectos reales.</p>
-              </div>
-              <div class="tags">
-                <span class="tag">GitHub</span>
-                <span class="tag">Diseño</span>
-                <span class="tag">Progreso</span>
-              </div>
-            </div>
-          </article>
+          <div class="info-item reveal-item">
+            <div class="info-label">Projects</div>
+            <div class="info-value">In progress</div>
+          </div>
+
+          <div class="info-item reveal-item">
+            <div class="info-label">Technologies</div>
+            <div class="info-value">Coming soon</div>
+          </div>
+
+          <div class="info-item reveal-item">
+            <div class="info-label">Experience</div>
+            <div class="info-value">Building portfolio</div>
+          </div>
+
         </div>
+
       </div>
     </section>
 
-    <section id="aprendizaje">
+    <section id="work">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>Actualmente aprendiendo</h2>
-          <p>La idea es que esta sección vaya cambiando cada vez que aprenda algo nuevo.</p>
+
+        <div class="section-header reveal-item">
+          <h2>Selected Work</h2>
+          <p>
+            A collection of projects, concepts and modern digital experiences designed with clarity, interaction and presentation in mind.
+          </p>
         </div>
 
-        <div class="grid grid-2">
-          <div class="card reveal">
-            <div class="card-content">
-              <div>
-                <div class="card-label">Skills</div>
-                <h3>Base técnica</h3>
-                <p>Estoy construyendo una base sólida para crear páginas, proyectos y herramientas digitales.</p>
+        <div class="projects">
+
+          <div class="project-card reveal-item interactive-card">
+            <div class="project-left">
+              <div class="project-type">Featured Project</div>
+              <div class="project-title">Future Project</div>
+              <div class="project-description">
+                A placeholder area for future professional projects, modern interfaces and interactive web experiences.
               </div>
+
+              <div class="project-tags">
+                <div class="tag">Coming Soon</div>
+                <div class="tag">Web</div>
+                <div class="tag">UI</div>
+              </div>
+            </div>
+
+            <div class="project-right">
+              <div class="placeholder">Project Placeholder</div>
             </div>
           </div>
 
-          <div class="learning-list reveal">
-            <div class="learning-item">
-              <span>HTML & estructura web</span>
-              <span>En progreso</span>
+          <div class="project-card reveal-item interactive-card">
+            <div class="project-left">
+              <div class="project-type">Featured Project</div>
+              <div class="project-title">Future Experience</div>
+              <div class="project-description">
+                Reserved space for upcoming portfolio work, creative development and modern digital experiences.
+              </div>
+
+              <div class="project-tags">
+                <div class="tag">Placeholder</div>
+                <div class="tag">Interactive</div>
+                <div class="tag">Modern</div>
+              </div>
             </div>
-            <div class="learning-item">
-              <span>CSS & diseño moderno</span>
-              <span>En progreso</span>
-            </div>
-            <div class="learning-item">
-              <span>JavaScript & animaciones</span>
-              <span>Practicando</span>
-            </div>
-            <div class="learning-item">
-              <span>GitHub Pages</span>
-              <span>Publicado</span>
+
+            <div class="project-right">
+              <div class="placeholder">Coming Soon</div>
             </div>
           </div>
+
         </div>
+
       </div>
     </section>
 
-    <section id="metas">
+    <section id="contact">
       <div class="container">
-        <div class="goals reveal">
-          <div class="goals-content">
-            <h2>Mi meta es aprender creando.</h2>
-            <p>
-              Este portafolio no tiene que estar perfecto desde el primer día. La idea es mejorarlo por versiones, agregando proyectos reales y aprendiendo en el proceso.
-            </p>
 
-            <div class="goal-grid">
-              <div class="goal-pill">Crear proyectos</div>
-              <div class="goal-pill">Aprender JavaScript</div>
-              <div class="goal-pill">Mejorar diseño</div>
-              <div class="goal-pill">Subir avances</div>
-            </div>
+        <div class="contact-panel reveal-item">
+          <h2>Let’s build something modern.</h2>
+
+          <p>
+            Available for web projects, modern interfaces and interactive experiences.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://github.com/obedabad" target="_blank">GitHub</a>
+            <a class="btn btn-secondary" href="mailto:your@email.com">Email</a>
           </div>
         </div>
+
       </div>
     </section>
 
-    <section class="contact" id="contacto">
-      <div class="container reveal">
-        <h2>Sigamos construyendo.</h2>
-        <p>
-          Puedes ver mis proyectos en GitHub. Más adelante agregaré más enlaces, demos y formas de contacto.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://github.com/obedabad" target="_blank" rel="noreferrer">Abrir GitHub</a>
-          <a class="btn btn-secondary" href="mailto:tu-correo@ejemplo.com">Contactar</a>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer>
-    <div class="container">
-      <p>© 2026 Obed. Portafolio en construcción.</p>
-    </div>
+    © 2026 Obed. Portfolio in progress.
   </footer>
 
   <script>
-    const glow = document.getElementById("pageGlow");
+    const glow = document.getElementById('glow');
 
-    window.addEventListener("pointermove", (event) => {
-      const x = event.clientX;
-      const y = event.clientY;
-      glow.animate(
-        { left: `${x}px`, top: `${y}px` },
-        { duration: 700, fill: "forwards", easing: "ease-out" }
-      );
+    window.addEventListener('mousemove', (e) => {
+      glow.animate({
+        left: `${e.clientX}px`,
+        top: `${e.clientY}px`
+      }, {
+        duration: 600,
+        fill: 'forwards'
+      });
     });
 
-    const revealElements = document.querySelectorAll(".reveal");
+    const words = document.querySelectorAll('.ag-word');
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.16 }
-    );
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX - window.innerWidth / 2) / 40;
+      const y = (e.clientY - window.innerHeight / 2) / 40;
 
-    revealElements.forEach((element, index) => {
-      element.style.transitionDelay = `${Math.min(index * 70, 280)}ms`;
-      observer.observe(element);
+      words.forEach((word, index) => {
+        const depth = (index % 5) * 0.25;
+        word.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
+      });
     });
 
-    const cards = document.querySelectorAll(".interactive-card");
+    const revealItems = document.querySelectorAll('.reveal-item');
 
-    cards.forEach((card) => {
-      card.addEventListener("pointermove", (event) => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealItems.forEach(item => observer.observe(item));
+
+    const cards = document.querySelectorAll('.interactive-card');
+
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = ((event.clientX - rect.left) / rect.width) * 100;
-        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-        card.style.setProperty("--x", `${x}%`);
-        card.style.setProperty("--y", `${y}%`);
+        card.style.setProperty('--x', `${x}%`);
+        card.style.setProperty('--y', `${y}%`);
       });
     });
   </script>
+
 </body>
 </html>
