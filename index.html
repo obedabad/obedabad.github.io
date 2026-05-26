@@ -1,700 +1,1128 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Obed — Portfolio</title>
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { Play, Pause, RotateCcw, Zap, Shield, Star, Trophy, ShoppingBag, Palette, Bot, Crown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
-  <style>
-    :root {
-      --bg: #0B0F14;
-      --bg-secondary: #111827;
-      --green: #22C55E;
-      --green-bright: #4ADE80;
-      --text: #F3F4F6;
-      --text-secondary: #9CA3AF;
-      --border: rgba(255,255,255,0.06);
-      --surface: rgba(17, 24, 39, 0.72);
-      --shadow: 0 20px 80px rgba(0,0,0,0.45);
+const COLORS = [
+  { id: "emerald", name: "Emerald", price: 0, body: "#4df4a4", dark: "#123a40" },
+  { id: "sky", name: "Sky Blue", price: 40, body: "#38bdf8", dark: "#0c4a6e" },
+  { id: "violet", name: "Violet", price: 65, body: "#a78bfa", dark: "#4c1d95" },
+  { id: "rose", name: "Rose", price: 80, body: "#fb7185", dark: "#881337" },
+  { id: "gold", name: "Gold", price: 120, body: "#facc15", dark: "#713f12" },
+  { id: "lava", name: "Lava", price: 160, body: "#f97316", dark: "#7c2d12" },
+  { id: "ice", name: "Ice", price: 180, body: "#cffafe", dark: "#155e75" },
+  { id: "shadow", name: "Shadow", price: 230, body: "#94a3b8", dark: "#0f172a" },
+];
+
+const ACCESSORIES = [
+  { id: "none", name: "None", price: 0, desc: "Clean look" },
+  { id: "cap", name: "Cap", price: 35, desc: "Classic runner cap" },
+  { id: "crown", name: "Crown", price: 90, desc: "For winners" },
+  { id: "headphones", name: "Headphones", price: 110, desc: "Music mode" },
+  { id: "visor", name: "Cyber Visor", price: 135, desc: "Futuristic style" },
+  { id: "wings", name: "Mini Wings", price: 170, desc: "Looks faster" },
+  { id: "scarf", name: "Red Scarf", price: 190, desc: "Wind effect" },
+  { id: "jetpack", name: "Jetpack", price: 260, desc: "Premium accessory" },
+  { id: "sunglasses", name: "Sunglasses", price: 310, desc: "Cool mode" },
+  { id: "halo", name: "Neon Halo", price: 420, desc: "Legendary glow" },
+];
+
+function loadNumber(key, fallback) {
+  try {
+    return Number(localStorage.getItem(key) || fallback);
+  } catch {
+    return fallback;
+  }
+}
+
+function loadJson(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+  } catch {
+    return fallback;
+  }
+}
+
+export default function RoboRexRunner() {
+  const canvasRef = useRef(null);
+  const rafRef = useRef(null);
+  const keysRef = useRef({});
+  const touchJumpRef = useRef(false);
+  const gameRef = useRef(null);
+  const runningRef = useRef(false);
+  const pausedRef = useRef(false);
+  const gameOverRef = useRef(false);
+
+  const [running, setRunning] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [botScore, setBotScore] = useState(0);
+  const [coins, setCoins] = useState(0);
+  const [totalCoins, setTotalCoins] = useState(() => loadNumber("roboRexWallet", 0));
+  const [level, setLevel] = useState(1);
+  const [power, setPower] = useState("None");
+  const [best, setBest] = useState(() => loadNumber("roboRexBest", 0));
+  const [result, setResult] = useState("Ready");
+  const [shopOpen, setShopOpen] = useState(true);
+  const [ownedColors, setOwnedColors] = useState(() => loadJson("roboRexOwnedColors", ["emerald"]));
+  const [ownedAccessories, setOwnedAccessories] = useState(() => loadJson("roboRexOwnedAccessories", ["none"]));
+  const [equippedColor, setEquippedColor] = useState(() => localStorage.getItem("roboRexColor") || "emerald");
+  const [equippedAccessory, setEquippedAccessory] = useState(() => localStorage.getItem("roboRexAccessory") || "none");
+
+  const W = 960;
+  const H = 430;
+  const groundY = 335;
+
+  const colorData = COLORS.find((c) => c.id === equippedColor) || COLORS[0];
+
+  useEffect(() => {
+    runningRef.current = running;
+    pausedRef.current = paused;
+    gameOverRef.current = gameOver;
+  }, [running, paused, gameOver]);
+
+  function saveWallet(value) {
+    setTotalCoins(value);
+    localStorage.setItem("roboRexWallet", String(value));
+  }
+
+  function saveOwnedColors(list) {
+    setOwnedColors(list);
+    localStorage.setItem("roboRexOwnedColors", JSON.stringify(list));
+  }
+
+  function saveOwnedAccessories(list) {
+    setOwnedAccessories(list);
+    localStorage.setItem("roboRexOwnedAccessories", JSON.stringify(list));
+  }
+
+  function buyColor(item) {
+    if (ownedColors.includes(item.id)) {
+      setEquippedColor(item.id);
+      localStorage.setItem("roboRexColor", item.id);
+      return;
     }
+    if (totalCoins < item.price) return;
+    const nextWallet = totalCoins - item.price;
+    const nextOwned = [...ownedColors, item.id];
+    saveWallet(nextWallet);
+    saveOwnedColors(nextOwned);
+    setEquippedColor(item.id);
+    localStorage.setItem("roboRexColor", item.id);
+  }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  function buyAccessory(item) {
+    if (ownedAccessories.includes(item.id)) {
+      setEquippedAccessory(item.id);
+      localStorage.setItem("roboRexAccessory", item.id);
+      return;
     }
+    if (totalCoins < item.price) return;
+    const nextWallet = totalCoins - item.price;
+    const nextOwned = [...ownedAccessories, item.id];
+    saveWallet(nextWallet);
+    saveOwnedAccessories(nextOwned);
+    setEquippedAccessory(item.id);
+    localStorage.setItem("roboRexAccessory", item.id);
+  }
 
-    html {
-      scroll-behavior: smooth;
-    }
+  function initGame() {
+    gameRef.current = {
+      t: 0,
+      score: 0,
+      botScore: 0,
+      coins: 0,
+      level: 1,
+      speed: 6,
+      gravity: 0.72,
+      spawnTimer: 0,
+      coinTimer: 0,
+      powerTimer: 0,
+      botMistakeTimer: 180 + Math.random() * 160,
+      botBoostTimer: 260 + Math.random() * 180,
+      botStumble: 0,
+      botMood: "steady",
+      shake: 0,
+      flash: 0,
+      dayPhase: 0,
+      player: {
+        x: 105,
+        y: groundY - 58,
+        w: 54,
+        h: 58,
+        vy: 0,
+        grounded: true,
+        jumps: 0,
+        maxJumps: 2,
+        ducking: false,
+        shield: 0,
+        magnet: 0,
+        boost: 0,
+        invincible: 0,
+      },
+      obstacles: [],
+      coinsArr: [],
+      powers: [],
+      particles: [],
+      clouds: Array.from({ length: 8 }, (_, i) => ({
+        x: i * 150 + Math.random() * 80,
+        y: 35 + Math.random() * 120,
+        s: 0.55 + Math.random() * 0.8,
+      })),
+      stars: Array.from({ length: 80 }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * 210,
+        r: Math.random() * 1.4 + 0.3,
+      })),
+    };
+    setScore(0);
+    setBotScore(0);
+    setCoins(0);
+    setLevel(1);
+    setPower("None");
+    setResult("Racing");
+    setGameOver(false);
+    setPaused(false);
+  }
 
-    body {
-      font-family: Inter, system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+  function startGame() {
+    initGame();
+    setRunning(true);
+  }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at top left, rgba(34,197,94,0.12), transparent 28rem),
-        radial-gradient(circle at bottom right, rgba(74,222,128,0.08), transparent 24rem);
-      pointer-events: none;
-      z-index: -2;
-    }
+  function restartGame() {
+    initGame();
+    setRunning(true);
+  }
 
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 42px 42px;
-      opacity: 0.18;
-      pointer-events: none;
-      z-index: -3;
-    }
+  function togglePause() {
+    if (!runningRef.current || gameOverRef.current) return;
+    setPaused((p) => !p);
+  }
 
-    .cursor-glow {
-      position: fixed;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,197,94,0.14), transparent 70%);
-      pointer-events: none;
-      filter: blur(10px);
-      transform: translate(-50%, -50%);
-      z-index: -1;
-    }
+  useEffect(() => {
+    initGame();
+    const down = (e) => {
+      keysRef.current[e.code] = true;
+      if (["Space", "ArrowUp", "ArrowDown"].includes(e.code)) e.preventDefault();
+      if (e.code === "KeyP") togglePause();
+      if (e.code === "Space" && !runningRef.current && !gameOverRef.current) startGame();
+      if (e.code === "Space" && gameOverRef.current) restartGame();
+    };
+    const up = (e) => {
+      keysRef.current[e.code] = false;
+    };
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
-    .container {
-      width: min(1180px, 90%);
-      margin: 0 auto;
-    }
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let last = performance.now();
 
-    header {
-      position: fixed;
-      top: 20px;
-      left: 0;
-      right: 0;
-      z-index: 100;
-    }
+    const loop = (now) => {
+      const dt = Math.min((now - last) / 16.67, 2);
+      last = now;
 
-    .navbar {
-      width: min(950px, 92%);
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.85rem 1rem;
-      border: 1px solid var(--border);
-      background: rgba(11,15,20,0.7);
-      backdrop-filter: blur(18px);
-      border-radius: 999px;
-      box-shadow: var(--shadow);
-    }
+      if (running && !paused && !gameOver) update(dt);
+      draw(ctx);
+      rafRef.current = requestAnimationFrame(loop);
+    };
 
-    .logo {
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-    }
+    rafRef.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [running, paused, gameOver, equippedColor, equippedAccessory]);
 
-    .nav-links {
-      display: flex;
-      gap: 0.3rem;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 0.65rem 0.85rem;
-      border-radius: 999px;
-      transition: 0.25s ease;
-      font-size: 0.95rem;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .github-btn {
-      background: var(--green);
-      color: #04130a !important;
-      font-weight: 700;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero-content {
-      max-width: 1100px;
-    }
-
-    .hero-title {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .hero-name {
-      font-size: clamp(5rem, 16vw, 12rem);
-      font-weight: 900;
-      letter-spacing: -0.09em;
-      line-height: 0.85;
-    }
-
-    .hero-line {
-      font-size: clamp(1.5rem, 3vw, 2.6rem);
-      color: var(--text-secondary);
-      letter-spacing: -0.05em;
-      font-weight: 600;
-    }
-
-    .ag-word {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(90px) rotate(8deg) scale(0.9);
-      filter: blur(18px);
-      animation: reveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
-      will-change: transform;
-      transition: transform 0.15s linear;
-    }
-
-    .hero-description {
-      max-width: 700px;
-      margin: auto;
-      color: var(--text-secondary);
-      font-size: 1.08rem;
-      line-height: 1.8;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s 1s forwards;
-    }
-
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2.5rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s 1.2s forwards;
-    }
-
-    .btn {
-      padding: 0.95rem 1.2rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      transition: 0.25s ease;
-      font-weight: 700;
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: #04130a;
-    }
-
-    .btn-secondary {
-      color: var(--text);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-    }
-
-    section {
-      padding: 8rem 0;
-    }
-
-    .section-header {
-      margin-bottom: 3rem;
-    }
-
-    .section-header h2 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      letter-spacing: -0.08em;
-      line-height: 0.95;
-      margin-bottom: 1rem;
-    }
-
-    .section-header p {
-      max-width: 620px;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-    }
-
-    .info-item {
-      padding: 1.2rem;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      background: rgba(255,255,255,0.02);
-      backdrop-filter: blur(16px);
-      transition: 0.25s ease;
-    }
-
-    .info-item:hover {
-      transform: translateY(-6px);
-      border-color: rgba(34,197,94,0.2);
-    }
-
-    .info-label {
-      color: var(--green-bright);
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.8rem;
-      font-weight: 700;
-    }
-
-    .info-value {
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    .projects {
-      display: flex;
-      flex-direction: column;
-      gap: 1.4rem;
-    }
-
-    .project-card {
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 2rem;
-      padding: 2rem;
-      border-radius: 36px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      backdrop-filter: blur(20px);
-      transition: 0.3s ease;
-    }
-
-    .project-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(34,197,94,0.12), transparent 35%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    .project-card:hover::before {
-      opacity: 1;
-    }
-
-    .project-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(34,197,94,0.18);
-    }
-
-    .project-left,
-    .project-right {
-      position: relative;
-      z-index: 2;
-    }
-
-    .project-type {
-      color: var(--green-bright);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-
-    .project-title {
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      letter-spacing: -0.07em;
-      line-height: 0.95;
-      margin-bottom: 1rem;
-    }
-
-    .project-description {
-      color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 520px;
-    }
-
-    .project-tags {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-    }
-
-    .tag {
-      padding: 0.5rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: var(--text-secondary);
-      font-size: 0.84rem;
-    }
-
-    .placeholder {
-      width: 100%;
-      height: 100%;
-      min-height: 260px;
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,0.05);
-      background:
-        linear-gradient(135deg, rgba(34,197,94,0.12), transparent),
-        rgba(255,255,255,0.02);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.25);
-      font-size: 1rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .contact-panel {
-      border-radius: 40px;
-      padding: 4rem;
-      background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(17,24,39,0.9));
-      border: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .contact-panel h2 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      letter-spacing: -0.08em;
-      line-height: 0.95;
-      margin-bottom: 1rem;
-    }
-
-    .contact-panel p {
-      max-width: 600px;
-      margin: auto;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    footer {
-      padding: 3rem 0;
-      text-align: center;
-      color: var(--text-secondary);
-    }
-
-    .reveal-item {
-      opacity: 0;
-      transform: translateY(40px);
-      filter: blur(10px);
-      transition: 0.9s cubic-bezier(0.22,1,0.36,1);
-    }
-
-    .reveal-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
-    @keyframes reveal {
-      0% {
-        opacity: 0;
-        transform: translateY(90px) rotate(8deg) scale(0.9);
-        filter: blur(18px);
-      }
-
-      60% {
-        opacity: 1;
-        transform: translateY(-12px) rotate(-2deg) scale(1.03);
-        filter: blur(2px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0) rotate(0deg) scale(1);
-        filter: blur(0);
+  function jump(g) {
+    const p = g.player;
+    if (p.grounded || p.jumps < p.maxJumps) {
+      p.vy = p.grounded ? -14.2 : -12.2;
+      p.grounded = false;
+      p.jumps += 1;
+      for (let i = 0; i < 10; i++) {
+        g.particles.push({
+          x: p.x + 15,
+          y: p.y + p.h,
+          vx: -Math.random() * 3,
+          vy: -Math.random() * 2,
+          life: 25,
+          size: 2 + Math.random() * 3,
+        });
       }
     }
+  }
 
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+  function updateBot(g, dt) {
+    const playerLead = g.score - g.botScore;
+    let botRate = 1.03 + g.level * 0.008;
+
+    if (playerLead > 260) botRate += 0.18;
+    if (playerLead < -220) botRate -= 0.08;
+    if (g.botStumble > 0) {
+      botRate *= 0.35;
+      g.botStumble -= dt;
+      g.botMood = "stumble";
+    } else {
+      g.botMood = playerLead >= 0 ? "chasing" : "leading";
     }
 
-    @media (max-width: 900px) {
-      .nav-links {
-        display: none;
+    g.botMistakeTimer -= dt;
+    if (g.botMistakeTimer <= 0) {
+      if (Math.random() < 0.42) {
+        g.botStumble = 55 + Math.random() * 45;
+        g.particles.push({ x: 710, y: 88, vx: -1, vy: -1, life: 50, size: 4 });
       }
-
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .project-card {
-        grid-template-columns: 1fr;
-      }
-
-      .contact-panel {
-        padding: 2rem;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: center;
-      }
+      g.botMistakeTimer = Math.max(130, 280 - g.level * 8) + Math.random() * 180;
     }
-  </style>
-</head>
-<body>
 
-  <div class="cursor-glow" id="glow"></div>
+    g.botBoostTimer -= dt;
+    if (g.botBoostTimer <= 0) {
+      botRate += 0.65;
+      g.botMood = "boost";
+      g.botBoostTimer = 360 + Math.random() * 240;
+    }
 
-  <header>
-    <nav class="navbar">
-      <div class="logo">Obed</div>
+    g.botScore += dt * botRate;
+  }
 
-      <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#work">Work</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
-        <a class="github-btn" href="https://github.com/obedabad" target="_blank">GitHub</a>
-      </div>
-    </nav>
-  </header>
+  function update(dt) {
+    const g = gameRef.current;
+    const p = g.player;
+    g.t += dt;
+    g.dayPhase = (g.dayPhase + 0.0014 * dt) % 1;
 
-  <main>
+    const scoreRate = p.boost > 0 ? 1.9 : 1;
+    g.score += dt * scoreRate;
+    updateBot(g, dt);
+    g.level = Math.max(1, Math.floor(g.score / 550) + 1);
+    g.speed = 6 + g.level * 0.58 + (p.boost > 0 ? 2.3 : 0);
 
-    <section class="hero" id="home">
-      <div class="container hero-content">
+    setScore(Math.floor(g.score));
+    setBotScore(Math.floor(g.botScore));
+    setCoins(g.coins);
+    setLevel(g.level);
 
-        <div class="hero-title">
-          <div class="hero-name">
-            <span class="ag-word" style="animation-delay:0.1s">O</span>
-            <span class="ag-word" style="animation-delay:0.18s">b</span>
-            <span class="ag-word" style="animation-delay:0.26s">e</span>
-            <span class="ag-word" style="animation-delay:0.34s">d</span>
-          </div>
+    const activePower = p.shield > 0 ? "Shield" : p.magnet > 0 ? "Magnet" : p.boost > 0 ? "Boost" : "None";
+    setPower(activePower);
 
-          <div class="hero-line">
-            <span class="ag-word" style="animation-delay:0.55s">Welcome</span>
-            <span class="ag-word" style="animation-delay:0.65s">to</span>
-            <span class="ag-word" style="animation-delay:0.75s">my</span>
-            <span class="ag-word" style="animation-delay:0.85s">portfolio.</span>
-          </div>
+    const wantsJump = keysRef.current.Space || keysRef.current.ArrowUp || keysRef.current.KeyW || touchJumpRef.current;
+    if (wantsJump && !p.jumpLock) {
+      jump(g);
+      p.jumpLock = true;
+    }
+    if (!wantsJump) p.jumpLock = false;
+    touchJumpRef.current = false;
 
-          <div class="hero-line">
-            <span class="ag-word" style="animation-delay:1s">Where</span>
-            <span class="ag-word" style="animation-delay:1.1s">ideas</span>
-            <span class="ag-word" style="animation-delay:1.2s">become</span>
-            <span class="ag-word" style="animation-delay:1.3s">reality.</span>
-          </div>
-        </div>
+    p.ducking = (keysRef.current.ArrowDown || keysRef.current.KeyS) && p.grounded;
+    p.h = p.ducking ? 38 : 58;
+    p.w = p.ducking ? 68 : 54;
 
-        <p class="hero-description">
-          Creating modern web experiences, interactive interfaces and technology-driven projects with a clean and professional approach.
-        </p>
+    p.vy += g.gravity * dt;
+    p.y += p.vy * dt;
+    if (p.y + p.h >= groundY) {
+      p.y = groundY - p.h;
+      p.vy = 0;
+      p.grounded = true;
+      p.jumps = 0;
+    }
 
-        <div class="hero-actions">
-          <a href="#work" class="btn btn-primary">View Work</a>
-          <a href="#contact" class="btn btn-secondary">Contact</a>
-        </div>
+    for (const key of ["shield", "magnet", "boost", "invincible"]) {
+      if (p[key] > 0) p[key] -= dt;
+    }
 
-      </div>
-    </section>
+    g.spawnTimer -= dt;
+    if (g.spawnTimer <= 0) {
+      const typeRoll = Math.random();
+      let ob;
+      if (typeRoll < 0.45) {
+        ob = { type: "crystal", x: W + 40, y: groundY - 52, w: 38, h: 52 };
+      } else if (typeRoll < 0.75) {
+        ob = { type: "bot", x: W + 40, y: groundY - 42, w: 48, h: 42 };
+      } else {
+        ob = { type: "drone", x: W + 40, y: groundY - 120 - Math.random() * 50, w: 58, h: 34 };
+      }
+      g.obstacles.push(ob);
+      g.spawnTimer = Math.max(38, 92 - g.level * 4 - Math.random() * 18);
+    }
 
-    <section id="experience">
-      <div class="container">
+    g.coinTimer -= dt;
+    if (g.coinTimer <= 0) {
+      const arcY = groundY - 90 - Math.random() * 90;
+      const count = 4 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < count; i++) {
+        g.coinsArr.push({ x: W + 50 + i * 34, y: arcY + Math.sin(i) * 18, r: 10, taken: false });
+      }
+      g.coinTimer = 105 + Math.random() * 70;
+    }
 
-        <div class="section-header reveal-item">
-          <h2>Experience</h2>
-          <p>
-            This section is intentionally minimal for now. Future projects, experience and technologies will be added progressively.
-          </p>
-        </div>
-
-        <div class="info-grid">
-
-          <div class="info-item reveal-item">
-            <div class="info-label">Skills</div>
-            <div class="info-value">Coming soon</div>
-          </div>
-
-          <div class="info-item reveal-item">
-            <div class="info-label">Projects</div>
-            <div class="info-value">In progress</div>
-          </div>
-
-          <div class="info-item reveal-item">
-            <div class="info-label">Technologies</div>
-            <div class="info-value">Coming soon</div>
-          </div>
-
-          <div class="info-item reveal-item">
-            <div class="info-label">Experience</div>
-            <div class="info-value">Building portfolio</div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <section id="work">
-      <div class="container">
-
-        <div class="section-header reveal-item">
-          <h2>Selected Work</h2>
-          <p>
-            A collection of projects, concepts and modern digital experiences designed with clarity, interaction and presentation in mind.
-          </p>
-        </div>
-
-        <div class="projects">
-
-          <div class="project-card reveal-item interactive-card">
-            <div class="project-left">
-              <div class="project-type">Featured Project</div>
-              <div class="project-title">Future Project</div>
-              <div class="project-description">
-                A placeholder area for future professional projects, modern interfaces and interactive web experiences.
-              </div>
-
-              <div class="project-tags">
-                <div class="tag">Coming Soon</div>
-                <div class="tag">Web</div>
-                <div class="tag">UI</div>
-              </div>
-            </div>
-
-            <div class="project-right">
-              <div class="placeholder">Project Placeholder</div>
-            </div>
-          </div>
-
-          <div class="project-card reveal-item interactive-card">
-            <div class="project-left">
-              <div class="project-type">Featured Project</div>
-              <div class="project-title">Future Experience</div>
-              <div class="project-description">
-                Reserved space for upcoming portfolio work, creative development and modern digital experiences.
-              </div>
-
-              <div class="project-tags">
-                <div class="tag">Placeholder</div>
-                <div class="tag">Interactive</div>
-                <div class="tag">Modern</div>
-              </div>
-            </div>
-
-            <div class="project-right">
-              <div class="placeholder">Coming Soon</div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container">
-
-        <div class="contact-panel reveal-item">
-          <h2>Let’s build something modern.</h2>
-
-          <p>
-            Available for web projects, modern interfaces and interactive experiences.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="https://github.com/obedabad" target="_blank">GitHub</a>
-            <a class="btn btn-secondary" href="mailto:your@email.com">Email</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    © 2026 Obed. Portfolio in progress.
-  </footer>
-
-  <script>
-    const glow = document.getElementById('glow');
-
-    window.addEventListener('mousemove', (e) => {
-      glow.animate({
-        left: `${e.clientX}px`,
-        top: `${e.clientY}px`
-      }, {
-        duration: 600,
-        fill: 'forwards'
+    g.powerTimer -= dt;
+    if (g.powerTimer <= 0) {
+      const names = ["shield", "magnet", "boost"];
+      g.powers.push({
+        x: W + 60,
+        y: groundY - 135 - Math.random() * 70,
+        r: 16,
+        kind: names[Math.floor(Math.random() * names.length)],
       });
-    });
+      g.powerTimer = 460 + Math.random() * 260;
+    }
 
-    const words = document.querySelectorAll('.ag-word');
+    for (const c of g.clouds) {
+      c.x -= (0.35 + c.s * 0.25) * dt;
+      if (c.x < -100) {
+        c.x = W + 80;
+        c.y = 35 + Math.random() * 125;
+        c.s = 0.55 + Math.random() * 0.8;
+      }
+    }
 
-    window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX - window.innerWidth / 2) / 40;
-      const y = (e.clientY - window.innerHeight / 2) / 40;
+    for (const ob of g.obstacles) ob.x -= g.speed * dt;
+    g.obstacles = g.obstacles.filter((ob) => ob.x + ob.w > -30);
 
-      words.forEach((word, index) => {
-        const depth = (index % 5) * 0.25;
-        word.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
-      });
-    });
-
-    const revealItems = document.querySelectorAll('.reveal-item');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+    for (const c of g.coinsArr) {
+      c.x -= g.speed * dt;
+      if (p.magnet > 0) {
+        const dx = p.x + p.w / 2 - c.x;
+        const dy = p.y + p.h / 2 - c.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist < 155) {
+          c.x += (dx / dist) * 6.8 * dt;
+          c.y += (dy / dist) * 6.8 * dt;
         }
-      });
-    }, { threshold: 0.15 });
+      }
+    }
+    g.coinsArr = g.coinsArr.filter((c) => c.x > -40 && !c.taken);
 
-    revealItems.forEach(item => observer.observe(item));
+    for (const pow of g.powers) pow.x -= g.speed * dt;
+    g.powers = g.powers.filter((pow) => pow.x > -50);
 
-    const cards = document.querySelectorAll('.interactive-card');
+    for (const part of g.particles) {
+      part.x += part.vx * dt;
+      part.y += part.vy * dt;
+      part.vy += 0.12 * dt;
+      part.life -= dt;
+    }
+    g.particles = g.particles.filter((part) => part.life > 0);
 
-    cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
+    for (const c of g.coinsArr) {
+      if (circleRect(c.x, c.y, c.r, p.x, p.y, p.w, p.h)) {
+        c.taken = true;
+        g.coins += 1;
+        g.score += 18;
+        for (let i = 0; i < 6; i++) {
+          g.particles.push({ x: c.x, y: c.y, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 28, size: 2 });
+        }
+      }
+    }
 
-        card.style.setProperty('--x', `${x}%`);
-        card.style.setProperty('--y', `${y}%`);
-      });
-    });
-  </script>
+    for (const pow of g.powers) {
+      if (!pow.taken && circleRect(pow.x, pow.y, pow.r, p.x, p.y, p.w, p.h)) {
+        pow.taken = true;
+        if (pow.kind === "shield") p.shield = 520;
+        if (pow.kind === "magnet") p.magnet = 440;
+        if (pow.kind === "boost") p.boost = 330;
+        p.invincible = 40;
+        g.flash = 12;
+      }
+    }
+    g.powers = g.powers.filter((pow) => !pow.taken);
 
-</body>
-</html>
+    if (p.invincible > 0) return;
+    for (const ob of g.obstacles) {
+      const pad = ob.type === "drone" ? 8 : 6;
+      if (rectsHit(p.x + pad, p.y + pad, p.w - pad * 2, p.h - pad * 2, ob.x + pad, ob.y + pad, ob.w - pad * 2, ob.h - pad * 2)) {
+        if (p.shield > 0) {
+          p.shield = 0;
+          p.invincible = 70;
+          ob.x = -999;
+          g.shake = 15;
+          g.flash = 20;
+        } else {
+          endGame(g);
+        }
+      }
+    }
+  }
+
+  function endGame(g) {
+    setRunning(false);
+    setGameOver(true);
+    const finalScore = Math.floor(g.score);
+    const finalBot = Math.floor(g.botScore);
+    const won = finalScore >= finalBot;
+    const earned = g.coins + (won ? 15 : 3) + Math.floor(finalScore / 350);
+    const nextWallet = totalCoins + earned;
+
+    saveWallet(nextWallet);
+    setResult(won ? `You won! +${earned} coins` : `Bot won! +${earned} coins`);
+
+    if (finalScore > best) {
+      setBest(finalScore);
+      localStorage.setItem("roboRexBest", String(finalScore));
+    }
+  }
+
+  function rectsHit(ax, ay, aw, ah, bx, by, bw, bh) {
+    return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
+  }
+
+  function circleRect(cx, cy, r, rx, ry, rw, rh) {
+    const tx = Math.max(rx, Math.min(cx, rx + rw));
+    const ty = Math.max(ry, Math.min(cy, ry + rh));
+    return Math.hypot(cx - tx, cy - ty) <= r;
+  }
+
+  function draw(ctx) {
+    const g = gameRef.current;
+    if (!g) return;
+    const p = g.player;
+
+    ctx.save();
+    ctx.clearRect(0, 0, W, H);
+
+    if (g.shake > 0) {
+      ctx.translate((Math.random() - 0.5) * g.shake, (Math.random() - 0.5) * g.shake);
+      g.shake *= 0.85;
+    }
+
+    const night = Math.sin(g.dayPhase * Math.PI * 2) * 0.5 + 0.5;
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0, `rgb(${30 + night * 95}, ${45 + night * 115}, ${80 + night * 145})`);
+    sky.addColorStop(1, `rgb(${200 - night * 90}, ${230 - night * 105}, ${240 - night * 120})`);
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H);
+
+    if (night < 0.45) {
+      ctx.globalAlpha = 1 - night * 1.7;
+      ctx.fillStyle = "white";
+      for (const s of g.stars) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    drawSunMoon(ctx, night);
+    drawMountains(ctx, g);
+    drawClouds(ctx, g);
+    drawRaceHud(ctx, g);
+    drawGround(ctx, g);
+
+    for (const c of g.coinsArr) drawCoin(ctx, c, g.t);
+    for (const pow of g.powers) drawPower(ctx, pow, g.t);
+    for (const ob of g.obstacles) drawObstacle(ctx, ob, g.t);
+    drawBotRunner(ctx, g);
+    drawPlayer(ctx, p, g.t, colorData, equippedAccessory);
+    drawParticles(ctx, g);
+
+    if (g.flash > 0) {
+      ctx.globalAlpha = g.flash / 35;
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalAlpha = 1;
+      g.flash -= 1;
+    }
+
+    if (!running && !gameOver) drawStartOverlay(ctx);
+    if (paused) drawPauseOverlay(ctx);
+    if (gameOver) drawGameOverOverlay(ctx, g);
+
+    ctx.restore();
+  }
+
+  function roundedRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  function drawSunMoon(ctx, night) {
+    const x = 760;
+    const y = 72;
+    if (night > 0.5) {
+      ctx.fillStyle = "rgba(255, 232, 130, 0.92)";
+      ctx.beginPath();
+      ctx.arc(x, y, 34, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = "rgba(240, 245, 255, 0.95)";
+      ctx.beginPath();
+      ctx.arc(x, y, 30, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(35, 50, 88, 0.78)";
+      ctx.beginPath();
+      ctx.arc(x + 12, y - 6, 28, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function drawMountains(ctx, g) {
+    const offset = (g.t * g.speed * 0.16) % 480;
+    ctx.fillStyle = "rgba(48, 78, 111, 0.28)";
+    for (let base = -480; base < W + 480; base += 480) {
+      ctx.beginPath();
+      ctx.moveTo(base - offset, groundY);
+      ctx.lineTo(base + 120 - offset, 185);
+      ctx.lineTo(base + 250 - offset, groundY);
+      ctx.lineTo(base + 380 - offset, 220);
+      ctx.lineTo(base + 520 - offset, groundY);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  function drawClouds(ctx, g) {
+    ctx.fillStyle = "rgba(255,255,255,0.72)";
+    for (const c of g.clouds) {
+      ctx.save();
+      ctx.translate(c.x, c.y);
+      ctx.scale(c.s, c.s);
+      ctx.beginPath();
+      ctx.arc(0, 12, 18, 0, Math.PI * 2);
+      ctx.arc(22, 4, 24, 0, Math.PI * 2);
+      ctx.arc(50, 13, 18, 0, Math.PI * 2);
+      ctx.rect(-5, 12, 65, 22);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawRaceHud(ctx, g) {
+    const playerScore = Math.max(1, g.score);
+    const bot = Math.max(1, g.botScore);
+    const max = Math.max(playerScore, bot, 900);
+    const pWidth = Math.min(360, (playerScore / max) * 360);
+    const bWidth = Math.min(360, (bot / max) * 360);
+
+    ctx.fillStyle = "rgba(15, 23, 42, 0.5)";
+    roundedRect(ctx, 24, 22, 420, 72, 18);
+    ctx.fill();
+
+    ctx.fillStyle = "white";
+    ctx.font = "800 15px Inter, sans-serif";
+    ctx.fillText("YOU", 44, 48);
+    ctx.fillText("BOT", 44, 76);
+
+    ctx.fillStyle = "rgba(255,255,255,0.16)";
+    roundedRect(ctx, 92, 36, 360, 11, 6);
+    ctx.fill();
+    roundedRect(ctx, 92, 64, 360, 11, 6);
+    ctx.fill();
+
+    ctx.fillStyle = colorData.body;
+    roundedRect(ctx, 92, 36, pWidth, 11, 6);
+    ctx.fill();
+    ctx.fillStyle = "#f97316";
+    roundedRect(ctx, 92, 64, bWidth, 11, 6);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.font = "600 12px Inter, sans-serif";
+    ctx.fillText(g.score >= g.botScore ? "Leading" : "Chasing", 368, 52);
+    ctx.fillText(g.botMood === "stumble" ? "Stumbled" : g.botMood === "boost" ? "Boost" : "AI", 379, 80);
+  }
+
+  function drawGround(ctx, g) {
+    ctx.fillStyle = "rgba(20, 30, 45, 0.88)";
+    ctx.fillRect(0, groundY, W, H - groundY);
+    ctx.fillStyle = "rgba(130, 255, 190, 0.9)";
+    ctx.fillRect(0, groundY, W, 4);
+
+    const tile = 42;
+    const offset = (g.t * g.speed) % tile;
+    ctx.strokeStyle = "rgba(130, 255, 190, 0.22)";
+    ctx.lineWidth = 2;
+    for (let x = -tile; x < W + tile; x += tile) {
+      ctx.beginPath();
+      ctx.moveTo(x - offset, groundY + 18);
+      ctx.lineTo(x + 25 - offset, groundY + 18);
+      ctx.stroke();
+    }
+  }
+
+  function drawBotRunner(ctx, g) {
+    const lead = Math.max(-150, Math.min(150, (g.botScore - g.score) * 0.28));
+    const x = 740 + lead;
+    const y = groundY - 48 + Math.sin(g.t / 8) * 2;
+    ctx.save();
+    ctx.translate(x, y);
+    if (g.botMood === "stumble") ctx.rotate(Math.sin(g.t / 4) * 0.25);
+    ctx.fillStyle = "#7c2d12";
+    roundedRect(ctx, 0, 8, 48, 40, 10);
+    ctx.fill();
+    ctx.fillStyle = "#f97316";
+    roundedRect(ctx, 7, 14, 34, 24, 8);
+    ctx.fill();
+    ctx.fillStyle = "#111827";
+    ctx.beginPath();
+    ctx.arc(17, 24, 4, 0, Math.PI * 2);
+    ctx.arc(32, 24, 4, 0, Math.PI * 2);
+    ctx.fill();
+    if (g.botScore > g.score) {
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath();
+      ctx.moveTo(11, 5);
+      ctx.lineTo(16, -8);
+      ctx.lineTo(24, 5);
+      ctx.lineTo(32, -8);
+      ctx.lineTo(38, 5);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawPlayer(ctx, p, t, skin, accessory) {
+    const blink = p.invincible > 0 && Math.floor(t / 4) % 2 === 0;
+    if (blink) return;
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+
+    if (accessory === "halo") {
+      ctx.strokeStyle = "rgba(34, 211, 238, 0.95)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.ellipse(p.w / 2, -8, 26, 8, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    if (p.shield > 0) {
+      ctx.strokeStyle = "rgba(95, 215, 255, 0.95)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(p.w / 2, p.h / 2, Math.max(p.w, p.h) * 0.72, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    if (accessory === "wings") {
+      ctx.fillStyle = "rgba(186, 230, 253, 0.9)";
+      ctx.beginPath();
+      ctx.moveTo(6, 28);
+      ctx.lineTo(-25, 12);
+      ctx.lineTo(-13, 43);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    if (accessory === "jetpack") {
+      ctx.fillStyle = "#334155";
+      roundedRect(ctx, -10, 22, 14, 32, 5);
+      ctx.fill();
+      ctx.fillStyle = "#f97316";
+      ctx.beginPath();
+      ctx.moveTo(-7, 54);
+      ctx.lineTo(0, 72 + Math.sin(t / 3) * 6);
+      ctx.lineTo(5, 54);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    ctx.fillStyle = skin.dark;
+    roundedRect(ctx, 4, 12, p.w - 9, p.h - 13, 13);
+    ctx.fill();
+
+    ctx.fillStyle = skin.body;
+    roundedRect(ctx, 10, 18, p.w - 20, p.h - 25, 10);
+    ctx.fill();
+
+    ctx.fillStyle = "#0b1e25";
+    ctx.beginPath();
+    ctx.arc(p.w - 17, 31, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = skin.dark;
+    ctx.fillRect(15, p.h - 8, 12, 14);
+    ctx.fillRect(p.w - 25, p.h - 8, 12, 14);
+
+    ctx.fillStyle = "rgba(255,255,255,0.8)";
+    ctx.fillRect(16, 21, p.w - 36, 4);
+
+    if (!p.ducking) {
+      ctx.fillStyle = skin.dark;
+      ctx.beginPath();
+      ctx.moveTo(8, 20);
+      ctx.lineTo(-10, 10);
+      ctx.lineTo(4, 35);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    drawAccessory(ctx, accessory, p, t);
+    ctx.restore();
+  }
+
+  function drawAccessory(ctx, accessory, p, t) {
+    if (accessory === "cap") {
+      ctx.fillStyle = "#ef4444";
+      roundedRect(ctx, 13, 8, 31, 10, 5);
+      ctx.fill();
+      ctx.fillRect(39, 12, 18, 5);
+    }
+    if (accessory === "crown") {
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath();
+      ctx.moveTo(12, 14);
+      ctx.lineTo(18, 0);
+      ctx.lineTo(25, 14);
+      ctx.lineTo(34, 0);
+      ctx.lineTo(41, 14);
+      ctx.closePath();
+      ctx.fill();
+    }
+    if (accessory === "headphones") {
+      ctx.strokeStyle = "#0f172a";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.arc(28, 21, 22, Math.PI, 0);
+      ctx.stroke();
+      ctx.fillStyle = "#0f172a";
+      roundedRect(ctx, 4, 25, 8, 18, 4);
+      roundedRect(ctx, p.w - 12, 25, 8, 18, 4);
+      ctx.fill();
+    }
+    if (accessory === "visor") {
+      ctx.fillStyle = "rgba(14, 165, 233, 0.95)";
+      roundedRect(ctx, 18, 26, 27, 9, 5);
+      ctx.fill();
+    }
+    if (accessory === "scarf") {
+      ctx.fillStyle = "#dc2626";
+      roundedRect(ctx, 8, 37, 35, 8, 4);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(13, 42);
+      ctx.lineTo(-18, 48 + Math.sin(t / 4) * 5);
+      ctx.lineTo(12, 50);
+      ctx.closePath();
+      ctx.fill();
+    }
+    if (accessory === "sunglasses") {
+      ctx.fillStyle = "#020617";
+      roundedRect(ctx, 17, 26, 12, 8, 3);
+      roundedRect(ctx, 32, 26, 12, 8, 3);
+      ctx.fill();
+      ctx.strokeStyle = "#020617";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(29, 30);
+      ctx.lineTo(32, 30);
+      ctx.stroke();
+    }
+  }
+
+  function drawObstacle(ctx, ob, t) {
+    ctx.save();
+    ctx.translate(ob.x, ob.y);
+    if (ob.type === "crystal") {
+      const grad = ctx.createLinearGradient(0, 0, ob.w, ob.h);
+      grad.addColorStop(0, "#ff6bb5");
+      grad.addColorStop(1, "#7c3aed");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(ob.w / 2, 0);
+      ctx.lineTo(ob.w, ob.h * 0.55);
+      ctx.lineTo(ob.w * 0.65, ob.h);
+      ctx.lineTo(ob.w * 0.2, ob.h);
+      ctx.lineTo(0, ob.h * 0.55);
+      ctx.closePath();
+      ctx.fill();
+    } else if (ob.type === "bot") {
+      ctx.fillStyle = "#f97316";
+      roundedRect(ctx, 0, 8, ob.w, ob.h - 8, 9);
+      ctx.fill();
+      ctx.fillStyle = "#111827";
+      ctx.fillRect(10, 17, 8, 8);
+      ctx.fillRect(30, 17, 8, 8);
+      ctx.fillStyle = "#7c2d12";
+      ctx.fillRect(6, ob.h - 3, 14, 8);
+      ctx.fillRect(30, ob.h - 3, 14, 8);
+    } else {
+      ctx.fillStyle = "#38bdf8";
+      roundedRect(ctx, 0, 7, ob.w, 22, 11);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.8)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(-10, 18 + Math.sin(t / 4) * 2);
+      ctx.lineTo(10, 18);
+      ctx.moveTo(ob.w - 10, 18);
+      ctx.lineTo(ob.w + 10, 18 + Math.cos(t / 4) * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawCoin(ctx, c, t) {
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    ctx.scale(0.7 + Math.abs(Math.sin(t / 14)) * 0.35, 1);
+    ctx.fillStyle = "#facc15";
+    ctx.beginPath();
+    ctx.arc(0, 0, c.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(120, 80, 0, 0.5)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.fillRect(-3, -6, 3, 12);
+    ctx.restore();
+  }
+
+  function drawPower(ctx, pow, t) {
+    ctx.save();
+    ctx.translate(pow.x, pow.y);
+    ctx.rotate(Math.sin(t / 18) * 0.18);
+    ctx.fillStyle = pow.kind === "shield" ? "#38bdf8" : pow.kind === "magnet" ? "#f43f5e" : "#a3e635";
+    ctx.beginPath();
+    ctx.arc(0, 0, pow.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "bold 17px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(pow.kind === "shield" ? "S" : pow.kind === "magnet" ? "M" : "B", 0, 1);
+    ctx.restore();
+  }
+
+  function drawParticles(ctx, g) {
+    for (const part of g.particles) {
+      ctx.globalAlpha = Math.max(0, part.life / 28);
+      ctx.fillStyle = "#a7f3d0";
+      ctx.beginPath();
+      ctx.arc(part.x, part.y, part.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function drawStartOverlay(ctx) {
+    drawPanel(ctx, "ROBO REX RACE", "Compite contra el bot. Gana monedas y compra accesorios.", "Doble salto · tienda · skins · power-ups · dificultad progresiva");
+  }
+
+  function drawPauseOverlay(ctx) {
+    drawPanel(ctx, "PAUSA", "Presiona P o el botón Pause para continuar", "Respira, calcula y vuelve a correr.");
+  }
+
+  function drawGameOverOverlay(ctx, g) {
+    const won = g.score >= g.botScore;
+    drawPanel(ctx, won ? "YOU WIN" : "BOT WINS", `Tú: ${Math.floor(g.score)}  ·  Bot: ${Math.floor(g.botScore)}  ·  Monedas: ${g.coins}`, result);
+  }
+
+  function drawPanel(ctx, title, subtitle, small) {
+    ctx.fillStyle = "rgba(15, 23, 42, 0.72)";
+    roundedRect(ctx, 190, 102, 580, 180, 24);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(167, 243, 208, 0.75)";
+    ctx.lineWidth = 2;
+    roundedRect(ctx, 190, 102, 580, 180, 24);
+    ctx.stroke();
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.font = "800 34px Inter, sans-serif";
+    ctx.fillText(title, W / 2, 160);
+    ctx.font = "500 18px Inter, sans-serif";
+    ctx.fillText(subtitle, W / 2, 202);
+    ctx.font = "400 15px Inter, sans-serif";
+    ctx.fillStyle = "rgba(226, 232, 240, 0.88)";
+    ctx.fillText(small, W / 2, 238);
+  }
+
+  function handleCanvasClick() {
+    if (!running && !gameOver) startGame();
+    else if (gameOver) restartGame();
+    else touchJumpRef.current = true;
+  }
+
+  return (
+    <div className="min-h-screen w-full bg-slate-950 text-white flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
+        className="w-full max-w-7xl"
+      >
+        <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-emerald-300 text-sm font-semibold tracking-[0.3em] uppercase">Original competitive runner</p>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tight mt-2">Robo Rex Race</h1>
+            <p className="text-slate-300 mt-3 max-w-3xl">
+              Compite contra un bot, gana monedas permanentes y úsalas en la tienda para comprar colores y accesorios para tu personaje.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={startGame} className="rounded-2xl shadow-lg">
+              <Play className="w-4 h-4 mr-2" /> Start
+            </Button>
+            <Button onClick={togglePause} variant="secondary" className="rounded-2xl">
+              {paused ? <Play className="w-4 h-4 mr-2" /> : <Pause className="w-4 h-4 mr-2" />} {paused ? "Resume" : "Pause"}
+            </Button>
+            <Button onClick={restartGame} variant="outline" className="rounded-2xl bg-transparent text-white border-slate-600 hover:bg-slate-800">
+              <RotateCcw className="w-4 h-4 mr-2" /> Restart
+            </Button>
+            <Button onClick={() => setShopOpen((v) => !v)} variant="outline" className="rounded-2xl bg-transparent text-white border-emerald-500/60 hover:bg-slate-800">
+              <ShoppingBag className="w-4 h-4 mr-2" /> Shop
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
+          <Card className="bg-slate-900/80 border-slate-700 rounded-[2rem] shadow-2xl overflow-hidden">
+            <CardContent className="p-3 md:p-5">
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-4">
+                <Stat icon={<Star className="w-4 h-4" />} label="You" value={score} />
+                <Stat icon={<Bot className="w-4 h-4" />} label="Bot" value={botScore} />
+                <Stat icon={<Trophy className="w-4 h-4" />} label="Best" value={best} />
+                <Stat icon={<Zap className="w-4 h-4" />} label="Run Coins" value={coins} />
+                <Stat icon={<Crown className="w-4 h-4" />} label="Wallet" value={totalCoins} />
+                <Stat icon={<Shield className="w-4 h-4" />} label="Power" value={power} />
+              </div>
+
+              <div className="relative rounded-[1.5rem] overflow-hidden border border-slate-700 bg-slate-950">
+                <canvas
+                  ref={canvasRef}
+                  width={W}
+                  height={H}
+                  onClick={handleCanvasClick}
+                  onTouchStart={(e) => {
+                    e.preventDefault();
+                    touchJumpRef.current = true;
+                    if (!running && !gameOver) startGame();
+                    if (gameOver) restartGame();
+                  }}
+                  className="w-full block cursor-pointer select-none"
+                />
+              </div>
+
+              <div className="mt-4 grid gap-3 md:grid-cols-3 text-sm text-slate-300">
+                <Info title="Competencia" text="El bot también avanza, se equivoca a veces y puede activar boost. Al perder, se compara tu puntaje contra el del bot." />
+                <Info title="Monedas" text="Las monedas de cada carrera se suman a tu wallet. Ganar al bot da bonus extra." />
+                <Info title="Controles" text="Espacio / W / ↑ para saltar. Doble salto. S / ↓ para agacharte. P para pausar." />
+              </div>
+            </CardContent>
+          </Card>
+
+          {shopOpen && (
+            <motion.div initial={{ opacity: 0, x: 18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
+              <Card className="bg-slate-900/80 border-slate-700 rounded-[2rem] shadow-2xl overflow-hidden h-full">
+                <CardContent className="p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h2 className="text-2xl font-black flex items-center gap-2"><ShoppingBag className="w-6 h-6 text-emerald-300" /> Shop</h2>
+                      <p className="text-slate-400 text-sm">Wallet: <span className="text-yellow-300 font-bold">{totalCoins}</span> coins</p>
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl border border-slate-700 flex items-center justify-center" style={{ background: colorData.body }}>
+                      <Palette className="w-5 h-5 text-slate-950" />
+                    </div>
+                  </div>
+
+                  <ShopSection title="Colors">
+                    {COLORS.map((item) => {
+                      const owned = ownedColors.includes(item.id);
+                      const equipped = equippedColor === item.id;
+                      const locked = !owned && totalCoins < item.price;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => buyColor(item)}
+                          disabled={locked}
+                          className={`w-full rounded-2xl border p-3 text-left transition ${equipped ? "border-emerald-300 bg-emerald-400/15" : "border-slate-700 bg-slate-800/60 hover:bg-slate-800"} ${locked ? "opacity-45 cursor-not-allowed" : ""}`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="w-8 h-8 rounded-xl border border-white/20" style={{ background: item.body }} />
+                            <span className="flex-1">
+                              <span className="block font-bold text-white">{item.name}</span>
+                              <span className="text-xs text-slate-400">{owned ? (equipped ? "Equipped" : "Owned") : `${item.price} coins`}</span>
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </ShopSection>
+
+                  <ShopSection title="Accessories">
+                    {ACCESSORIES.map((item) => {
+                      const owned = ownedAccessories.includes(item.id);
+                      const equipped = equippedAccessory === item.id;
+                      const locked = !owned && totalCoins < item.price;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => buyAccessory(item)}
+                          disabled={locked}
+                          className={`w-full rounded-2xl border p-3 text-left transition ${equipped ? "border-emerald-300 bg-emerald-400/15" : "border-slate-700 bg-slate-800/60 hover:bg-slate-800"} ${locked ? "opacity-45 cursor-not-allowed" : ""}`}
+                        >
+                          <div className="flex justify-between gap-3">
+                            <span>
+                              <span className="block font-bold text-white">{item.name}</span>
+                              <span className="text-xs text-slate-400">{item.desc}</span>
+                            </span>
+                            <span className="text-xs text-yellow-300 whitespace-nowrap">
+                              {owned ? (equipped ? "Equipped" : "Owned") : `${item.price}`}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </ShopSection>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+function Stat({ icon, label, value }) {
+  return (
+    <div className="rounded-2xl bg-slate-800/80 border border-slate-700 px-4 py-3 flex items-center gap-3">
+      <div className="w-9 h-9 rounded-xl bg-emerald-400/15 text-emerald-300 flex items-center justify-center">
+        {icon}
+      </div>
+      <div>
+        <p className="text-xs text-slate-400 uppercase tracking-wide">{label}</p>
+        <p className="font-bold text-lg text-white">{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function Info({ title, text }) {
+  return (
+    <div className="rounded-2xl bg-slate-800/60 border border-slate-700 p-4">
+      <h3 className="font-bold text-white mb-1">{title}</h3>
+      <p>{text}</p>
+    </div>
+  );
+}
+
+function ShopSection({ title, children }) {
+  return (
+    <div className="mt-5">
+      <h3 className="text-sm font-black uppercase tracking-[0.22em] text-emerald-300 mb-3">{title}</h3>
+      <div className="grid gap-2 max-h-[280px] overflow-auto pr-1">
+        {children}
+      </div>
+    </div>
+  );
+}
