@@ -1,1128 +1,631 @@
-import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Play, Pause, RotateCcw, Zap, Shield, Star, Trophy, ShoppingBag, Palette, Bot, Crown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Zorro del Desierto</title>
 
-const COLORS = [
-  { id: "emerald", name: "Emerald", price: 0, body: "#4df4a4", dark: "#123a40" },
-  { id: "sky", name: "Sky Blue", price: 40, body: "#38bdf8", dark: "#0c4a6e" },
-  { id: "violet", name: "Violet", price: 65, body: "#a78bfa", dark: "#4c1d95" },
-  { id: "rose", name: "Rose", price: 80, body: "#fb7185", dark: "#881337" },
-  { id: "gold", name: "Gold", price: 120, body: "#facc15", dark: "#713f12" },
-  { id: "lava", name: "Lava", price: 160, body: "#f97316", dark: "#7c2d12" },
-  { id: "ice", name: "Ice", price: 180, body: "#cffafe", dark: "#155e75" },
-  { id: "shadow", name: "Shadow", price: 230, body: "#94a3b8", dark: "#0f172a" },
-];
-
-const ACCESSORIES = [
-  { id: "none", name: "None", price: 0, desc: "Clean look" },
-  { id: "cap", name: "Cap", price: 35, desc: "Classic runner cap" },
-  { id: "crown", name: "Crown", price: 90, desc: "For winners" },
-  { id: "headphones", name: "Headphones", price: 110, desc: "Music mode" },
-  { id: "visor", name: "Cyber Visor", price: 135, desc: "Futuristic style" },
-  { id: "wings", name: "Mini Wings", price: 170, desc: "Looks faster" },
-  { id: "scarf", name: "Red Scarf", price: 190, desc: "Wind effect" },
-  { id: "jetpack", name: "Jetpack", price: 260, desc: "Premium accessory" },
-  { id: "sunglasses", name: "Sunglasses", price: 310, desc: "Cool mode" },
-  { id: "halo", name: "Neon Halo", price: 420, desc: "Legendary glow" },
-];
-
-function loadNumber(key, fallback) {
-  try {
-    return Number(localStorage.getItem(key) || fallback);
-  } catch {
-    return fallback;
-  }
-}
-
-function loadJson(key, fallback) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
-  } catch {
-    return fallback;
-  }
-}
-
-export default function RoboRexRunner() {
-  const canvasRef = useRef(null);
-  const rafRef = useRef(null);
-  const keysRef = useRef({});
-  const touchJumpRef = useRef(false);
-  const gameRef = useRef(null);
-  const runningRef = useRef(false);
-  const pausedRef = useRef(false);
-  const gameOverRef = useRef(false);
-
-  const [running, setRunning] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
-  const [score, setScore] = useState(0);
-  const [botScore, setBotScore] = useState(0);
-  const [coins, setCoins] = useState(0);
-  const [totalCoins, setTotalCoins] = useState(() => loadNumber("roboRexWallet", 0));
-  const [level, setLevel] = useState(1);
-  const [power, setPower] = useState("None");
-  const [best, setBest] = useState(() => loadNumber("roboRexBest", 0));
-  const [result, setResult] = useState("Ready");
-  const [shopOpen, setShopOpen] = useState(true);
-  const [ownedColors, setOwnedColors] = useState(() => loadJson("roboRexOwnedColors", ["emerald"]));
-  const [ownedAccessories, setOwnedAccessories] = useState(() => loadJson("roboRexOwnedAccessories", ["none"]));
-  const [equippedColor, setEquippedColor] = useState(() => localStorage.getItem("roboRexColor") || "emerald");
-  const [equippedAccessory, setEquippedAccessory] = useState(() => localStorage.getItem("roboRexAccessory") || "none");
-
-  const W = 960;
-  const H = 430;
-  const groundY = 335;
-
-  const colorData = COLORS.find((c) => c.id === equippedColor) || COLORS[0];
-
-  useEffect(() => {
-    runningRef.current = running;
-    pausedRef.current = paused;
-    gameOverRef.current = gameOver;
-  }, [running, paused, gameOver]);
-
-  function saveWallet(value) {
-    setTotalCoins(value);
-    localStorage.setItem("roboRexWallet", String(value));
-  }
-
-  function saveOwnedColors(list) {
-    setOwnedColors(list);
-    localStorage.setItem("roboRexOwnedColors", JSON.stringify(list));
-  }
-
-  function saveOwnedAccessories(list) {
-    setOwnedAccessories(list);
-    localStorage.setItem("roboRexOwnedAccessories", JSON.stringify(list));
-  }
-
-  function buyColor(item) {
-    if (ownedColors.includes(item.id)) {
-      setEquippedColor(item.id);
-      localStorage.setItem("roboRexColor", item.id);
-      return;
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f7;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    if (totalCoins < item.price) return;
-    const nextWallet = totalCoins - item.price;
-    const nextOwned = [...ownedColors, item.id];
-    saveWallet(nextWallet);
-    saveOwnedColors(nextOwned);
-    setEquippedColor(item.id);
-    localStorage.setItem("roboRexColor", item.id);
-  }
 
-  function buyAccessory(item) {
-    if (ownedAccessories.includes(item.id)) {
-      setEquippedAccessory(item.id);
-      localStorage.setItem("roboRexAccessory", item.id);
-      return;
+    #contenedor {
+      text-align: center;
     }
-    if (totalCoins < item.price) return;
-    const nextWallet = totalCoins - item.price;
-    const nextOwned = [...ownedAccessories, item.id];
-    saveWallet(nextWallet);
-    saveOwnedAccessories(nextOwned);
-    setEquippedAccessory(item.id);
-    localStorage.setItem("roboRexAccessory", item.id);
-  }
 
-  function initGame() {
-    gameRef.current = {
-      t: 0,
-      score: 0,
-      botScore: 0,
-      coins: 0,
-      level: 1,
-      speed: 6,
-      gravity: 0.72,
-      spawnTimer: 0,
-      coinTimer: 0,
-      powerTimer: 0,
-      botMistakeTimer: 180 + Math.random() * 160,
-      botBoostTimer: 260 + Math.random() * 180,
-      botStumble: 0,
-      botMood: "steady",
-      shake: 0,
-      flash: 0,
-      dayPhase: 0,
-      player: {
-        x: 105,
-        y: groundY - 58,
-        w: 54,
-        h: 58,
-        vy: 0,
-        grounded: true,
-        jumps: 0,
-        maxJumps: 2,
-        ducking: false,
-        shield: 0,
-        magnet: 0,
-        boost: 0,
-        invincible: 0,
-      },
-      obstacles: [],
-      coinsArr: [],
-      powers: [],
-      particles: [],
-      clouds: Array.from({ length: 8 }, (_, i) => ({
-        x: i * 150 + Math.random() * 80,
-        y: 35 + Math.random() * 120,
-        s: 0.55 + Math.random() * 0.8,
-      })),
-      stars: Array.from({ length: 80 }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * 210,
-        r: Math.random() * 1.4 + 0.3,
-      })),
-    };
-    setScore(0);
-    setBotScore(0);
-    setCoins(0);
-    setLevel(1);
-    setPower("None");
-    setResult("Racing");
-    setGameOver(false);
-    setPaused(false);
-  }
+    h1 {
+      color: #555;
+      margin-bottom: 10px;
+    }
 
-  function startGame() {
-    initGame();
-    setRunning(true);
-  }
+    canvas {
+      background: #f7f7f7;
+      border: 3px solid #555;
+      border-radius: 6px;
+    }
 
-  function restartGame() {
-    initGame();
-    setRunning(true);
-  }
+    p {
+      color: #555;
+      font-size: 15px;
+    }
+  </style>
+</head>
 
-  function togglePause() {
-    if (!runningRef.current || gameOverRef.current) return;
-    setPaused((p) => !p);
-  }
+<body>
+  <div id="contenedor">
+    <h1>Zorro del Desierto</h1>
+    <canvas id="juego" width="900" height="300"></canvas>
+    <p><b>Espacio / ↑</b>: saltar o reiniciar | <b>↓ / S</b>: agacharse</p>
+  </div>
 
-  useEffect(() => {
-    initGame();
-    const down = (e) => {
-      keysRef.current[e.code] = true;
-      if (["Space", "ArrowUp", "ArrowDown"].includes(e.code)) e.preventDefault();
-      if (e.code === "KeyP") togglePause();
-      if (e.code === "Space" && !runningRef.current && !gameOverRef.current) startGame();
-      if (e.code === "Space" && gameOverRef.current) restartGame();
-    };
-    const up = (e) => {
-      keysRef.current[e.code] = false;
-    };
-    window.addEventListener("keydown", down);
-    window.addEventListener("keyup", up);
-    return () => {
-      window.removeEventListener("keydown", down);
-      window.removeEventListener("keyup", up);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
+  <script>
+    const canvas = document.getElementById("juego");
     const ctx = canvas.getContext("2d");
-    let last = performance.now();
 
-    const loop = (now) => {
-      const dt = Math.min((now - last) / 16.67, 2);
-      last = now;
+    const W = canvas.width;
+    const H = canvas.height;
+    const suelo = 230;
 
-      if (running && !paused && !gameOver) update(dt);
-      draw(ctx);
-      rafRef.current = requestAnimationFrame(loop);
-    };
+    const gris = "#555555";
+    const fondo = "#f7f7f7";
+    const grisClaro = "#d6d6d6";
 
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [running, paused, gameOver, equippedColor, equippedAccessory]);
+    const metaPuntaje = 99000;
 
-  function jump(g) {
-    const p = g.player;
-    if (p.grounded || p.jumps < p.maxJumps) {
-      p.vy = p.grounded ? -14.2 : -12.2;
-      p.grounded = false;
-      p.jumps += 1;
-      for (let i = 0; i < 10; i++) {
-        g.particles.push({
-          x: p.x + 15,
-          y: p.y + p.h,
-          vx: -Math.random() * 3,
-          vy: -Math.random() * 2,
-          life: 25,
-          size: 2 + Math.random() * 3,
+    let zorro;
+    let conejo;
+    let obstaculos;
+    let nubes;
+    let puntaje;
+    let velocidad;
+    let gravedad;
+    let frame;
+    let juegoTerminado;
+    let ganaste;
+    let proximoObstaculo;
+
+    function reiniciar() {
+      zorro = {
+        x: 80,
+        baseY: suelo,
+        velY: 0,
+        saltando: false,
+        agachado: false
+      };
+
+      conejo = {
+        x: 760,
+        baseY: suelo
+      };
+
+      obstaculos = [];
+
+      nubes = [
+        { x: 250, y: 65, escala: 1 },
+        { x: 570, y: 45, escala: 0.8 },
+        { x: 780, y: 80, escala: 1.1 }
+      ];
+
+      puntaje = 0;
+      velocidad = 6;
+      gravedad = 0.7;
+      frame = 0;
+      juegoTerminado = false;
+      ganaste = false;
+      proximoObstaculo = 80;
+    }
+
+    function rectRedondo(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function dibujarSuelo() {
+      ctx.strokeStyle = gris;
+      ctx.lineWidth = 2;
+
+      ctx.beginPath();
+      ctx.moveTo(0, suelo);
+      ctx.lineTo(W, suelo);
+      ctx.stroke();
+
+      ctx.lineWidth = 1;
+
+      for (let i = 0; i < W; i += 48) {
+        const x = i - (frame * velocidad * 0.45) % 48;
+
+        ctx.beginPath();
+        ctx.moveTo(x, suelo + 13);
+        ctx.lineTo(x + 18, suelo + 13);
+        ctx.stroke();
+      }
+    }
+
+    function dibujarNube(nube) {
+      const x = nube.x;
+      const y = nube.y;
+      const s = nube.escala;
+
+      ctx.strokeStyle = grisClaro;
+      ctx.lineWidth = 2;
+
+      ctx.beginPath();
+      ctx.arc(x, y, 10 * s, Math.PI, 0);
+      ctx.arc(x + 16 * s, y - 8 * s, 13 * s, Math.PI, 0);
+      ctx.arc(x + 35 * s, y, 10 * s, Math.PI, 0);
+      ctx.lineTo(x + 45 * s, y + 7 * s);
+      ctx.lineTo(x - 8 * s, y + 7 * s);
+      ctx.closePath();
+      ctx.stroke();
+    }
+
+    function actualizarNubes() {
+      for (const nube of nubes) {
+        nube.x -= velocidad * 0.18;
+
+        if (nube.x < -80) {
+          nube.x = W + Math.random() * 200;
+          nube.y = 35 + Math.random() * 55;
+          nube.escala = 0.7 + Math.random() * 0.5;
+        }
+      }
+    }
+
+    function dibujarZorro() {
+      const x = zorro.x;
+      const b = zorro.baseY;
+      const paso = Math.floor(frame / 7) % 2;
+
+      ctx.fillStyle = gris;
+
+      if (zorro.agachado && !zorro.saltando) {
+        // Cuerpo agachado
+        rectRedondo(x + 8, b - 28, 50, 18, 8);
+        ctx.fill();
+
+        // Cabeza
+        rectRedondo(x + 54, b - 32, 20, 18, 5);
+        ctx.fill();
+
+        // Hocico
+        ctx.beginPath();
+        ctx.moveTo(x + 72, b - 27);
+        ctx.lineTo(x + 84, b - 23);
+        ctx.lineTo(x + 72, b - 19);
+        ctx.closePath();
+        ctx.fill();
+
+        // Oreja
+        ctx.beginPath();
+        ctx.moveTo(x + 58, b - 32);
+        ctx.lineTo(x + 63, b - 43);
+        ctx.lineTo(x + 68, b - 32);
+        ctx.closePath();
+        ctx.fill();
+
+        // Cola
+        ctx.beginPath();
+        ctx.moveTo(x + 10, b - 24);
+        ctx.lineTo(x - 25, b - 38);
+        ctx.lineTo(x - 8, b - 15);
+        ctx.closePath();
+        ctx.fill();
+
+        // Patas
+        ctx.fillRect(x + 20, b - 9, 6, 9);
+        ctx.fillRect(x + 45, b - 9, 6, 9);
+
+        // Ojo
+        ctx.fillStyle = fondo;
+        ctx.fillRect(x + 67, b - 27, 3, 3);
+
+      } else {
+        // Cola
+        ctx.beginPath();
+        ctx.moveTo(x + 8, b - 30);
+        ctx.lineTo(x - 28, b - 52);
+        ctx.lineTo(x - 12, b - 22);
+        ctx.closePath();
+        ctx.fill();
+
+        // Cuerpo
+        rectRedondo(x + 8, b - 42, 52, 25, 10);
+        ctx.fill();
+
+        // Cabeza
+        rectRedondo(x + 55, b - 50, 24, 23, 5);
+        ctx.fill();
+
+        // Hocico
+        ctx.beginPath();
+        ctx.moveTo(x + 77, b - 42);
+        ctx.lineTo(x + 92, b - 36);
+        ctx.lineTo(x + 77, b - 31);
+        ctx.closePath();
+        ctx.fill();
+
+        // Orejas
+        ctx.beginPath();
+        ctx.moveTo(x + 58, b - 50);
+        ctx.lineTo(x + 63, b - 64);
+        ctx.lineTo(x + 69, b - 50);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(x + 69, b - 49);
+        ctx.lineTo(x + 74, b - 61);
+        ctx.lineTo(x + 78, b - 48);
+        ctx.closePath();
+        ctx.fill();
+
+        // Patas animadas
+        ctx.fillRect(x + 18, b - 18, 5, paso ? 18 : 13);
+        ctx.fillRect(x + 31, b - 18, 5, paso ? 13 : 18);
+        ctx.fillRect(x + 47, b - 18, 5, paso ? 18 : 13);
+        ctx.fillRect(x + 59, b - 18, 5, paso ? 13 : 18);
+
+        // Ojo
+        ctx.fillStyle = fondo;
+        ctx.fillRect(x + 69, b - 42, 3, 3);
+      }
+    }
+
+    function dibujarConejo() {
+      const x = conejo.x;
+      const b = conejo.baseY + Math.sin(frame * 0.12) * 3;
+
+      ctx.fillStyle = gris;
+
+      // Cuerpo
+      rectRedondo(x, b - 24, 28, 17, 7);
+      ctx.fill();
+
+      // Cabeza
+      rectRedondo(x + 22, b - 34, 18, 17, 5);
+      ctx.fill();
+
+      // Orejas
+      ctx.fillRect(x + 26, b - 55, 4, 22);
+      ctx.fillRect(x + 34, b - 52, 4, 19);
+
+      // Patas
+      ctx.fillRect(x + 7, b - 8, 8, 8);
+      ctx.fillRect(x + 21, b - 8, 8, 8);
+
+      // Cola
+      ctx.beginPath();
+      ctx.arc(x - 2, b - 18, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Ojo
+      ctx.fillStyle = fondo;
+      ctx.fillRect(x + 34, b - 28, 2, 2);
+    }
+
+    function crearObstaculo() {
+      const r = Math.random();
+
+      if (puntaje > 250 && r < 0.32) {
+        const bajo = Math.random() < 0.65;
+
+        obstaculos.push({
+          tipo: "aguila",
+          x: W + 20,
+          y: bajo ? suelo - 63 : suelo - 105,
+          w: 48,
+          h: 24
+        });
+      } else if (r < 0.68) {
+        obstaculos.push({
+          tipo: "arbusto",
+          x: W + 20,
+          y: suelo - 28,
+          w: 34,
+          h: 28
+        });
+      } else {
+        obstaculos.push({
+          tipo: "tronco",
+          x: W + 20,
+          y: suelo - 20,
+          w: 46,
+          h: 20
         });
       }
-    }
-  }
 
-  function updateBot(g, dt) {
-    const playerLead = g.score - g.botScore;
-    let botRate = 1.03 + g.level * 0.008;
+      const reduccionSeparacion = Math.floor(puntaje / 1500);
+      const separacionBase = Math.max(50, 85 - reduccionSeparacion);
 
-    if (playerLead > 260) botRate += 0.18;
-    if (playerLead < -220) botRate -= 0.08;
-    if (g.botStumble > 0) {
-      botRate *= 0.35;
-      g.botStumble -= dt;
-      g.botMood = "stumble";
-    } else {
-      g.botMood = playerLead >= 0 ? "chasing" : "leading";
+      proximoObstaculo = frame + separacionBase + Math.floor(Math.random() * 65);
     }
 
-    g.botMistakeTimer -= dt;
-    if (g.botMistakeTimer <= 0) {
-      if (Math.random() < 0.42) {
-        g.botStumble = 55 + Math.random() * 45;
-        g.particles.push({ x: 710, y: 88, vx: -1, vy: -1, life: 50, size: 4 });
-      }
-      g.botMistakeTimer = Math.max(130, 280 - g.level * 8) + Math.random() * 180;
+    function dibujarArbusto(o) {
+      ctx.fillStyle = gris;
+
+      ctx.beginPath();
+      ctx.arc(o.x + 8, o.y + 19, 9, 0, Math.PI * 2);
+      ctx.arc(o.x + 18, o.y + 11, 13, 0, Math.PI * 2);
+      ctx.arc(o.x + 30, o.y + 19, 9, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillRect(o.x + 5, o.y + 18, 30, 10);
     }
 
-    g.botBoostTimer -= dt;
-    if (g.botBoostTimer <= 0) {
-      botRate += 0.65;
-      g.botMood = "boost";
-      g.botBoostTimer = 360 + Math.random() * 240;
+    function dibujarTronco(o) {
+      ctx.fillStyle = gris;
+
+      rectRedondo(o.x, o.y, o.w, o.h, 8);
+      ctx.fill();
+
+      ctx.fillStyle = fondo;
+
+      ctx.beginPath();
+      ctx.arc(o.x + 9, o.y + 10, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = fondo;
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.moveTo(o.x + 20, o.y + 7);
+      ctx.lineTo(o.x + 36, o.y + 7);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(o.x + 22, o.y + 14);
+      ctx.lineTo(o.x + 38, o.y + 14);
+      ctx.stroke();
     }
 
-    g.botScore += dt * botRate;
-  }
+    function dibujarAguila(o) {
+      ctx.fillStyle = gris;
 
-  function update(dt) {
-    const g = gameRef.current;
-    const p = g.player;
-    g.t += dt;
-    g.dayPhase = (g.dayPhase + 0.0014 * dt) % 1;
+      const aleteo = Math.sin(frame * 0.25) * 7;
 
-    const scoreRate = p.boost > 0 ? 1.9 : 1;
-    g.score += dt * scoreRate;
-    updateBot(g, dt);
-    g.level = Math.max(1, Math.floor(g.score / 550) + 1);
-    g.speed = 6 + g.level * 0.58 + (p.boost > 0 ? 2.3 : 0);
+      // Ala izquierda
+      ctx.beginPath();
+      ctx.moveTo(o.x + 24, o.y + 12);
+      ctx.lineTo(o.x + 2, o.y + aleteo);
+      ctx.lineTo(o.x + 18, o.y + 16);
+      ctx.closePath();
+      ctx.fill();
 
-    setScore(Math.floor(g.score));
-    setBotScore(Math.floor(g.botScore));
-    setCoins(g.coins);
-    setLevel(g.level);
+      // Ala derecha
+      ctx.beginPath();
+      ctx.moveTo(o.x + 24, o.y + 12);
+      ctx.lineTo(o.x + 48, o.y + aleteo);
+      ctx.lineTo(o.x + 31, o.y + 16);
+      ctx.closePath();
+      ctx.fill();
 
-    const activePower = p.shield > 0 ? "Shield" : p.magnet > 0 ? "Magnet" : p.boost > 0 ? "Boost" : "None";
-    setPower(activePower);
+      // Cuerpo
+      rectRedondo(o.x + 17, o.y + 9, 18, 11, 5);
+      ctx.fill();
 
-    const wantsJump = keysRef.current.Space || keysRef.current.ArrowUp || keysRef.current.KeyW || touchJumpRef.current;
-    if (wantsJump && !p.jumpLock) {
-      jump(g);
-      p.jumpLock = true;
-    }
-    if (!wantsJump) p.jumpLock = false;
-    touchJumpRef.current = false;
+      // Cabeza
+      ctx.beginPath();
+      ctx.arc(o.x + 38, o.y + 10, 6, 0, Math.PI * 2);
+      ctx.fill();
 
-    p.ducking = (keysRef.current.ArrowDown || keysRef.current.KeyS) && p.grounded;
-    p.h = p.ducking ? 38 : 58;
-    p.w = p.ducking ? 68 : 54;
+      // Pico
+      ctx.beginPath();
+      ctx.moveTo(o.x + 44, o.y + 10);
+      ctx.lineTo(o.x + 54, o.y + 13);
+      ctx.lineTo(o.x + 44, o.y + 16);
+      ctx.closePath();
+      ctx.fill();
 
-    p.vy += g.gravity * dt;
-    p.y += p.vy * dt;
-    if (p.y + p.h >= groundY) {
-      p.y = groundY - p.h;
-      p.vy = 0;
-      p.grounded = true;
-      p.jumps = 0;
-    }
-
-    for (const key of ["shield", "magnet", "boost", "invincible"]) {
-      if (p[key] > 0) p[key] -= dt;
+      // Ojo
+      ctx.fillStyle = fondo;
+      ctx.fillRect(o.x + 40, o.y + 8, 2, 2);
     }
 
-    g.spawnTimer -= dt;
-    if (g.spawnTimer <= 0) {
-      const typeRoll = Math.random();
-      let ob;
-      if (typeRoll < 0.45) {
-        ob = { type: "crystal", x: W + 40, y: groundY - 52, w: 38, h: 52 };
-      } else if (typeRoll < 0.75) {
-        ob = { type: "bot", x: W + 40, y: groundY - 42, w: 48, h: 42 };
-      } else {
-        ob = { type: "drone", x: W + 40, y: groundY - 120 - Math.random() * 50, w: 58, h: 34 };
-      }
-      g.obstacles.push(ob);
-      g.spawnTimer = Math.max(38, 92 - g.level * 4 - Math.random() * 18);
-    }
-
-    g.coinTimer -= dt;
-    if (g.coinTimer <= 0) {
-      const arcY = groundY - 90 - Math.random() * 90;
-      const count = 4 + Math.floor(Math.random() * 4);
-      for (let i = 0; i < count; i++) {
-        g.coinsArr.push({ x: W + 50 + i * 34, y: arcY + Math.sin(i) * 18, r: 10, taken: false });
-      }
-      g.coinTimer = 105 + Math.random() * 70;
-    }
-
-    g.powerTimer -= dt;
-    if (g.powerTimer <= 0) {
-      const names = ["shield", "magnet", "boost"];
-      g.powers.push({
-        x: W + 60,
-        y: groundY - 135 - Math.random() * 70,
-        r: 16,
-        kind: names[Math.floor(Math.random() * names.length)],
-      });
-      g.powerTimer = 460 + Math.random() * 260;
-    }
-
-    for (const c of g.clouds) {
-      c.x -= (0.35 + c.s * 0.25) * dt;
-      if (c.x < -100) {
-        c.x = W + 80;
-        c.y = 35 + Math.random() * 125;
-        c.s = 0.55 + Math.random() * 0.8;
+    function dibujarObstaculos() {
+      for (const o of obstaculos) {
+        if (o.tipo === "arbusto") dibujarArbusto(o);
+        if (o.tipo === "tronco") dibujarTronco(o);
+        if (o.tipo === "aguila") dibujarAguila(o);
       }
     }
 
-    for (const ob of g.obstacles) ob.x -= g.speed * dt;
-    g.obstacles = g.obstacles.filter((ob) => ob.x + ob.w > -30);
+    function actualizarZorro() {
+      zorro.baseY += zorro.velY;
+      zorro.velY += gravedad;
 
-    for (const c of g.coinsArr) {
-      c.x -= g.speed * dt;
-      if (p.magnet > 0) {
-        const dx = p.x + p.w / 2 - c.x;
-        const dy = p.y + p.h / 2 - c.y;
-        const dist = Math.hypot(dx, dy) || 1;
-        if (dist < 155) {
-          c.x += (dx / dist) * 6.8 * dt;
-          c.y += (dy / dist) * 6.8 * dt;
-        }
+      if (zorro.baseY >= suelo) {
+        zorro.baseY = suelo;
+        zorro.velY = 0;
+        zorro.saltando = false;
       }
     }
-    g.coinsArr = g.coinsArr.filter((c) => c.x > -40 && !c.taken);
 
-    for (const pow of g.powers) pow.x -= g.speed * dt;
-    g.powers = g.powers.filter((pow) => pow.x > -50);
+    function actualizarObstaculos() {
+      if (frame >= proximoObstaculo) {
+        crearObstaculo();
+      }
 
-    for (const part of g.particles) {
-      part.x += part.vx * dt;
-      part.y += part.vy * dt;
-      part.vy += 0.12 * dt;
-      part.life -= dt;
+      for (const o of obstaculos) {
+        o.x -= velocidad;
+      }
+
+      obstaculos = obstaculos.filter(o => o.x + o.w > -40);
     }
-    g.particles = g.particles.filter((part) => part.life > 0);
 
-    for (const c of g.coinsArr) {
-      if (circleRect(c.x, c.y, c.r, p.x, p.y, p.w, p.h)) {
-        c.taken = true;
-        g.coins += 1;
-        g.score += 18;
-        for (let i = 0; i < 6; i++) {
-          g.particles.push({ x: c.x, y: c.y, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 28, size: 2 });
+    function obtenerHitboxZorro() {
+      if (zorro.agachado && !zorro.saltando) {
+        return {
+          x: zorro.x + 5,
+          y: zorro.baseY - 33,
+          w: 78,
+          h: 30
+        };
+      }
+
+      return {
+        x: zorro.x - 2,
+        y: zorro.baseY - 58,
+        w: 88,
+        h: 55
+      };
+    }
+
+    function revisarChoque() {
+      const z = obtenerHitboxZorro();
+
+      for (const o of obstaculos) {
+        const hit = {
+          x: o.x + 3,
+          y: o.y + 3,
+          w: o.w - 6,
+          h: o.h - 5
+        };
+
+        const choque =
+          z.x < hit.x + hit.w &&
+          z.x + z.w > hit.x &&
+          z.y < hit.y + hit.h &&
+          z.y + z.h > hit.y;
+
+        if (choque) {
+          juegoTerminado = true;
         }
       }
     }
 
-    for (const pow of g.powers) {
-      if (!pow.taken && circleRect(pow.x, pow.y, pow.r, p.x, p.y, p.w, p.h)) {
-        pow.taken = true;
-        if (pow.kind === "shield") p.shield = 520;
-        if (pow.kind === "magnet") p.magnet = 440;
-        if (pow.kind === "boost") p.boost = 330;
-        p.invincible = 40;
-        g.flash = 12;
-      }
-    }
-    g.powers = g.powers.filter((pow) => !pow.taken);
+    function dibujarUI() {
+      ctx.fillStyle = gris;
+      ctx.font = "18px Arial";
 
-    if (p.invincible > 0) return;
-    for (const ob of g.obstacles) {
-      const pad = ob.type === "drone" ? 8 : 6;
-      if (rectsHit(p.x + pad, p.y + pad, p.w - pad * 2, p.h - pad * 2, ob.x + pad, ob.y + pad, ob.w - pad * 2, ob.h - pad * 2)) {
-        if (p.shield > 0) {
-          p.shield = 0;
-          p.invincible = 70;
-          ob.x = -999;
-          g.shake = 15;
-          g.flash = 20;
-        } else {
-          endGame(g);
-        }
-      }
-    }
-  }
+      ctx.fillText(
+        "Puntaje: " + Math.floor(puntaje).toLocaleString("es-PE") + " / " + metaPuntaje.toLocaleString("es-PE"),
+        20,
+        30
+      );
 
-  function endGame(g) {
-    setRunning(false);
-    setGameOver(true);
-    const finalScore = Math.floor(g.score);
-    const finalBot = Math.floor(g.botScore);
-    const won = finalScore >= finalBot;
-    const earned = g.coins + (won ? 15 : 3) + Math.floor(finalScore / 350);
-    const nextWallet = totalCoins + earned;
+      ctx.font = "14px Arial";
+      ctx.fillText("Objetivo: llega a 99 000 puntos", 20, 52);
+      ctx.fillText("Velocidad: " + velocidad.toFixed(1), 20, 72);
 
-    saveWallet(nextWallet);
-    setResult(won ? `You won! +${earned} coins` : `Bot won! +${earned} coins`);
+      const progreso = Math.min(puntaje / metaPuntaje, 1);
 
-    if (finalScore > best) {
-      setBest(finalScore);
-      localStorage.setItem("roboRexBest", String(finalScore));
-    }
-  }
-
-  function rectsHit(ax, ay, aw, ah, bx, by, bw, bh) {
-    return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
-  }
-
-  function circleRect(cx, cy, r, rx, ry, rw, rh) {
-    const tx = Math.max(rx, Math.min(cx, rx + rw));
-    const ty = Math.max(ry, Math.min(cy, ry + rh));
-    return Math.hypot(cx - tx, cy - ty) <= r;
-  }
-
-  function draw(ctx) {
-    const g = gameRef.current;
-    if (!g) return;
-    const p = g.player;
-
-    ctx.save();
-    ctx.clearRect(0, 0, W, H);
-
-    if (g.shake > 0) {
-      ctx.translate((Math.random() - 0.5) * g.shake, (Math.random() - 0.5) * g.shake);
-      g.shake *= 0.85;
-    }
-
-    const night = Math.sin(g.dayPhase * Math.PI * 2) * 0.5 + 0.5;
-    const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, `rgb(${30 + night * 95}, ${45 + night * 115}, ${80 + night * 145})`);
-    sky.addColorStop(1, `rgb(${200 - night * 90}, ${230 - night * 105}, ${240 - night * 120})`);
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H);
-
-    if (night < 0.45) {
-      ctx.globalAlpha = 1 - night * 1.7;
-      ctx.fillStyle = "white";
-      for (const s of g.stars) {
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-    }
-
-    drawSunMoon(ctx, night);
-    drawMountains(ctx, g);
-    drawClouds(ctx, g);
-    drawRaceHud(ctx, g);
-    drawGround(ctx, g);
-
-    for (const c of g.coinsArr) drawCoin(ctx, c, g.t);
-    for (const pow of g.powers) drawPower(ctx, pow, g.t);
-    for (const ob of g.obstacles) drawObstacle(ctx, ob, g.t);
-    drawBotRunner(ctx, g);
-    drawPlayer(ctx, p, g.t, colorData, equippedAccessory);
-    drawParticles(ctx, g);
-
-    if (g.flash > 0) {
-      ctx.globalAlpha = g.flash / 35;
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, W, H);
-      ctx.globalAlpha = 1;
-      g.flash -= 1;
-    }
-
-    if (!running && !gameOver) drawStartOverlay(ctx);
-    if (paused) drawPauseOverlay(ctx);
-    if (gameOver) drawGameOverOverlay(ctx, g);
-
-    ctx.restore();
-  }
-
-  function roundedRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
-  }
-
-  function drawSunMoon(ctx, night) {
-    const x = 760;
-    const y = 72;
-    if (night > 0.5) {
-      ctx.fillStyle = "rgba(255, 232, 130, 0.92)";
-      ctx.beginPath();
-      ctx.arc(x, y, 34, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      ctx.fillStyle = "rgba(240, 245, 255, 0.95)";
-      ctx.beginPath();
-      ctx.arc(x, y, 30, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "rgba(35, 50, 88, 0.78)";
-      ctx.beginPath();
-      ctx.arc(x + 12, y - 6, 28, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  function drawMountains(ctx, g) {
-    const offset = (g.t * g.speed * 0.16) % 480;
-    ctx.fillStyle = "rgba(48, 78, 111, 0.28)";
-    for (let base = -480; base < W + 480; base += 480) {
-      ctx.beginPath();
-      ctx.moveTo(base - offset, groundY);
-      ctx.lineTo(base + 120 - offset, 185);
-      ctx.lineTo(base + 250 - offset, groundY);
-      ctx.lineTo(base + 380 - offset, 220);
-      ctx.lineTo(base + 520 - offset, groundY);
-      ctx.closePath();
-      ctx.fill();
-    }
-  }
-
-  function drawClouds(ctx, g) {
-    ctx.fillStyle = "rgba(255,255,255,0.72)";
-    for (const c of g.clouds) {
-      ctx.save();
-      ctx.translate(c.x, c.y);
-      ctx.scale(c.s, c.s);
-      ctx.beginPath();
-      ctx.arc(0, 12, 18, 0, Math.PI * 2);
-      ctx.arc(22, 4, 24, 0, Math.PI * 2);
-      ctx.arc(50, 13, 18, 0, Math.PI * 2);
-      ctx.rect(-5, 12, 65, 22);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  function drawRaceHud(ctx, g) {
-    const playerScore = Math.max(1, g.score);
-    const bot = Math.max(1, g.botScore);
-    const max = Math.max(playerScore, bot, 900);
-    const pWidth = Math.min(360, (playerScore / max) * 360);
-    const bWidth = Math.min(360, (bot / max) * 360);
-
-    ctx.fillStyle = "rgba(15, 23, 42, 0.5)";
-    roundedRect(ctx, 24, 22, 420, 72, 18);
-    ctx.fill();
-
-    ctx.fillStyle = "white";
-    ctx.font = "800 15px Inter, sans-serif";
-    ctx.fillText("YOU", 44, 48);
-    ctx.fillText("BOT", 44, 76);
-
-    ctx.fillStyle = "rgba(255,255,255,0.16)";
-    roundedRect(ctx, 92, 36, 360, 11, 6);
-    ctx.fill();
-    roundedRect(ctx, 92, 64, 360, 11, 6);
-    ctx.fill();
-
-    ctx.fillStyle = colorData.body;
-    roundedRect(ctx, 92, 36, pWidth, 11, 6);
-    ctx.fill();
-    ctx.fillStyle = "#f97316";
-    roundedRect(ctx, 92, 64, bWidth, 11, 6);
-    ctx.fill();
-
-    ctx.fillStyle = "rgba(255,255,255,0.85)";
-    ctx.font = "600 12px Inter, sans-serif";
-    ctx.fillText(g.score >= g.botScore ? "Leading" : "Chasing", 368, 52);
-    ctx.fillText(g.botMood === "stumble" ? "Stumbled" : g.botMood === "boost" ? "Boost" : "AI", 379, 80);
-  }
-
-  function drawGround(ctx, g) {
-    ctx.fillStyle = "rgba(20, 30, 45, 0.88)";
-    ctx.fillRect(0, groundY, W, H - groundY);
-    ctx.fillStyle = "rgba(130, 255, 190, 0.9)";
-    ctx.fillRect(0, groundY, W, 4);
-
-    const tile = 42;
-    const offset = (g.t * g.speed) % tile;
-    ctx.strokeStyle = "rgba(130, 255, 190, 0.22)";
-    ctx.lineWidth = 2;
-    for (let x = -tile; x < W + tile; x += tile) {
-      ctx.beginPath();
-      ctx.moveTo(x - offset, groundY + 18);
-      ctx.lineTo(x + 25 - offset, groundY + 18);
-      ctx.stroke();
-    }
-  }
-
-  function drawBotRunner(ctx, g) {
-    const lead = Math.max(-150, Math.min(150, (g.botScore - g.score) * 0.28));
-    const x = 740 + lead;
-    const y = groundY - 48 + Math.sin(g.t / 8) * 2;
-    ctx.save();
-    ctx.translate(x, y);
-    if (g.botMood === "stumble") ctx.rotate(Math.sin(g.t / 4) * 0.25);
-    ctx.fillStyle = "#7c2d12";
-    roundedRect(ctx, 0, 8, 48, 40, 10);
-    ctx.fill();
-    ctx.fillStyle = "#f97316";
-    roundedRect(ctx, 7, 14, 34, 24, 8);
-    ctx.fill();
-    ctx.fillStyle = "#111827";
-    ctx.beginPath();
-    ctx.arc(17, 24, 4, 0, Math.PI * 2);
-    ctx.arc(32, 24, 4, 0, Math.PI * 2);
-    ctx.fill();
-    if (g.botScore > g.score) {
-      ctx.fillStyle = "#facc15";
-      ctx.beginPath();
-      ctx.moveTo(11, 5);
-      ctx.lineTo(16, -8);
-      ctx.lineTo(24, 5);
-      ctx.lineTo(32, -8);
-      ctx.lineTo(38, 5);
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-  }
-
-  function drawPlayer(ctx, p, t, skin, accessory) {
-    const blink = p.invincible > 0 && Math.floor(t / 4) % 2 === 0;
-    if (blink) return;
-
-    ctx.save();
-    ctx.translate(p.x, p.y);
-
-    if (accessory === "halo") {
-      ctx.strokeStyle = "rgba(34, 211, 238, 0.95)";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.ellipse(p.w / 2, -8, 26, 8, 0, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-
-    if (p.shield > 0) {
-      ctx.strokeStyle = "rgba(95, 215, 255, 0.95)";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.arc(p.w / 2, p.h / 2, Math.max(p.w, p.h) * 0.72, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-
-    if (accessory === "wings") {
-      ctx.fillStyle = "rgba(186, 230, 253, 0.9)";
-      ctx.beginPath();
-      ctx.moveTo(6, 28);
-      ctx.lineTo(-25, 12);
-      ctx.lineTo(-13, 43);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    if (accessory === "jetpack") {
-      ctx.fillStyle = "#334155";
-      roundedRect(ctx, -10, 22, 14, 32, 5);
-      ctx.fill();
-      ctx.fillStyle = "#f97316";
-      ctx.beginPath();
-      ctx.moveTo(-7, 54);
-      ctx.lineTo(0, 72 + Math.sin(t / 3) * 6);
-      ctx.lineTo(5, 54);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    ctx.fillStyle = skin.dark;
-    roundedRect(ctx, 4, 12, p.w - 9, p.h - 13, 13);
-    ctx.fill();
-
-    ctx.fillStyle = skin.body;
-    roundedRect(ctx, 10, 18, p.w - 20, p.h - 25, 10);
-    ctx.fill();
-
-    ctx.fillStyle = "#0b1e25";
-    ctx.beginPath();
-    ctx.arc(p.w - 17, 31, 5, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = skin.dark;
-    ctx.fillRect(15, p.h - 8, 12, 14);
-    ctx.fillRect(p.w - 25, p.h - 8, 12, 14);
-
-    ctx.fillStyle = "rgba(255,255,255,0.8)";
-    ctx.fillRect(16, 21, p.w - 36, 4);
-
-    if (!p.ducking) {
-      ctx.fillStyle = skin.dark;
-      ctx.beginPath();
-      ctx.moveTo(8, 20);
-      ctx.lineTo(-10, 10);
-      ctx.lineTo(4, 35);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    drawAccessory(ctx, accessory, p, t);
-    ctx.restore();
-  }
-
-  function drawAccessory(ctx, accessory, p, t) {
-    if (accessory === "cap") {
-      ctx.fillStyle = "#ef4444";
-      roundedRect(ctx, 13, 8, 31, 10, 5);
-      ctx.fill();
-      ctx.fillRect(39, 12, 18, 5);
-    }
-    if (accessory === "crown") {
-      ctx.fillStyle = "#facc15";
-      ctx.beginPath();
-      ctx.moveTo(12, 14);
-      ctx.lineTo(18, 0);
-      ctx.lineTo(25, 14);
-      ctx.lineTo(34, 0);
-      ctx.lineTo(41, 14);
-      ctx.closePath();
-      ctx.fill();
-    }
-    if (accessory === "headphones") {
-      ctx.strokeStyle = "#0f172a";
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.arc(28, 21, 22, Math.PI, 0);
-      ctx.stroke();
-      ctx.fillStyle = "#0f172a";
-      roundedRect(ctx, 4, 25, 8, 18, 4);
-      roundedRect(ctx, p.w - 12, 25, 8, 18, 4);
-      ctx.fill();
-    }
-    if (accessory === "visor") {
-      ctx.fillStyle = "rgba(14, 165, 233, 0.95)";
-      roundedRect(ctx, 18, 26, 27, 9, 5);
-      ctx.fill();
-    }
-    if (accessory === "scarf") {
-      ctx.fillStyle = "#dc2626";
-      roundedRect(ctx, 8, 37, 35, 8, 4);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(13, 42);
-      ctx.lineTo(-18, 48 + Math.sin(t / 4) * 5);
-      ctx.lineTo(12, 50);
-      ctx.closePath();
-      ctx.fill();
-    }
-    if (accessory === "sunglasses") {
-      ctx.fillStyle = "#020617";
-      roundedRect(ctx, 17, 26, 12, 8, 3);
-      roundedRect(ctx, 32, 26, 12, 8, 3);
-      ctx.fill();
-      ctx.strokeStyle = "#020617";
+      ctx.strokeStyle = gris;
       ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(29, 30);
-      ctx.lineTo(32, 30);
-      ctx.stroke();
+      ctx.strokeRect(20, 85, 220, 10);
+
+      ctx.fillStyle = gris;
+      ctx.fillRect(20, 85, 220 * progreso, 10);
     }
-  }
 
-  function drawObstacle(ctx, ob, t) {
-    ctx.save();
-    ctx.translate(ob.x, ob.y);
-    if (ob.type === "crystal") {
-      const grad = ctx.createLinearGradient(0, 0, ob.w, ob.h);
-      grad.addColorStop(0, "#ff6bb5");
-      grad.addColorStop(1, "#7c3aed");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.moveTo(ob.w / 2, 0);
-      ctx.lineTo(ob.w, ob.h * 0.55);
-      ctx.lineTo(ob.w * 0.65, ob.h);
-      ctx.lineTo(ob.w * 0.2, ob.h);
-      ctx.lineTo(0, ob.h * 0.55);
-      ctx.closePath();
-      ctx.fill();
-    } else if (ob.type === "bot") {
-      ctx.fillStyle = "#f97316";
-      roundedRect(ctx, 0, 8, ob.w, ob.h - 8, 9);
-      ctx.fill();
-      ctx.fillStyle = "#111827";
-      ctx.fillRect(10, 17, 8, 8);
-      ctx.fillRect(30, 17, 8, 8);
-      ctx.fillStyle = "#7c2d12";
-      ctx.fillRect(6, ob.h - 3, 14, 8);
-      ctx.fillRect(30, ob.h - 3, 14, 8);
-    } else {
-      ctx.fillStyle = "#38bdf8";
-      roundedRect(ctx, 0, 7, ob.w, 22, 11);
-      ctx.fill();
-      ctx.strokeStyle = "rgba(255,255,255,0.8)";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(-10, 18 + Math.sin(t / 4) * 2);
-      ctx.lineTo(10, 18);
-      ctx.moveTo(ob.w - 10, 18);
-      ctx.lineTo(ob.w + 10, 18 + Math.cos(t / 4) * 2);
-      ctx.stroke();
+    function dibujarGameOver() {
+      ctx.fillStyle = "rgba(247, 247, 247, 0.92)";
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = gris;
+      ctx.font = "44px Arial";
+      ctx.fillText("Juego terminado", 285, 125);
+
+      ctx.font = "22px Arial";
+      ctx.fillText("Presiona Espacio para reiniciar", 292, 170);
+      ctx.fillText("Puntaje: " + Math.floor(puntaje).toLocaleString("es-PE"), 370, 210);
     }
-    ctx.restore();
-  }
 
-  function drawCoin(ctx, c, t) {
-    ctx.save();
-    ctx.translate(c.x, c.y);
-    ctx.scale(0.7 + Math.abs(Math.sin(t / 14)) * 0.35, 1);
-    ctx.fillStyle = "#facc15";
-    ctx.beginPath();
-    ctx.arc(0, 0, c.r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "rgba(120, 80, 0, 0.5)";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "rgba(255,255,255,0.7)";
-    ctx.fillRect(-3, -6, 3, 12);
-    ctx.restore();
-  }
+    function dibujarVictoria() {
+      ctx.fillStyle = "rgba(247, 247, 247, 0.92)";
+      ctx.fillRect(0, 0, W, H);
 
-  function drawPower(ctx, pow, t) {
-    ctx.save();
-    ctx.translate(pow.x, pow.y);
-    ctx.rotate(Math.sin(t / 18) * 0.18);
-    ctx.fillStyle = pow.kind === "shield" ? "#38bdf8" : pow.kind === "magnet" ? "#f43f5e" : "#a3e635";
-    ctx.beginPath();
-    ctx.arc(0, 0, pow.r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#0f172a";
-    ctx.font = "bold 17px Inter, sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(pow.kind === "shield" ? "S" : pow.kind === "magnet" ? "M" : "B", 0, 1);
-    ctx.restore();
-  }
+      ctx.fillStyle = gris;
+      ctx.font = "44px Arial";
+      ctx.fillText("¡Ganaste!", 350, 120);
 
-  function drawParticles(ctx, g) {
-    for (const part of g.particles) {
-      ctx.globalAlpha = Math.max(0, part.life / 28);
-      ctx.fillStyle = "#a7f3d0";
-      ctx.beginPath();
-      ctx.arc(part.x, part.y, part.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalAlpha = 1;
+      ctx.font = "22px Arial";
+      ctx.fillText("Llegaste a 99 000 puntos", 310, 165);
+      ctx.fillText("Presiona Espacio para jugar otra vez", 270, 205);
     }
-  }
 
-  function drawStartOverlay(ctx) {
-    drawPanel(ctx, "ROBO REX RACE", "Compite contra el bot. Gana monedas y compra accesorios.", "Doble salto · tienda · skins · power-ups · dificultad progresiva");
-  }
+    function actualizarJuego() {
+      if (!juegoTerminado && !ganaste) {
+        frame++;
+        puntaje++;
 
-  function drawPauseOverlay(ctx) {
-    drawPanel(ctx, "PAUSA", "Presiona P o el botón Pause para continuar", "Respira, calcula y vuelve a correr.");
-  }
+        // Estilo Dinosaurio de Google:
+        // cada 100 puntos sube la velocidad.
+        const nivelVelocidad = Math.floor(puntaje / 100);
+        velocidad = 6 + nivelVelocidad * 0.025;
 
-  function drawGameOverOverlay(ctx, g) {
-    const won = g.score >= g.botScore;
-    drawPanel(ctx, won ? "YOU WIN" : "BOT WINS", `Tú: ${Math.floor(g.score)}  ·  Bot: ${Math.floor(g.botScore)}  ·  Monedas: ${g.coins}`, result);
-  }
+        actualizarNubes();
+        actualizarZorro();
+        actualizarObstaculos();
+        revisarChoque();
 
-  function drawPanel(ctx, title, subtitle, small) {
-    ctx.fillStyle = "rgba(15, 23, 42, 0.72)";
-    roundedRect(ctx, 190, 102, 580, 180, 24);
-    ctx.fill();
-    ctx.strokeStyle = "rgba(167, 243, 208, 0.75)";
-    ctx.lineWidth = 2;
-    roundedRect(ctx, 190, 102, 580, 180, 24);
-    ctx.stroke();
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.font = "800 34px Inter, sans-serif";
-    ctx.fillText(title, W / 2, 160);
-    ctx.font = "500 18px Inter, sans-serif";
-    ctx.fillText(subtitle, W / 2, 202);
-    ctx.font = "400 15px Inter, sans-serif";
-    ctx.fillStyle = "rgba(226, 232, 240, 0.88)";
-    ctx.fillText(small, W / 2, 238);
-  }
+        if (puntaje >= metaPuntaje) {
+          ganaste = true;
+        }
+      }
+    }
 
-  function handleCanvasClick() {
-    if (!running && !gameOver) startGame();
-    else if (gameOver) restartGame();
-    else touchJumpRef.current = true;
-  }
+    function dibujarJuego() {
+      ctx.clearRect(0, 0, W, H);
 
-  return (
-    <div className="min-h-screen w-full bg-slate-950 text-white flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-        className="w-full max-w-7xl"
-      >
-        <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-emerald-300 text-sm font-semibold tracking-[0.3em] uppercase">Original competitive runner</p>
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight mt-2">Robo Rex Race</h1>
-            <p className="text-slate-300 mt-3 max-w-3xl">
-              Compite contra un bot, gana monedas permanentes y úsalas en la tienda para comprar colores y accesorios para tu personaje.
-            </p>
-          </div>
+      for (const nube of nubes) {
+        dibujarNube(nube);
+      }
 
-          <div className="flex flex-wrap gap-2">
-            <Button onClick={startGame} className="rounded-2xl shadow-lg">
-              <Play className="w-4 h-4 mr-2" /> Start
-            </Button>
-            <Button onClick={togglePause} variant="secondary" className="rounded-2xl">
-              {paused ? <Play className="w-4 h-4 mr-2" /> : <Pause className="w-4 h-4 mr-2" />} {paused ? "Resume" : "Pause"}
-            </Button>
-            <Button onClick={restartGame} variant="outline" className="rounded-2xl bg-transparent text-white border-slate-600 hover:bg-slate-800">
-              <RotateCcw className="w-4 h-4 mr-2" /> Restart
-            </Button>
-            <Button onClick={() => setShopOpen((v) => !v)} variant="outline" className="rounded-2xl bg-transparent text-white border-emerald-500/60 hover:bg-slate-800">
-              <ShoppingBag className="w-4 h-4 mr-2" /> Shop
-            </Button>
-          </div>
-        </div>
+      dibujarSuelo();
+      dibujarConejo();
+      dibujarObstaculos();
+      dibujarZorro();
+      dibujarUI();
 
-        <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
-          <Card className="bg-slate-900/80 border-slate-700 rounded-[2rem] shadow-2xl overflow-hidden">
-            <CardContent className="p-3 md:p-5">
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-4">
-                <Stat icon={<Star className="w-4 h-4" />} label="You" value={score} />
-                <Stat icon={<Bot className="w-4 h-4" />} label="Bot" value={botScore} />
-                <Stat icon={<Trophy className="w-4 h-4" />} label="Best" value={best} />
-                <Stat icon={<Zap className="w-4 h-4" />} label="Run Coins" value={coins} />
-                <Stat icon={<Crown className="w-4 h-4" />} label="Wallet" value={totalCoins} />
-                <Stat icon={<Shield className="w-4 h-4" />} label="Power" value={power} />
-              </div>
+      if (juegoTerminado) {
+        dibujarGameOver();
+      }
 
-              <div className="relative rounded-[1.5rem] overflow-hidden border border-slate-700 bg-slate-950">
-                <canvas
-                  ref={canvasRef}
-                  width={W}
-                  height={H}
-                  onClick={handleCanvasClick}
-                  onTouchStart={(e) => {
-                    e.preventDefault();
-                    touchJumpRef.current = true;
-                    if (!running && !gameOver) startGame();
-                    if (gameOver) restartGame();
-                  }}
-                  className="w-full block cursor-pointer select-none"
-                />
-              </div>
+      if (ganaste) {
+        dibujarVictoria();
+      }
+    }
 
-              <div className="mt-4 grid gap-3 md:grid-cols-3 text-sm text-slate-300">
-                <Info title="Competencia" text="El bot también avanza, se equivoca a veces y puede activar boost. Al perder, se compara tu puntaje contra el del bot." />
-                <Info title="Monedas" text="Las monedas de cada carrera se suman a tu wallet. Ganar al bot da bonus extra." />
-                <Info title="Controles" text="Espacio / W / ↑ para saltar. Doble salto. S / ↓ para agacharte. P para pausar." />
-              </div>
-            </CardContent>
-          </Card>
+    function loop() {
+      actualizarJuego();
+      dibujarJuego();
+      requestAnimationFrame(loop);
+    }
 
-          {shopOpen && (
-            <motion.div initial={{ opacity: 0, x: 18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
-              <Card className="bg-slate-900/80 border-slate-700 rounded-[2rem] shadow-2xl overflow-hidden h-full">
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h2 className="text-2xl font-black flex items-center gap-2"><ShoppingBag className="w-6 h-6 text-emerald-300" /> Shop</h2>
-                      <p className="text-slate-400 text-sm">Wallet: <span className="text-yellow-300 font-bold">{totalCoins}</span> coins</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-2xl border border-slate-700 flex items-center justify-center" style={{ background: colorData.body }}>
-                      <Palette className="w-5 h-5 text-slate-950" />
-                    </div>
-                  </div>
+    window.addEventListener("keydown", function(e) {
+      if (e.code === "Space" || e.code === "ArrowUp" || e.code === "ArrowDown") {
+        e.preventDefault();
+      }
 
-                  <ShopSection title="Colors">
-                    {COLORS.map((item) => {
-                      const owned = ownedColors.includes(item.id);
-                      const equipped = equippedColor === item.id;
-                      const locked = !owned && totalCoins < item.price;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => buyColor(item)}
-                          disabled={locked}
-                          className={`w-full rounded-2xl border p-3 text-left transition ${equipped ? "border-emerald-300 bg-emerald-400/15" : "border-slate-700 bg-slate-800/60 hover:bg-slate-800"} ${locked ? "opacity-45 cursor-not-allowed" : ""}`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="w-8 h-8 rounded-xl border border-white/20" style={{ background: item.body }} />
-                            <span className="flex-1">
-                              <span className="block font-bold text-white">{item.name}</span>
-                              <span className="text-xs text-slate-400">{owned ? (equipped ? "Equipped" : "Owned") : `${item.price} coins`}</span>
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </ShopSection>
+      if ((e.code === "Space" || e.code === "ArrowUp") && (juegoTerminado || ganaste)) {
+        reiniciar();
+        return;
+      }
 
-                  <ShopSection title="Accessories">
-                    {ACCESSORIES.map((item) => {
-                      const owned = ownedAccessories.includes(item.id);
-                      const equipped = equippedAccessory === item.id;
-                      const locked = !owned && totalCoins < item.price;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => buyAccessory(item)}
-                          disabled={locked}
-                          className={`w-full rounded-2xl border p-3 text-left transition ${equipped ? "border-emerald-300 bg-emerald-400/15" : "border-slate-700 bg-slate-800/60 hover:bg-slate-800"} ${locked ? "opacity-45 cursor-not-allowed" : ""}`}
-                        >
-                          <div className="flex justify-between gap-3">
-                            <span>
-                              <span className="block font-bold text-white">{item.name}</span>
-                              <span className="text-xs text-slate-400">{item.desc}</span>
-                            </span>
-                            <span className="text-xs text-yellow-300 whitespace-nowrap">
-                              {owned ? (equipped ? "Equipped" : "Owned") : `${item.price}`}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </ShopSection>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </div>
-      </motion.div>
-    </div>
-  );
-}
+      if (
+        (e.code === "Space" || e.code === "ArrowUp") &&
+        !zorro.saltando &&
+        !zorro.agachado &&
+        !juegoTerminado &&
+        !ganaste
+      ) {
+        zorro.velY = -13;
+        zorro.saltando = true;
+      }
 
-function Stat({ icon, label, value }) {
-  return (
-    <div className="rounded-2xl bg-slate-800/80 border border-slate-700 px-4 py-3 flex items-center gap-3">
-      <div className="w-9 h-9 rounded-xl bg-emerald-400/15 text-emerald-300 flex items-center justify-center">
-        {icon}
-      </div>
-      <div>
-        <p className="text-xs text-slate-400 uppercase tracking-wide">{label}</p>
-        <p className="font-bold text-lg text-white">{value}</p>
-      </div>
-    </div>
-  );
-}
+      if (
+        (e.code === "ArrowDown" || e.key.toLowerCase() === "s") &&
+        !zorro.saltando &&
+        !juegoTerminado &&
+        !ganaste
+      ) {
+        zorro.agachado = true;
+      }
+    });
 
-function Info({ title, text }) {
-  return (
-    <div className="rounded-2xl bg-slate-800/60 border border-slate-700 p-4">
-      <h3 className="font-bold text-white mb-1">{title}</h3>
-      <p>{text}</p>
-    </div>
-  );
-}
+    window.addEventListener("keyup", function(e) {
+      if (e.code === "ArrowDown" || e.key.toLowerCase() === "s") {
+        zorro.agachado = false;
+      }
+    });
 
-function ShopSection({ title, children }) {
-  return (
-    <div className="mt-5">
-      <h3 className="text-sm font-black uppercase tracking-[0.22em] text-emerald-300 mb-3">{title}</h3>
-      <div className="grid gap-2 max-h-[280px] overflow-auto pr-1">
-        {children}
-      </div>
-    </div>
-  );
-}
+    reiniciar();
+    loop();
+  </script>
+</body>
+</html>
