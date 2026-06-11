@@ -2,630 +2,625 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Zorro del Desierto</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Información - Colegio La Roca</title>
 
   <style>
-    body {
+    * {
       margin: 0;
-      background: #f7f7f7;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
     }
 
-    #contenedor {
-      text-align: center;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #ffffff;
+      color: #2b1017;
+    }
+
+    /* BARRA SUPERIOR */
+    header {
+      width: 100%;
+      padding: 18px 60px;
+      background: rgba(255, 255, 255, 0.96);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      box-shadow: 0 4px 25px rgba(123, 16, 37, 0.15);
+      border-bottom: 3px solid #7b1025;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #7b1025;
+      letter-spacing: 0.5px;
+    }
+
+    .logo span {
+      color: #2b1017;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #7b1025;
+      margin-left: 24px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #2b1017;
+      border-bottom: 2px solid #7b1025;
+      padding-bottom: 5px;
+    }
+
+    /* SECCIONES GENERALES */
+    section {
+      min-height: 100vh;
+      padding: 120px 70px 70px;
+      display: flex;
+      align-items: center;
+    }
+
+    .contenedor {
+      max-width: 1150px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      background: #7b1025;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     h1 {
-      color: #555;
-      margin-bottom: 10px;
+      font-size: 56px;
+      color: #7b1025;
+      margin-bottom: 20px;
+      line-height: 1.1;
     }
 
-    canvas {
-      background: #f7f7f7;
-      border: 3px solid #555;
-      border-radius: 6px;
+    h2 {
+      font-size: 42px;
+      color: #7b1025;
+      margin-bottom: 22px;
     }
 
     p {
-      color: #555;
+      font-size: 18px;
+      line-height: 1.8;
+      color: #4d333a;
+    }
+
+    .boton {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 14px 30px;
+      background: #7b1025;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .boton:hover {
+      background: #4a0616;
+      transform: translateY(-4px);
+    }
+
+    /* INICIO */
+    #inicio {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,247,249,0.95)),
+        radial-gradient(circle at top right, #7b102533, transparent 35%);
+    }
+
+    .inicio-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-card {
+      background: #7b1025;
+      color: white;
+      padding: 40px;
+      border-radius: 35px;
+      box-shadow: 0 25px 60px rgba(123, 16, 37, 0.28);
+    }
+
+    .hero-card h3 {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .hero-card p {
+      color: #ffe8ef;
+      font-size: 16px;
+    }
+
+    /* PRESENTACIÓN */
+    #presentacion {
+      background: #fff7f9;
+    }
+
+    .presentacion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .imagen-box {
+      height: 360px;
+      background: linear-gradient(135deg, #7b1025, #c79aa8);
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 30px;
+      box-shadow: 0 20px 45px rgba(123, 16, 37, 0.25);
+      overflow: hidden;
+    }
+
+    .imagen-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .imagen-box h3 {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .imagen-box p {
+      color: #ffe8ef;
+      font-size: 16px;
+    }
+
+    /* UBICACIÓN */
+    #ubicacion {
+      background: white;
+    }
+
+    .ubicacion-card {
+      background: #fff7f9;
+      padding: 45px;
+      border-radius: 32px;
+      border-left: 8px solid #7b1025;
+      box-shadow: 0 18px 45px rgba(123, 16, 37, 0.12);
+    }
+
+    .ubicacion-card h3 {
+      color: #7b1025;
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    /* DATOS */
+    #datos {
+      background: #7b1025;
+      color: white;
+    }
+
+    #datos h2,
+    #datos .etiqueta {
+      color: white;
+    }
+
+    #datos .etiqueta {
+      background: white;
+      color: #7b1025;
+    }
+
+    .datos-grid {
+      margin-top: 35px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .dato {
+      background: white;
+      color: #2b1017;
+      padding: 28px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.16);
+      transition: 0.3s;
+    }
+
+    .dato:hover {
+      transform: translateY(-8px);
+    }
+
+    .dato h3 {
+      color: #7b1025;
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .dato p {
+      color: #4d333a;
       font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* VALORES */
+    #valores {
+      background: #fff7f9;
+    }
+
+    .valores-grid {
+      margin-top: 35px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .valor {
+      background: white;
+      padding: 35px;
+      border-radius: 28px;
+      text-align: center;
+      border: 1px solid #efd4dc;
+      box-shadow: 0 15px 35px rgba(123, 16, 37, 0.10);
+    }
+
+    .valor .numero {
+      width: 55px;
+      height: 55px;
+      background: #7b1025;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .valor h3 {
+      color: #7b1025;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .valor p {
+      font-size: 16px;
+    }
+
+    /* CONTACTO */
+    #contacto {
+      background: white;
+    }
+
+    .contacto-box {
+      background: linear-gradient(135deg, #7b1025, #4a0616);
+      color: white;
+      padding: 55px;
+      border-radius: 35px;
+      box-shadow: 0 25px 60px rgba(123, 16, 37, 0.28);
+    }
+
+    .contacto-box h2 {
+      color: white;
+    }
+
+    .contacto-box p {
+      color: #ffe8ef;
+    }
+
+    .contacto-grid {
+      margin-top: 35px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .contacto-card {
+      background: white;
+      color: #2b1017;
+      padding: 25px;
+      border-radius: 22px;
+    }
+
+    .contacto-card h3 {
+      color: #7b1025;
+      margin-bottom: 10px;
+      font-size: 21px;
+    }
+
+    .contacto-card p {
+      color: #4d333a;
+      font-size: 15px;
+    }
+
+    footer {
+      background: #2b1017;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    footer p {
+      color: #ffe8ef;
+      font-size: 14px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      header {
+        padding: 18px 25px;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav a {
+        margin: 0 8px;
+        font-size: 14px;
+      }
+
+      section {
+        padding: 150px 25px 60px;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      h2 {
+        font-size: 34px;
+      }
+
+      .inicio-grid,
+      .presentacion-grid,
+      .datos-grid,
+      .valores-grid,
+      .contacto-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div id="contenedor">
-    <h1>Zorro del Desierto</h1>
-    <canvas id="juego" width="900" height="300"></canvas>
-    <p><b>Espacio / ↑</b>: saltar o reiniciar | <b>↓ / S</b>: agacharse</p>
-  </div>
 
-  <script>
-    const canvas = document.getElementById("juego");
-    const ctx = canvas.getContext("2d");
+  <!-- BARRA DE NAVEGACIÓN -->
+  <header>
+    <div class="logo">La Roca <span>Chosica</span></div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#presentacion">Presentación</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#datos">Datos</a>
+      <a href="#valores">Valores</a>
+      <a href="#contacto">Contáctanos</a>
+    </nav>
+  </header>
+
+  <!-- ESPACIO 1: INICIO -->
+  <section id="inicio">
+    <div class="contenedor">
+      <div class="inicio-grid">
+
+        <div>
+          <span class="etiqueta">Información del colegio</span>
+          <h1>I.E.P. “La Roca” Chosica</h1>
+          <p>
+            Bienvenido a la sección informativa del Colegio La Roca,
+            un espacio dedicado a presentar los datos principales de la institución,
+            su ubicación, valores y medios de contacto.
+          </p>
+
+          <a href="#presentacion" class="boton">Ver presentación</a>
+        </div>
+
+        <div class="hero-card">
+          <h3>Formación con valores</h3>
+          <p>
+            La institución busca formar estudiantes responsables, respetuosos
+            y preparados para enfrentar nuevos retos dentro y fuera del aula.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPACIO 2: PRESENTACIÓN -->
+  <section id="presentacion">
+    <div class="contenedor">
+      <div class="presentacion-grid">
+
+        <div>
+          <span class="etiqueta">Presentación</span>
+          <h2>Sobre la institución</h2>
+          <p>
+            La Institución Educativa Privada “La Roca” se encuentra ubicada
+            en Chosica, distrito de Lurigancho. Es una institución educativa
+            privada que forma parte de la comunidad escolar de la zona.
+          </p>
+          <p>
+            Su propuesta está relacionada con la formación académica,
+            la convivencia escolar y la práctica de valores.
+          </p>
+        </div>
+
+        <div class="imagen-box">
+          <!-- 
+            Para colocar una foto real:
+            1. Crea una carpeta llamada "imagenes"
+            2. Guarda tu foto como "colegio-la-roca.jpg"
+            3. Reemplaza este bloque por:
+            <img src="imagenes/colegio-la-roca.jpg" alt="Colegio La Roca Chosica">
+          -->
+
+          <div>
+            <h3>Foto del colegio</h3>
+            <p>Aquí puedes colocar una imagen de la fachada, patio o entrada principal.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPACIO 3: UBICACIÓN -->
+  <section id="ubicacion">
+    <div class="contenedor">
+      <span class="etiqueta">Ubicación</span>
+      <h2>¿Dónde se encuentra?</h2>
+
+      <div class="ubicacion-card">
+        <h3>Pasaje Navidad 156, Chosica</h3>
+        <p>
+          El Colegio La Roca está ubicado en Pasaje Navidad 156,
+          en el distrito de Lurigancho-Chosica, provincia y departamento
+          de Lima.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPACIO 4: DATOS GENERALES -->
+  <section id="datos">
+    <div class="contenedor">
+      <span class="etiqueta">Datos generales</span>
+      <h2>Información principal</h2>
+
+      <div class="datos-grid">
+        <div class="dato">
+          <h3>Nombre</h3>
+          <p>I.E.P. “La Roca”</p>
+        </div>
+
+        <div class="dato">
+          <h3>Gestión</h3>
+          <p>Institución educativa privada.</p>
+        </div>
+
+        <div class="dato">
+          <h3>Área</h3>
+          <p>Zona urbana.</p>
+        </div>
+
+        <div class="dato">
+          <h3>Alumnado</h3>
+          <p>Colegio mixto.</p>
+        </div>
+
+        <div class="dato">
+          <h3>Distrito</h3>
+          <p>Lurigancho-Chosica.</p>
+        </div>
+
+        <div class="dato">
+          <h3>Departamento</h3>
+          <p>Lima, Perú.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPACIO 5: VALORES -->
+  <section id="valores">
+    <div class="contenedor">
+      <span class="etiqueta">Valores</span>
+      <h2>Valores que promueve</h2>
+      <p>
+        La formación de los estudiantes no solo se basa en conocimientos,
+        sino también en actitudes que ayudan a mejorar la convivencia escolar.
+      </p>
+
+      <div class="valores-grid">
+        <div class="valor">
+          <div class="numero">1</div>
+          <h3>Respeto</h3>
+          <p>
+            Fomenta una convivencia sana entre estudiantes,
+            docentes y familias.
+          </p>
+        </div>
+
+        <div class="valor">
+          <div class="numero">2</div>
+          <h3>Responsabilidad</h3>
+          <p>
+            Promueve el cumplimiento de deberes, la puntualidad
+            y el compromiso académico.
+          </p>
+        </div>
+
+        <div class="valor">
+          <div class="numero">3</div>
+          <h3>Formación cristiana</h3>
+          <p>
+            Refuerza principios y valores cristianos dentro
+            de la comunidad educativa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPACIO 6: CONTACTO -->
+  <section id="contacto">
+    <div class="contenedor">
+      <div class="contacto-box">
+        <span class="etiqueta">Contáctanos</span>
+        <h2>Medios de contacto</h2>
+        <p>
+          Estos son algunos datos públicos de contacto de la institución.
+        </p>
+
+        <div class="contacto-grid">
+          <div class="contacto-card">
+            <h3>Dirección</h3>
+            <p>Pasaje Navidad 156, Chosica.</p>
+          </div>
+
+          <div class="contacto-card">
+            <h3>Teléfono</h3>
+            <p>3838098 / 4921820</p>
+          </div>
+
+          <div class="contacto-card">
+            <h3>Correo</h3>
+            <p>ieplaroca@hotmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Sección informativa escolar - I.E.P. “La Roca” Chosica</p>
+  </footer>
 
-    const W = canvas.width;
-    const H = canvas.height;
-    const suelo = 230;
-
-    const gris = "#555555";
-    const fondo = "#f7f7f7";
-    const grisClaro = "#d6d6d6";
-
-    const metaPuntaje = 99000;
-
-    let zorro;
-    let conejo;
-    let obstaculos;
-    let nubes;
-    let puntaje;
-    let velocidad;
-    let gravedad;
-    let frame;
-    let juegoTerminado;
-    let ganaste;
-    let proximoObstaculo;
-
-    function reiniciar() {
-      zorro = {
-        x: 80,
-        baseY: suelo,
-        velY: 0,
-        saltando: false,
-        agachado: false
-      };
-
-      conejo = {
-        x: 760,
-        baseY: suelo
-      };
-
-      obstaculos = [];
-
-      nubes = [
-        { x: 250, y: 65, escala: 1 },
-        { x: 570, y: 45, escala: 0.8 },
-        { x: 780, y: 80, escala: 1.1 }
-      ];
-
-      puntaje = 0;
-      velocidad = 6;
-      gravedad = 0.7;
-      frame = 0;
-      juegoTerminado = false;
-      ganaste = false;
-      proximoObstaculo = 80;
-    }
-
-    function rectRedondo(x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.lineTo(x + w - r, y);
-      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-      ctx.lineTo(x + w, y + h - r);
-      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-      ctx.lineTo(x + r, y + h);
-      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-    }
-
-    function dibujarSuelo() {
-      ctx.strokeStyle = gris;
-      ctx.lineWidth = 2;
-
-      ctx.beginPath();
-      ctx.moveTo(0, suelo);
-      ctx.lineTo(W, suelo);
-      ctx.stroke();
-
-      ctx.lineWidth = 1;
-
-      for (let i = 0; i < W; i += 48) {
-        const x = i - (frame * velocidad * 0.45) % 48;
-
-        ctx.beginPath();
-        ctx.moveTo(x, suelo + 13);
-        ctx.lineTo(x + 18, suelo + 13);
-        ctx.stroke();
-      }
-    }
-
-    function dibujarNube(nube) {
-      const x = nube.x;
-      const y = nube.y;
-      const s = nube.escala;
-
-      ctx.strokeStyle = grisClaro;
-      ctx.lineWidth = 2;
-
-      ctx.beginPath();
-      ctx.arc(x, y, 10 * s, Math.PI, 0);
-      ctx.arc(x + 16 * s, y - 8 * s, 13 * s, Math.PI, 0);
-      ctx.arc(x + 35 * s, y, 10 * s, Math.PI, 0);
-      ctx.lineTo(x + 45 * s, y + 7 * s);
-      ctx.lineTo(x - 8 * s, y + 7 * s);
-      ctx.closePath();
-      ctx.stroke();
-    }
-
-    function actualizarNubes() {
-      for (const nube of nubes) {
-        nube.x -= velocidad * 0.18;
-
-        if (nube.x < -80) {
-          nube.x = W + Math.random() * 200;
-          nube.y = 35 + Math.random() * 55;
-          nube.escala = 0.7 + Math.random() * 0.5;
-        }
-      }
-    }
-
-    function dibujarZorro() {
-      const x = zorro.x;
-      const b = zorro.baseY;
-      const paso = Math.floor(frame / 7) % 2;
-
-      ctx.fillStyle = gris;
-
-      if (zorro.agachado && !zorro.saltando) {
-        // Cuerpo agachado
-        rectRedondo(x + 8, b - 28, 50, 18, 8);
-        ctx.fill();
-
-        // Cabeza
-        rectRedondo(x + 54, b - 32, 20, 18, 5);
-        ctx.fill();
-
-        // Hocico
-        ctx.beginPath();
-        ctx.moveTo(x + 72, b - 27);
-        ctx.lineTo(x + 84, b - 23);
-        ctx.lineTo(x + 72, b - 19);
-        ctx.closePath();
-        ctx.fill();
-
-        // Oreja
-        ctx.beginPath();
-        ctx.moveTo(x + 58, b - 32);
-        ctx.lineTo(x + 63, b - 43);
-        ctx.lineTo(x + 68, b - 32);
-        ctx.closePath();
-        ctx.fill();
-
-        // Cola
-        ctx.beginPath();
-        ctx.moveTo(x + 10, b - 24);
-        ctx.lineTo(x - 25, b - 38);
-        ctx.lineTo(x - 8, b - 15);
-        ctx.closePath();
-        ctx.fill();
-
-        // Patas
-        ctx.fillRect(x + 20, b - 9, 6, 9);
-        ctx.fillRect(x + 45, b - 9, 6, 9);
-
-        // Ojo
-        ctx.fillStyle = fondo;
-        ctx.fillRect(x + 67, b - 27, 3, 3);
-
-      } else {
-        // Cola
-        ctx.beginPath();
-        ctx.moveTo(x + 8, b - 30);
-        ctx.lineTo(x - 28, b - 52);
-        ctx.lineTo(x - 12, b - 22);
-        ctx.closePath();
-        ctx.fill();
-
-        // Cuerpo
-        rectRedondo(x + 8, b - 42, 52, 25, 10);
-        ctx.fill();
-
-        // Cabeza
-        rectRedondo(x + 55, b - 50, 24, 23, 5);
-        ctx.fill();
-
-        // Hocico
-        ctx.beginPath();
-        ctx.moveTo(x + 77, b - 42);
-        ctx.lineTo(x + 92, b - 36);
-        ctx.lineTo(x + 77, b - 31);
-        ctx.closePath();
-        ctx.fill();
-
-        // Orejas
-        ctx.beginPath();
-        ctx.moveTo(x + 58, b - 50);
-        ctx.lineTo(x + 63, b - 64);
-        ctx.lineTo(x + 69, b - 50);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.moveTo(x + 69, b - 49);
-        ctx.lineTo(x + 74, b - 61);
-        ctx.lineTo(x + 78, b - 48);
-        ctx.closePath();
-        ctx.fill();
-
-        // Patas animadas
-        ctx.fillRect(x + 18, b - 18, 5, paso ? 18 : 13);
-        ctx.fillRect(x + 31, b - 18, 5, paso ? 13 : 18);
-        ctx.fillRect(x + 47, b - 18, 5, paso ? 18 : 13);
-        ctx.fillRect(x + 59, b - 18, 5, paso ? 13 : 18);
-
-        // Ojo
-        ctx.fillStyle = fondo;
-        ctx.fillRect(x + 69, b - 42, 3, 3);
-      }
-    }
-
-    function dibujarConejo() {
-      const x = conejo.x;
-      const b = conejo.baseY + Math.sin(frame * 0.12) * 3;
-
-      ctx.fillStyle = gris;
-
-      // Cuerpo
-      rectRedondo(x, b - 24, 28, 17, 7);
-      ctx.fill();
-
-      // Cabeza
-      rectRedondo(x + 22, b - 34, 18, 17, 5);
-      ctx.fill();
-
-      // Orejas
-      ctx.fillRect(x + 26, b - 55, 4, 22);
-      ctx.fillRect(x + 34, b - 52, 4, 19);
-
-      // Patas
-      ctx.fillRect(x + 7, b - 8, 8, 8);
-      ctx.fillRect(x + 21, b - 8, 8, 8);
-
-      // Cola
-      ctx.beginPath();
-      ctx.arc(x - 2, b - 18, 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Ojo
-      ctx.fillStyle = fondo;
-      ctx.fillRect(x + 34, b - 28, 2, 2);
-    }
-
-    function crearObstaculo() {
-      const r = Math.random();
-
-      if (puntaje > 250 && r < 0.32) {
-        const bajo = Math.random() < 0.65;
-
-        obstaculos.push({
-          tipo: "aguila",
-          x: W + 20,
-          y: bajo ? suelo - 63 : suelo - 105,
-          w: 48,
-          h: 24
-        });
-      } else if (r < 0.68) {
-        obstaculos.push({
-          tipo: "arbusto",
-          x: W + 20,
-          y: suelo - 28,
-          w: 34,
-          h: 28
-        });
-      } else {
-        obstaculos.push({
-          tipo: "tronco",
-          x: W + 20,
-          y: suelo - 20,
-          w: 46,
-          h: 20
-        });
-      }
-
-      const reduccionSeparacion = Math.floor(puntaje / 1500);
-      const separacionBase = Math.max(50, 85 - reduccionSeparacion);
-
-      proximoObstaculo = frame + separacionBase + Math.floor(Math.random() * 65);
-    }
-
-    function dibujarArbusto(o) {
-      ctx.fillStyle = gris;
-
-      ctx.beginPath();
-      ctx.arc(o.x + 8, o.y + 19, 9, 0, Math.PI * 2);
-      ctx.arc(o.x + 18, o.y + 11, 13, 0, Math.PI * 2);
-      ctx.arc(o.x + 30, o.y + 19, 9, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillRect(o.x + 5, o.y + 18, 30, 10);
-    }
-
-    function dibujarTronco(o) {
-      ctx.fillStyle = gris;
-
-      rectRedondo(o.x, o.y, o.w, o.h, 8);
-      ctx.fill();
-
-      ctx.fillStyle = fondo;
-
-      ctx.beginPath();
-      ctx.arc(o.x + 9, o.y + 10, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = fondo;
-      ctx.lineWidth = 1;
-
-      ctx.beginPath();
-      ctx.moveTo(o.x + 20, o.y + 7);
-      ctx.lineTo(o.x + 36, o.y + 7);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(o.x + 22, o.y + 14);
-      ctx.lineTo(o.x + 38, o.y + 14);
-      ctx.stroke();
-    }
-
-    function dibujarAguila(o) {
-      ctx.fillStyle = gris;
-
-      const aleteo = Math.sin(frame * 0.25) * 7;
-
-      // Ala izquierda
-      ctx.beginPath();
-      ctx.moveTo(o.x + 24, o.y + 12);
-      ctx.lineTo(o.x + 2, o.y + aleteo);
-      ctx.lineTo(o.x + 18, o.y + 16);
-      ctx.closePath();
-      ctx.fill();
-
-      // Ala derecha
-      ctx.beginPath();
-      ctx.moveTo(o.x + 24, o.y + 12);
-      ctx.lineTo(o.x + 48, o.y + aleteo);
-      ctx.lineTo(o.x + 31, o.y + 16);
-      ctx.closePath();
-      ctx.fill();
-
-      // Cuerpo
-      rectRedondo(o.x + 17, o.y + 9, 18, 11, 5);
-      ctx.fill();
-
-      // Cabeza
-      ctx.beginPath();
-      ctx.arc(o.x + 38, o.y + 10, 6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Pico
-      ctx.beginPath();
-      ctx.moveTo(o.x + 44, o.y + 10);
-      ctx.lineTo(o.x + 54, o.y + 13);
-      ctx.lineTo(o.x + 44, o.y + 16);
-      ctx.closePath();
-      ctx.fill();
-
-      // Ojo
-      ctx.fillStyle = fondo;
-      ctx.fillRect(o.x + 40, o.y + 8, 2, 2);
-    }
-
-    function dibujarObstaculos() {
-      for (const o of obstaculos) {
-        if (o.tipo === "arbusto") dibujarArbusto(o);
-        if (o.tipo === "tronco") dibujarTronco(o);
-        if (o.tipo === "aguila") dibujarAguila(o);
-      }
-    }
-
-    function actualizarZorro() {
-      zorro.baseY += zorro.velY;
-      zorro.velY += gravedad;
-
-      if (zorro.baseY >= suelo) {
-        zorro.baseY = suelo;
-        zorro.velY = 0;
-        zorro.saltando = false;
-      }
-    }
-
-    function actualizarObstaculos() {
-      if (frame >= proximoObstaculo) {
-        crearObstaculo();
-      }
-
-      for (const o of obstaculos) {
-        o.x -= velocidad;
-      }
-
-      obstaculos = obstaculos.filter(o => o.x + o.w > -40);
-    }
-
-    function obtenerHitboxZorro() {
-      if (zorro.agachado && !zorro.saltando) {
-        return {
-          x: zorro.x + 5,
-          y: zorro.baseY - 33,
-          w: 78,
-          h: 30
-        };
-      }
-
-      return {
-        x: zorro.x - 2,
-        y: zorro.baseY - 58,
-        w: 88,
-        h: 55
-      };
-    }
-
-    function revisarChoque() {
-      const z = obtenerHitboxZorro();
-
-      for (const o of obstaculos) {
-        const hit = {
-          x: o.x + 3,
-          y: o.y + 3,
-          w: o.w - 6,
-          h: o.h - 5
-        };
-
-        const choque =
-          z.x < hit.x + hit.w &&
-          z.x + z.w > hit.x &&
-          z.y < hit.y + hit.h &&
-          z.y + z.h > hit.y;
-
-        if (choque) {
-          juegoTerminado = true;
-        }
-      }
-    }
-
-    function dibujarUI() {
-      ctx.fillStyle = gris;
-      ctx.font = "18px Arial";
-
-      ctx.fillText(
-        "Puntaje: " + Math.floor(puntaje).toLocaleString("es-PE") + " / " + metaPuntaje.toLocaleString("es-PE"),
-        20,
-        30
-      );
-
-      ctx.font = "14px Arial";
-      ctx.fillText("Objetivo: llega a 99 000 puntos", 20, 52);
-      ctx.fillText("Velocidad: " + velocidad.toFixed(1), 20, 72);
-
-      const progreso = Math.min(puntaje / metaPuntaje, 1);
-
-      ctx.strokeStyle = gris;
-      ctx.lineWidth = 2;
-      ctx.strokeRect(20, 85, 220, 10);
-
-      ctx.fillStyle = gris;
-      ctx.fillRect(20, 85, 220 * progreso, 10);
-    }
-
-    function dibujarGameOver() {
-      ctx.fillStyle = "rgba(247, 247, 247, 0.92)";
-      ctx.fillRect(0, 0, W, H);
-
-      ctx.fillStyle = gris;
-      ctx.font = "44px Arial";
-      ctx.fillText("Juego terminado", 285, 125);
-
-      ctx.font = "22px Arial";
-      ctx.fillText("Presiona Espacio para reiniciar", 292, 170);
-      ctx.fillText("Puntaje: " + Math.floor(puntaje).toLocaleString("es-PE"), 370, 210);
-    }
-
-    function dibujarVictoria() {
-      ctx.fillStyle = "rgba(247, 247, 247, 0.92)";
-      ctx.fillRect(0, 0, W, H);
-
-      ctx.fillStyle = gris;
-      ctx.font = "44px Arial";
-      ctx.fillText("¡Ganaste!", 350, 120);
-
-      ctx.font = "22px Arial";
-      ctx.fillText("Llegaste a 99 000 puntos", 310, 165);
-      ctx.fillText("Presiona Espacio para jugar otra vez", 270, 205);
-    }
-
-    function actualizarJuego() {
-      if (!juegoTerminado && !ganaste) {
-        frame++;
-        puntaje++;
-
-        // Estilo Dinosaurio de Google:
-        // cada 100 puntos sube la velocidad.
-        const nivelVelocidad = Math.floor(puntaje / 100);
-        velocidad = 6 + nivelVelocidad * 0.025;
-
-        actualizarNubes();
-        actualizarZorro();
-        actualizarObstaculos();
-        revisarChoque();
-
-        if (puntaje >= metaPuntaje) {
-          ganaste = true;
-        }
-      }
-    }
-
-    function dibujarJuego() {
-      ctx.clearRect(0, 0, W, H);
-
-      for (const nube of nubes) {
-        dibujarNube(nube);
-      }
-
-      dibujarSuelo();
-      dibujarConejo();
-      dibujarObstaculos();
-      dibujarZorro();
-      dibujarUI();
-
-      if (juegoTerminado) {
-        dibujarGameOver();
-      }
-
-      if (ganaste) {
-        dibujarVictoria();
-      }
-    }
-
-    function loop() {
-      actualizarJuego();
-      dibujarJuego();
-      requestAnimationFrame(loop);
-    }
-
-    window.addEventListener("keydown", function(e) {
-      if (e.code === "Space" || e.code === "ArrowUp" || e.code === "ArrowDown") {
-        e.preventDefault();
-      }
-
-      if ((e.code === "Space" || e.code === "ArrowUp") && (juegoTerminado || ganaste)) {
-        reiniciar();
-        return;
-      }
-
-      if (
-        (e.code === "Space" || e.code === "ArrowUp") &&
-        !zorro.saltando &&
-        !zorro.agachado &&
-        !juegoTerminado &&
-        !ganaste
-      ) {
-        zorro.velY = -13;
-        zorro.saltando = true;
-      }
-
-      if (
-        (e.code === "ArrowDown" || e.key.toLowerCase() === "s") &&
-        !zorro.saltando &&
-        !juegoTerminado &&
-        !ganaste
-      ) {
-        zorro.agachado = true;
-      }
-    });
-
-    window.addEventListener("keyup", function(e) {
-      if (e.code === "ArrowDown" || e.key.toLowerCase() === "s") {
-        zorro.agachado = false;
-      }
-    });
-
-    reiniciar();
-    loop();
-  </script>
 </body>
 </html>
