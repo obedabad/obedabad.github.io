@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram | Página Informativa</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Parker The Ingeniere | Instagram Creator</title>
 
   <style>
     * {
@@ -19,7 +20,7 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #070711;
-      color: white;
+      color: #ffffff;
       overflow-x: hidden;
     }
 
@@ -33,7 +34,7 @@
       opacity: 0.55;
       top: -220px;
       right: -180px;
-      z-index: -3;
+      z-index: -5;
       border-radius: 50%;
     }
 
@@ -47,7 +48,7 @@
       opacity: 0.45;
       bottom: -220px;
       left: -180px;
-      z-index: -3;
+      z-index: -5;
       border-radius: 50%;
     }
 
@@ -58,7 +59,7 @@
         linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
       background-size: 70px 70px;
-      z-index: -4;
+      z-index: -6;
       mask-image: radial-gradient(circle at center, black, transparent 75%);
     }
 
@@ -83,7 +84,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(7, 7, 17, 0.68);
+      background: rgba(7, 7, 17, 0.72);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.1);
       z-index: 100;
@@ -92,12 +93,13 @@
     .logo {
       font-size: 18px;
       font-weight: 900;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.03em;
     }
 
     .logo span {
       background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
     }
 
@@ -110,11 +112,29 @@
       color: #c9c9d8;
       text-decoration: none;
       font-size: 14px;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
     nav a:hover {
-      color: white;
+      color: #ffffff;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      cursor: pointer;
+    }
+
+    .menu-btn span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #ffffff;
+      margin: 5px auto;
     }
 
     .hero {
@@ -141,9 +161,11 @@
       letter-spacing: -0.07em;
     }
 
-    h1 span {
+    h1 span,
+    .gradient-text {
       background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
     }
 
@@ -168,7 +190,10 @@
       font-size: 14px;
       font-weight: bold;
       text-decoration: none;
-      transition: 0.35s;
+      transition: 0.35s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-primary {
@@ -214,10 +239,22 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
 
+    .top-phone {
+      padding: 18px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .top-phone h3 {
+      font-size: 16px;
+    }
+
     .story-bar {
       display: flex;
       gap: 10px;
-      padding: 18px 14px;
+      padding: 16px 14px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -248,8 +285,8 @@
     }
 
     .avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: linear-gradient(135deg, #feda75, #d62976, #4f5bd5);
     }
@@ -259,7 +296,7 @@
     }
 
     .post-image {
-      height: 300px;
+      height: 285px;
       border-radius: 22px;
       background:
         radial-gradient(circle at 20% 20%, #feda75, transparent 30%),
@@ -267,6 +304,17 @@
         radial-gradient(circle at 50% 90%, #4f5bd5, transparent 35%),
         #181827;
       margin-bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .post-image h2 {
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.04em;
     }
 
     .icons {
@@ -330,43 +378,6 @@
       line-height: 1.7;
     }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .info-card {
-      min-height: 250px;
-      padding: 34px;
-      border-radius: 32px;
-      background: rgba(255,255,255,0.065);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(18px);
-      transition: 0.35s;
-    }
-
-    .info-card:hover {
-      transform: translateY(-8px);
-      background: rgba(255,255,255,0.105);
-    }
-
-    .info-card span {
-      font-size: 32px;
-      display: block;
-      margin-bottom: 18px;
-    }
-
-    .info-card h3 {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .info-card p {
-      color: #c9c9d8;
-      line-height: 1.7;
-    }
-
     .about-grid {
       display: grid;
       grid-template-columns: 0.95fr 1.05fr;
@@ -375,6 +386,8 @@
 
     .big-card,
     .list-card,
+    .info-card,
+    .tip,
     .contact {
       background: rgba(255,255,255,0.065);
       border: 1px solid rgba(255,255,255,0.12);
@@ -405,6 +418,131 @@
       line-height: 1.7;
     }
 
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .info-card {
+      min-height: 250px;
+      padding: 34px;
+      transition: 0.35s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.105);
+    }
+
+    .info-card span {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .info-card h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p {
+      color: #c9c9d8;
+      line-height: 1.7;
+    }
+
+    .profile-preview {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .profile-card {
+      padding: 40px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 145px;
+      height: 145px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      padding: 6px;
+    }
+
+    .profile-avatar div {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #11111d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      font-weight: 900;
+    }
+
+    .profile-card h3 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .profile-card p {
+      color: #c9c9d8;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+    }
+
+    .stat span {
+      color: #c9c9d8;
+      font-size: 13px;
+    }
+
+    .content-box {
+      padding: 45px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .content-box h2 {
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin-bottom: 22px;
+    }
+
+    .content-box p {
+      color: #c9c9d8;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
     .tips {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -413,9 +551,6 @@
 
     .tip {
       padding: 34px;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.065);
-      border: 1px solid rgba(255,255,255,0.12);
     }
 
     .tip h3 {
@@ -473,7 +608,8 @@
 
     @media (max-width: 1000px) {
       .hero,
-      .about-grid {
+      .about-grid,
+      .profile-preview {
         grid-template-columns: 1fr;
       }
 
@@ -489,10 +625,29 @@
     @media (max-width: 700px) {
       header {
         padding: 0 6%;
+        height: 74px;
+      }
+
+      .menu-btn {
+        display: block;
       }
 
       nav {
+        position: fixed;
+        top: 74px;
+        left: 0;
+        width: 100%;
+        padding: 24px 6%;
+        background: rgba(7, 7, 17, 0.96);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
         display: none;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav.active {
+        display: flex;
       }
 
       .hero {
@@ -500,7 +655,7 @@
       }
 
       h1 {
-        font-size: 58px;
+        font-size: 56px;
       }
 
       .hero p {
@@ -512,7 +667,8 @@
       }
 
       .cards,
-      .tips {
+      .tips,
+      .stats {
         grid-template-columns: 1fr;
       }
 
@@ -532,7 +688,9 @@
       .list-card,
       .info-card,
       .tip,
-      .contact {
+      .contact,
+      .profile-card,
+      .content-box {
         padding: 32px;
       }
 
@@ -553,14 +711,20 @@
   <div class="grid"></div>
 
   <header>
-    <div class="logo"><span>Instagram</span> Web</div>
+    <div class="logo"><span>Parker</span> The Ingeniere</div>
 
-    <nav>
+    <button class="menu-btn" id="menuBtn">
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="navMenu">
       <a href="#inicio">Inicio</a>
-      <a href="#que-es">Qué es</a>
-      <a href="#funciones">Funciones</a>
-      <a href="#impacto">Impacto</a>
-      <a href="#consejos">Consejos</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#contenido">Contenido</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#instagram">Instagram</a>
+      <a href="#contacto">Contacto</a>
     </nav>
   </header>
 
@@ -568,31 +732,38 @@
 
     <section class="hero" id="inicio">
       <div class="reveal">
-        <div class="tag">Red social / Comunicación digital</div>
+        <div class="tag">Marca personal / Instagram / Creatividad</div>
 
         <h1>
-          El mundo de <br>
-          <span>Instagram</span>
+          Parker The <br>
+          <span>Ingeniere</span>
         </h1>
 
         <p>
-          Instagram es una red social visual donde las personas comparten fotos,
-          videos, historias, reels y mensajes. También es una herramienta importante
-          para marcas, creadores de contenido, negocios y comunicación digital.
+          Soy Parker The Ingeniere, creador de contenido enfocado en tecnología,
+          ingeniería, diseño, creatividad digital y proyectos visuales. Esta página
+          presenta mi identidad, mi contenido y mi estilo como marca personal.
         </p>
 
         <div class="buttons">
-          <a href="#que-es" class="btn btn-primary">Conocer más</a>
-          <a href="#funciones" class="btn btn-secondary">Ver funciones</a>
+          <a href="#sobre-mi" class="btn btn-primary">Conocerme</a>
+          <a href="https://instagram.com/parker_the_ingeniere" target="_blank" class="btn btn-secondary">
+            @parker_the_ingeniere
+          </a>
         </div>
       </div>
 
       <div class="phone-area reveal">
-        <div class="floating-card card-one">Historias</div>
-        <div class="floating-card card-two">Reels</div>
+        <div class="floating-card card-one">Ingeniería</div>
+        <div class="floating-card card-two">Contenido</div>
 
         <div class="phone">
           <div class="phone-screen">
+            <div class="top-phone">
+              <h3>Instagram</h3>
+              <span>● ● ●</span>
+            </div>
+
             <div class="story-bar">
               <div class="story"><div></div></div>
               <div class="story"><div></div></div>
@@ -603,10 +774,12 @@
             <div class="post">
               <div class="post-header">
                 <div class="avatar"></div>
-                <h4>@usuario_creativo</h4>
+                <h4>@parker_the_ingeniere</h4>
               </div>
 
-              <div class="post-image"></div>
+              <div class="post-image">
+                <h2>Parker<br>The<br>Ingeniere</h2>
+              </div>
 
               <div class="icons">
                 <span>♡</span>
@@ -615,8 +788,7 @@
               </div>
 
               <p class="caption">
-                Una plataforma para compartir momentos, ideas, diseños,
-                experiencias y contenido creativo.
+                Tecnología, creatividad, ingeniería y diseño en una sola identidad digital.
               </p>
             </div>
           </div>
@@ -624,148 +796,187 @@
       </div>
     </section>
 
-    <section id="que-es">
+    <section id="sobre-mi">
       <div class="about-grid">
         <div class="big-card reveal">
-          <div class="tag">Qué es Instagram</div>
-          <h2>Una plataforma visual.</h2>
+          <div class="tag">Sobre mí</div>
+          <h2>Hola, soy Parker.</h2>
           <p>
-            Instagram permite crear y compartir contenido visual. Su objetivo principal
-            es conectar a las personas a través de imágenes, videos, historias,
-            transmisiones en vivo y mensajes directos.
+            Me presento como Parker The Ingeniere, una marca personal que mezcla
+            ingeniería, tecnología, diseño y creatividad. Mi objetivo es compartir
+            ideas, proyectos, aprendizajes y contenido visual con un estilo moderno,
+            digital y auténtico.
           </p>
         </div>
 
         <div class="list reveal">
           <div class="list-card">
-            <h3>Comunicación</h3>
+            <h3>Ingeniería</h3>
             <p>
-              Sirve para hablar con amigos, compartir experiencias y seguir a personas
-              o marcas de interés.
+              Me interesa la tecnología, los sistemas, la innovación y cómo las ideas
+              pueden convertirse en proyectos reales.
             </p>
           </div>
 
           <div class="list-card">
-            <h3>Creatividad</h3>
+            <h3>Diseño</h3>
             <p>
-              Permite publicar fotos, reels, historias, diseños, videos cortos
-              y contenido artístico.
+              Trabajo con estética visual, composición, branding, redes sociales
+              y presentación digital.
             </p>
           </div>
 
           <div class="list-card">
-            <h3>Marketing</h3>
+            <h3>Contenido</h3>
             <p>
-              Muchas empresas usan Instagram para mostrar productos, promocionar
-              servicios y conectar con clientes.
+              Creo contenido para comunicar ideas de forma clara, visual y atractiva,
+              especialmente para Instagram y plataformas digitales.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="funciones">
+    <section id="contenido">
       <div class="section-title reveal">
-        <div class="tag">Funciones principales</div>
-        <h2>Qué puedes hacer en Instagram</h2>
+        <div class="tag">Contenido</div>
+        <h2>Qué comparto</h2>
         <p>
-          La plataforma combina entretenimiento, comunicación, creación de contenido
-          y herramientas para negocios.
+          Mi contenido combina creatividad, tecnología, diseño e ideas relacionadas
+          con el mundo digital.
         </p>
       </div>
 
       <div class="cards">
         <div class="info-card reveal">
+          <span>⚙️</span>
+          <h3>Ingeniería</h3>
+          <p>Ideas, conceptos, proyectos y aprendizajes relacionados con tecnología.</p>
+        </div>
+
+        <div class="info-card reveal">
+          <span>🎨</span>
+          <h3>Diseño visual</h3>
+          <p>Composición, estética, branding, mockups y piezas para redes sociales.</p>
+        </div>
+
+        <div class="info-card reveal">
+          <span>📱</span>
+          <h3>Instagram</h3>
+          <p>Contenido digital pensado para comunicar, crecer y construir identidad.</p>
+        </div>
+
+        <div class="info-card reveal">
+          <span>🚀</span>
+          <h3>Proyectos</h3>
+          <p>Ideas personales, experimentos, páginas web y conceptos creativos.</p>
+        </div>
+
+        <div class="info-card reveal">
+          <span>💡</span>
+          <h3>Creatividad</h3>
+          <p>Exploración de ideas, inspiración y formas nuevas de presentar contenido.</p>
+        </div>
+
+        <div class="info-card reveal">
+          <span>🧠</span>
+          <h3>Aprendizaje</h3>
+          <p>Proceso, práctica, mejora continua y desarrollo de habilidades digitales.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos">
+      <div class="section-title reveal">
+        <div class="tag">Proyectos</div>
+        <h2>Lo que puedo mostrar</h2>
+        <p>
+          Esta sección presenta los tipos de proyectos que pueden formar parte de
+          la marca Parker The Ingeniere.
+        </p>
+      </div>
+
+      <div class="cards">
+        <div class="info-card reveal">
+          <span>🖥️</span>
+          <h3>Páginas web</h3>
+          <p>Landing pages, portafolios, páginas personales y diseños interactivos.</p>
+        </div>
+
+        <div class="info-card reveal">
           <span>📸</span>
-          <h3>Publicaciones</h3>
-          <p>
-            Fotos o videos que aparecen en el perfil del usuario y pueden recibir
-            comentarios, likes y compartidos.
-          </p>
+          <h3>Posts para Instagram</h3>
+          <p>Diseños para publicaciones, carruseles, anuncios e identidad visual.</p>
         </div>
 
         <div class="info-card reveal">
           <span>🎬</span>
           <h3>Reels</h3>
-          <p>
-            Videos cortos y dinámicos usados para entretenimiento, tendencias,
-            educación rápida y contenido creativo.
-          </p>
+          <p>Ideas para videos cortos sobre tecnología, procesos creativos y proyectos.</p>
         </div>
 
         <div class="info-card reveal">
-          <span>✨</span>
-          <h3>Historias</h3>
-          <p>
-            Contenido temporal que permite compartir momentos del día de forma rápida,
-            usando texto, música, stickers y encuestas.
-          </p>
+          <span>🔧</span>
+          <h3>Tech projects</h3>
+          <p>Proyectos relacionados con ingeniería, programación, prototipos o sistemas.</p>
         </div>
 
         <div class="info-card reveal">
-          <span>💬</span>
-          <h3>Mensajes</h3>
-          <p>
-            Los mensajes directos permiten conversar, enviar publicaciones,
-            responder historias y crear chats privados.
-          </p>
+          <span>🧩</span>
+          <h3>Branding personal</h3>
+          <p>Logo, colores, estilo, tono visual y presentación como creador digital.</p>
         </div>
 
         <div class="info-card reveal">
-          <span>🛍️</span>
-          <h3>Negocios</h3>
-          <p>
-            Las marcas pueden mostrar productos, crear campañas y comunicarse con
-            su audiencia de manera visual.
-          </p>
-        </div>
-
-        <div class="info-card reveal">
-          <span>📊</span>
-          <h3>Estadísticas</h3>
-          <p>
-            Las cuentas profesionales pueden revisar alcance, interacción,
-            visitas al perfil y rendimiento del contenido.
-          </p>
+          <span>🌐</span>
+          <h3>Presencia digital</h3>
+          <p>Una identidad consistente para Instagram, web, portafolio y redes sociales.</p>
         </div>
       </div>
     </section>
 
-    <section id="impacto">
-      <div class="section-title reveal">
-        <div class="tag">Impacto digital</div>
-        <h2>Importancia de Instagram</h2>
-        <p>
-          Instagram influye en la forma en que las personas consumen información,
-          descubren tendencias, conocen marcas y expresan su identidad visual.
-        </p>
-      </div>
+    <section id="instagram">
+      <div class="profile-preview">
+        <div class="profile-card reveal">
+          <div class="profile-avatar">
+            <div>P</div>
+          </div>
 
-      <div class="cards">
-        <div class="info-card reveal">
-          <span>🌎</span>
-          <h3>Conexión global</h3>
-          <p>
-            Permite comunicarse con personas de diferentes lugares y compartir
-            contenido de manera inmediata.
-          </p>
+          <h3>Parker The Ingeniere</h3>
+          <p>@parker_the_ingeniere</p>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>Tech</strong>
+              <span>Contenido</span>
+            </div>
+
+            <div class="stat">
+              <strong>Design</strong>
+              <span>Estilo</span>
+            </div>
+
+            <div class="stat">
+              <strong>Ideas</strong>
+              <span>Proyectos</span>
+            </div>
+          </div>
+
+          <div class="buttons" style="justify-content:center;">
+            <a href="https://instagram.com/parker_the_ingeniere" target="_blank" class="btn btn-primary">
+              Visitar Instagram
+            </a>
+          </div>
         </div>
 
-        <div class="info-card reveal">
-          <span>🎨</span>
-          <h3>Expresión visual</h3>
+        <div class="content-box reveal">
+          <div class="tag">Instagram</div>
+          <h2>Una identidad para redes.</h2>
           <p>
-            Es una plataforma donde el diseño, la fotografía, el video y la estética
-            tienen un papel muy importante.
-          </p>
-        </div>
-
-        <div class="info-card reveal">
-          <span>🚀</span>
-          <h3>Oportunidades</h3>
-          <p>
-            Ayuda a creadores, emprendedores y negocios a mostrar su trabajo,
-            atraer público y construir una comunidad.
+            Parker The Ingeniere puede funcionar como una marca personal para mostrar
+            proyectos, ideas, contenido educativo, diseños, procesos creativos y
+            publicaciones relacionadas con tecnología. La idea es que tu perfil se vea
+            profesional, moderno y reconocible.
           </p>
         </div>
       </div>
@@ -773,72 +984,83 @@
 
     <section id="consejos">
       <div class="section-title reveal">
-        <div class="tag">Uso responsable</div>
-        <h2>Consejos para usar Instagram</h2>
+        <div class="tag">Estrategia</div>
+        <h2>Ideas para tu Instagram</h2>
       </div>
 
       <div class="tips">
         <div class="tip reveal">
-          <h3>Cuida tu privacidad</h3>
+          <h3>Publica procesos</h3>
           <p>
-            No compartas datos personales como dirección, horarios, contraseñas
-            o información sensible.
+            Muestra cómo haces tus diseños, páginas web, proyectos o ideas. Eso hace
+            que tu contenido se vea más real y profesional.
           </p>
         </div>
 
         <div class="tip reveal">
-          <h3>Verifica la información</h3>
+          <h3>Usa una estética fija</h3>
           <p>
-            No todo lo que aparece en redes es verdadero. Es importante revisar
-            fuentes y evitar compartir rumores.
+            Mantén colores, tipografías y estilo visual parecidos para que la marca
+            Parker The Ingeniere sea fácil de reconocer.
           </p>
         </div>
 
         <div class="tip reveal">
-          <h3>Usa bien tu tiempo</h3>
+          <h3>Combina tecnología y diseño</h3>
           <p>
-            Instagram puede entretener, pero también es bueno equilibrar su uso
-            con estudio, descanso y actividades fuera de pantalla.
+            Puedes crear contenido sobre páginas web, herramientas digitales,
+            ingeniería, creatividad y branding personal.
           </p>
         </div>
 
         <div class="tip reveal">
-          <h3>Respeta a los demás</h3>
+          <h3>Cuenta tu historia</h3>
           <p>
-            Comenta con respeto, evita burlas y no compartas contenido que pueda
-            dañar a otras personas.
+            Comparte quién eres, qué estás aprendiendo, qué estás creando y hacia
+            dónde quieres llevar tu marca.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="contact reveal">
-      <div class="tag">Conclusión</div>
-      <h2>Instagram es más que una app.</h2>
+    <section class="contact reveal" id="contacto">
+      <div class="tag">Contacto</div>
+      <h2>Sigue a Parker The Ingeniere.</h2>
       <p>
-        Es una herramienta de comunicación, creatividad, entretenimiento y trabajo.
-        Usada correctamente, puede servir para aprender, inspirarse, crear comunidad
-        y mostrar proyectos personales o profesionales.
+        Puedes encontrarme como <strong>@parker_the_ingeniere</strong>.
+        Esta página funciona como presentación personal, portafolio digital
+        y espacio para mostrar mi identidad visual.
       </p>
 
       <div class="buttons">
-        <a href="#inicio" class="btn btn-primary">Volver arriba</a>
-        <a href="#funciones" class="btn btn-secondary">Repasar funciones</a>
+        <a href="https://instagram.com/parker_the_ingeniere" target="_blank" class="btn btn-primary">
+          Instagram
+        </a>
+
+        <a href="mailto:tu-correo@gmail.com" class="btn btn-secondary">
+          Email
+        </a>
+
+        <a href="#inicio" class="btn btn-secondary">
+          Volver arriba
+        </a>
       </div>
     </section>
 
   </main>
 
   <footer>
-    <p>© <span id="year"></span> Página informativa creada por Obed.</p>
+    <p>© <span id="year"></span> Parker The Ingeniere — @parker_the_ingeniere</p>
   </footer>
 
   <script>
     const cursorLight = document.querySelector(".cursor-light");
 
     document.addEventListener("mousemove", function(event) {
-      cursorLight.style.left = event.clientX + "px";
-      cursorLight.style.top = event.clientY + "px";
+      if (cursorLight) {
+        cursorLight.style.left = event.clientX + "px";
+        cursorLight.style.top = event.clientY + "px";
+      }
     });
 
     const revealElements = document.querySelectorAll(".reveal");
@@ -859,6 +1081,21 @@
 
     const year = document.getElementById("year");
     year.textContent = new Date().getFullYear();
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navMenu = document.getElementById("navMenu");
+
+    menuBtn.addEventListener("click", function() {
+      navMenu.classList.toggle("active");
+    });
+
+    const navLinks = document.querySelectorAll("nav a");
+
+    navLinks.forEach(function(link) {
+      link.addEventListener("click", function() {
+        navMenu.classList.remove("active");
+      });
+    });
   </script>
 
 </body>
