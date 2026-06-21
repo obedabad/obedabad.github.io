@@ -28,12 +28,12 @@
     body::before {
       content: "";
       position: fixed;
-      width: 620px;
-      height: 620px;
-      top: -220px;
-      right: -180px;
+      width: 680px;
+      height: 680px;
+      top: -260px;
+      right: -220px;
       background: #d8c9a7;
-      filter: blur(150px);
+      filter: blur(160px);
       opacity: 0.28;
       border-radius: 50%;
       z-index: -5;
@@ -42,13 +42,13 @@
     body::after {
       content: "";
       position: fixed;
-      width: 600px;
-      height: 600px;
-      bottom: -220px;
-      left: -180px;
+      width: 620px;
+      height: 620px;
+      bottom: -260px;
+      left: -220px;
       background: #6f6250;
-      filter: blur(150px);
-      opacity: 0.32;
+      filter: blur(160px);
+      opacity: 0.34;
       border-radius: 50%;
       z-index: -5;
     }
@@ -139,9 +139,9 @@
       min-height: 100vh;
       padding: 150px 7% 80px;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.05fr 0.95fr;
       align-items: center;
-      gap: 60px;
+      gap: 70px;
     }
 
     .tag {
@@ -210,9 +210,77 @@
       transform: translateY(-5px);
     }
 
-    .profile-area {
+    .visual-stage {
       position: relative;
-      min-height: 600px;
+      min-height: 620px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-orb {
+      position: relative;
+      width: min(460px, 90vw);
+      height: min(460px, 90vw);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(216,201,167,0.16), rgba(5,5,5,0.8) 65%),
+        #050505;
+      border: 2px solid rgba(244,239,228,0.55);
+      box-shadow:
+        0 0 45px rgba(216,201,167,0.28),
+        inset 0 0 60px rgba(216,201,167,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: float 5s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .main-orb::before {
+      content: "";
+      position: absolute;
+      inset: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(216,201,167,0.12);
+    }
+
+    .main-orb::after {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, transparent 45%, rgba(216,201,167,0.08));
+      border-radius: 50%;
+    }
+
+    .profile-logo {
+      width: 72%;
+      height: 72%;
+      border-radius: 50%;
+      object-fit: cover;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 45px rgba(216,201,167,0.16);
+    }
+
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(244,239,228,0.14);
+      animation: rotate 18s linear infinite;
+    }
+
+    .orbit-one {
+      width: 540px;
+      height: 540px;
+    }
+
+    .orbit-two {
+      width: 380px;
+      height: 380px;
+      animation-duration: 12s;
+      animation-direction: reverse;
     }
 
     .floating-card {
@@ -228,160 +296,26 @@
     }
 
     .card-one {
-      top: 80px;
+      top: 90px;
       left: 10px;
     }
 
     .card-two {
       right: 0;
+      top: 160px;
+      animation-delay: 0.6s;
+    }
+
+    .card-three {
+      left: 70px;
       bottom: 110px;
-      animation-delay: 0.8s;
+      animation-delay: 1s;
     }
 
-    .profile-device {
-      width: min(370px, 100%);
-      min-height: 650px;
-      border-radius: 46px;
-      padding: 16px;
-      margin-left: auto;
-      background: linear-gradient(145deg, rgba(244,239,228,0.16), rgba(244,239,228,0.04));
-      border: 1px solid rgba(244,239,228,0.18);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 40px 100px rgba(0,0,0,0.55);
-      animation: float 5s ease-in-out infinite;
-    }
-
-    .device-screen {
-      width: 100%;
-      min-height: 618px;
-      border-radius: 32px;
-      background: #0c0c0c;
-      overflow: hidden;
-      border: 1px solid rgba(244,239,228,0.1);
-    }
-
-    .device-top {
-      padding: 18px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(244,239,228,0.08);
-    }
-
-    .device-top h3 {
-      font-size: 16px;
-      color: #f4efe4;
-    }
-
-    .circle-row {
-      display: flex;
-      gap: 13px;
-      padding: 16px 14px;
-      overflow-x: auto;
-      border-bottom: 1px solid rgba(244,239,228,0.08);
-    }
-
-    .circle-row::-webkit-scrollbar {
-      display: none;
-    }
-
-    .circle-item {
-      min-width: 64px;
-      text-align: center;
-    }
-
-    .circle-ring {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, #ffffff, #d8c9a7, #6f6250);
-      margin-bottom: 7px;
-    }
-
-    .circle-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: #111;
-      border: 3px solid #0c0c0c;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #d8c9a7;
-      font-weight: 900;
-      font-size: 18px;
-    }
-
-    .circle-item p {
-      font-size: 11px;
-      color: #bdb5a5;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 65px;
-    }
-
-    .profile-post {
-      padding: 16px;
-    }
-
-    .post-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .avatar-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(244,239,228,0.25);
-    }
-
-    .post-header h4 {
-      font-size: 14px;
-      color: #f4efe4;
-    }
-
-    .post-image {
-      height: 315px;
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 30%),
-        radial-gradient(circle at 70% 40%, rgba(216,201,167,0.28), transparent 35%),
-        radial-gradient(circle at 50% 90%, rgba(111,98,80,0.32), transparent 35%),
-        #111;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      border: 1px solid rgba(244,239,228,0.1);
-    }
-
-    .post-image img {
-      width: 245px;
-      height: 245px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 50px rgba(216,201,167,0.24);
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 14px;
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #f4efe4;
-    }
-
-    .caption {
-      color: #c9c0af;
-      font-size: 14px;
-      line-height: 1.5;
+    .card-four {
+      right: 50px;
+      bottom: 70px;
+      animation-delay: 1.3s;
     }
 
     section {
@@ -510,18 +444,31 @@
       background: rgba(244,239,228,0.1);
     }
 
-    .spotlight-item .circle-ring {
+    .circle-ring {
       width: 88px;
       height: 88px;
       margin: 0 auto 14px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #ffffff, #d8c9a7, #6f6250);
     }
 
-    .spotlight-item .circle-inner {
+    .circle-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #111;
+      border: 3px solid #0c0c0c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #d8c9a7;
+      font-weight: 900;
       font-size: 26px;
     }
 
     .spotlight-item h3 {
-      font-size: 15px;
+      font-size: 16px;
       color: #ffffff;
     }
 
@@ -655,6 +602,16 @@
       }
     }
 
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     @media (max-width: 1000px) {
       .hero,
       .about-grid,
@@ -662,8 +619,8 @@
         grid-template-columns: 1fr;
       }
 
-      .profile-device {
-        margin: auto;
+      .visual-stage {
+        min-height: 520px;
       }
 
       .cards {
@@ -725,18 +682,16 @@
         grid-template-columns: 1fr;
       }
 
-      .profile-area {
-        min-height: auto;
+      .visual-stage {
+        min-height: 430px;
       }
 
-      .profile-device {
-        min-height: 620px;
+      .main-orb {
+        width: 310px;
+        height: 310px;
       }
 
-      .device-screen {
-        min-height: 590px;
-      }
-
+      .orbit,
       .floating-card {
         display: none;
       }
@@ -778,7 +733,7 @@
     <nav id="navMenu">
       <a href="#inicio">Inicio</a>
       <a href="#sobre-mi">Sobre mí</a>
-      <a href="#contenido">Contenido</a>
+      <a href="#areas">Áreas</a>
       <a href="#destacados">Destacados</a>
       <a href="#perfil">Perfil</a>
       <a href="#contacto">Contacto</a>
@@ -797,9 +752,9 @@
         </h1>
 
         <p>
-          Soy Parker The Ingeniere, una identidad creativa enfocada en tecnología,
-          ingeniería, diseño visual y proyectos digitales. Esta página presenta mi
-          estilo, mis ideas y mi forma de crear contenido.
+          Una identidad creativa enfocada en tecnología, ingeniería, diseño visual
+          y proyectos digitales. Esta página presenta mi estilo, mis ideas y mi forma
+          de construir contenido con una estética oscura, elegante y reconocible.
         </p>
 
         <div class="buttons">
@@ -808,70 +763,17 @@
         </div>
       </div>
 
-      <div class="profile-area reveal">
-        <div class="floating-card card-one">Creatividad</div>
+      <div class="visual-stage reveal">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+
+        <div class="floating-card card-one">Diseño</div>
         <div class="floating-card card-two">Tecnología</div>
+        <div class="floating-card card-three">Proyectos</div>
+        <div class="floating-card card-four">Ideas</div>
 
-        <div class="profile-device">
-          <div class="device-screen">
-
-            <div class="device-top">
-              <h3>Parker Board</h3>
-              <span>● ● ●</span>
-            </div>
-
-            <div class="circle-row">
-              <div class="circle-item">
-                <div class="circle-ring">
-                  <div class="circle-inner">D</div>
-                </div>
-                <p>Diseño</p>
-              </div>
-
-              <div class="circle-item">
-                <div class="circle-ring">
-                  <div class="circle-inner">T</div>
-                </div>
-                <p>Tech</p>
-              </div>
-
-              <div class="circle-item">
-                <div class="circle-ring">
-                  <div class="circle-inner">I</div>
-                </div>
-                <p>Ideas</p>
-              </div>
-
-              <div class="circle-item">
-                <div class="circle-ring">
-                  <div class="circle-inner">P</div>
-                </div>
-                <p>Proyectos</p>
-              </div>
-            </div>
-
-            <div class="profile-post">
-              <div class="post-header">
-                <img class="avatar-img" src="img/parker-profile.png" alt="Logo Parker">
-                <h4>Parker The Ingeniere</h4>
-              </div>
-
-              <div class="post-image">
-                <img src="img/parker-profile.png" alt="Logo Parker The Ingeniere">
-              </div>
-
-              <div class="post-actions">
-                <span>✦</span>
-                <span>⌁</span>
-                <span>↗</span>
-              </div>
-
-              <p class="caption">
-                Tecnología, diseño, ingeniería y creatividad en una sola identidad visual.
-              </p>
-            </div>
-
-          </div>
+        <div class="main-orb">
+          <img class="profile-logo" src="img/parker-profile.png" alt="Logo Parker The Ingeniere">
         </div>
       </div>
     </section>
@@ -885,7 +787,7 @@
             Parker The Ingeniere es una marca personal que mezcla ingeniería,
             tecnología, diseño y creatividad. Mi objetivo es compartir ideas,
             proyectos, aprendizajes y contenido visual con una estética moderna,
-            oscura y reconocible.
+            oscura y profesional.
           </p>
         </div>
 
@@ -907,7 +809,7 @@
           </div>
 
           <div class="list-card">
-            <h3>Contenido</h3>
+            <h3>Creatividad</h3>
             <p>
               Creo piezas visuales para comunicar ideas de forma clara, atractiva
               y profesional.
@@ -917,13 +819,13 @@
       </div>
     </section>
 
-    <section id="contenido">
+    <section id="areas">
       <div class="section-title reveal">
-        <div class="tag">Contenido</div>
-        <h2>Qué comparto</h2>
+        <div class="tag">Áreas</div>
+        <h2>Qué desarrollo</h2>
         <p>
-          Mi contenido combina creatividad, tecnología, diseño e ideas relacionadas
-          con el mundo digital.
+          La identidad Parker The Ingeniere combina diferentes áreas creativas
+          y tecnológicas en una sola presencia visual.
         </p>
       </div>
 
@@ -949,13 +851,13 @@
         <div class="info-card reveal">
           <span>🚀</span>
           <h3>Proyectos</h3>
-          <p>Ideas personales, experimentos, páginas web y conceptos creativos.</p>
+          <p>Ideas personales, experimentos, prototipos y conceptos creativos.</p>
         </div>
 
         <div class="info-card reveal">
           <span>💡</span>
-          <h3>Creatividad</h3>
-          <p>Exploración de ideas, inspiración y formas nuevas de presentar contenido.</p>
+          <h3>Ideas</h3>
+          <p>Exploración de conceptos, inspiración y formas nuevas de crear.</p>
         </div>
 
         <div class="info-card reveal">
@@ -975,7 +877,7 @@
         </h2>
 
         <p style="color:#c9c0af; line-height:1.7; font-size:18px;">
-          Categorías visuales de tu marca: áreas, ideas, proyectos y contenido destacado.
+          Categorías visuales de la marca: áreas, ideas, proyectos y contenido destacado.
         </p>
 
         <div class="spotlight-list">
@@ -1027,7 +929,7 @@
           <div class="stats">
             <div class="stat">
               <strong>Tech</strong>
-              <span>Contenido</span>
+              <span>Conceptos</span>
             </div>
 
             <div class="stat">
@@ -1052,7 +954,7 @@
           <p>
             Parker The Ingeniere funciona como una marca personal para mostrar
             proyectos, ideas, contenido educativo, diseños, procesos creativos
-            y publicaciones relacionadas con tecnología. La idea es que tu presencia
+            y trabajos relacionados con tecnología. La idea es que tu presencia
             digital se vea profesional, moderna y reconocible.
           </p>
         </div>
