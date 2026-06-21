@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Obed | Creative Web</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram | Página Informativa</title>
 
   <style>
     * {
@@ -19,7 +18,7 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #05060f;
+      background: #070711;
       color: white;
       overflow-x: hidden;
     }
@@ -27,13 +26,13 @@
     body::before {
       content: "";
       position: fixed;
-      top: -200px;
-      right: -160px;
-      width: 600px;
-      height: 600px;
-      background: #5865ff;
-      filter: blur(130px);
+      width: 650px;
+      height: 650px;
+      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      filter: blur(140px);
       opacity: 0.55;
+      top: -220px;
+      right: -180px;
       z-index: -3;
       border-radius: 50%;
     }
@@ -41,26 +40,15 @@
     body::after {
       content: "";
       position: fixed;
-      bottom: -220px;
-      left: -170px;
-      width: 650px;
-      height: 650px;
-      background: #a855f7;
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, #4f5bd5, #962fbf, #d62976);
       filter: blur(130px);
       opacity: 0.45;
+      bottom: -220px;
+      left: -180px;
       z-index: -3;
       border-radius: 50%;
-    }
-
-    .cursor-light {
-      position: fixed;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(130, 120, 255, 0.25), transparent 65%);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 1;
     }
 
     .grid {
@@ -69,9 +57,20 @@
       background-image:
         linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: radial-gradient(circle at center, black, transparent 75%);
+      background-size: 70px 70px;
       z-index: -4;
+      mask-image: radial-gradient(circle at center, black, transparent 75%);
+    }
+
+    .cursor-light {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(214, 41, 118, 0.25), transparent 65%);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
     }
 
     header {
@@ -84,25 +83,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(5, 6, 15, 0.65);
+      background: rgba(7, 7, 17, 0.68);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.1);
       z-index: 100;
     }
 
     .logo {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 900;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.05em;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
     nav {
       display: flex;
-      gap: 32px;
+      gap: 28px;
     }
 
     nav a {
-      color: #bfc3da;
+      color: #c9c9d8;
       text-decoration: none;
       font-size: 14px;
       transition: 0.3s;
@@ -122,7 +127,7 @@
     }
 
     .tag {
-      color: #a7adff;
+      color: #ff9bd2;
       text-transform: uppercase;
       letter-spacing: 0.22em;
       font-size: 12px;
@@ -131,15 +136,21 @@
     }
 
     h1 {
-      font-size: clamp(58px, 9vw, 128px);
-      line-height: 0.88;
-      letter-spacing: -0.08em;
+      font-size: clamp(56px, 9vw, 125px);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
     .hero p {
       margin-top: 30px;
-      max-width: 620px;
-      color: #c9cce0;
+      max-width: 650px;
+      color: #d0d0df;
       font-size: 20px;
       line-height: 1.7;
     }
@@ -161,8 +172,9 @@
     }
 
     .btn-primary {
-      background: white;
-      color: #05060f;
+      color: white;
+      background: linear-gradient(135deg, #fa7e1e, #d62976, #962fbf);
+      box-shadow: 0 12px 35px rgba(214, 41, 118, 0.35);
     }
 
     .btn-secondary {
@@ -175,112 +187,121 @@
       transform: translateY(-5px);
     }
 
-    .visual {
+    .phone-area {
       position: relative;
       min-height: 560px;
     }
 
-    .orbit {
-      position: absolute;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 50%;
-      animation: rotate 18s linear infinite;
-    }
-
-    .orbit.one {
-      width: 430px;
-      height: 430px;
-      right: 20px;
-      top: 60px;
-    }
-
-    .orbit.two {
-      width: 300px;
-      height: 300px;
-      right: 85px;
-      top: 125px;
-      animation-direction: reverse;
-      animation-duration: 12s;
-    }
-
-    .main-card,
-    .mini-card {
-      position: absolute;
-      background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.04));
-      border: 1px solid rgba(255,255,255,0.16);
+    .phone {
+      width: min(340px, 100%);
+      height: 610px;
+      border-radius: 45px;
+      padding: 16px;
+      margin-left: auto;
+      background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.18);
       backdrop-filter: blur(20px);
-      box-shadow: 0 40px 100px rgba(0,0,0,0.45);
-      overflow: hidden;
-    }
-
-    .main-card {
-      width: min(420px, 100%);
-      padding: 14px;
-      border-radius: 34px;
-      right: 10px;
-      top: 70px;
-      animation: float 5.5s ease-in-out infinite;
-      z-index: 4;
-    }
-
-    .main-card img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-      border-radius: 24px;
-    }
-
-    .mini-card {
-      width: 180px;
-      padding: 10px;
-      border-radius: 24px;
-      z-index: 5;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
       animation: float 5s ease-in-out infinite;
     }
 
-    .mini-card img {
+    .phone-screen {
       width: 100%;
-      height: 175px;
-      object-fit: cover;
-      border-radius: 17px;
+      height: 100%;
+      border-radius: 32px;
+      background: #0d0d18;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
-    .mini-one {
-      top: 30px;
-      left: 10px;
+    .story-bar {
+      display: flex;
+      gap: 10px;
+      padding: 18px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    .mini-two {
-      bottom: 55px;
-      left: 90px;
-      animation-delay: 0.8s;
+    .story {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf);
     }
 
-    .chip {
+    .story div {
+      width: 100%;
+      height: 100%;
+      background: #111;
+      border-radius: 50%;
+    }
+
+    .post {
+      padding: 16px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #feda75, #d62976, #4f5bd5);
+    }
+
+    .post-header h4 {
+      font-size: 14px;
+    }
+
+    .post-image {
+      height: 300px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 20% 20%, #feda75, transparent 30%),
+        radial-gradient(circle at 70% 40%, #d62976, transparent 35%),
+        radial-gradient(circle at 50% 90%, #4f5bd5, transparent 35%),
+        #181827;
+      margin-bottom: 16px;
+    }
+
+    .icons {
+      display: flex;
+      gap: 14px;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .caption {
+      color: #cfcfe0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .floating-card {
       position: absolute;
-      padding: 13px 19px;
-      border-radius: 999px;
+      padding: 16px 20px;
+      border-radius: 22px;
       background: rgba(255,255,255,0.09);
       border: 1px solid rgba(255,255,255,0.15);
       backdrop-filter: blur(18px);
-      font-size: 14px;
       font-weight: bold;
-      z-index: 6;
+      animation: float 4.5s ease-in-out infinite;
     }
 
-    .chip.one {
-      right: 20px;
+    .card-one {
       top: 80px;
-    }
-
-    .chip.two {
-      right: 0;
-      bottom: 120px;
-    }
-
-    .chip.three {
       left: 10px;
-      bottom: 55px;
+    }
+
+    .card-two {
+      right: 0;
+      bottom: 110px;
+      animation-delay: 0.8s;
     }
 
     section {
@@ -288,85 +309,72 @@
     }
 
     .section-title {
-      max-width: 780px;
+      max-width: 800px;
       margin-bottom: 60px;
     }
 
     .section-title h2,
-    .about h2,
+    .big-card h2,
     .contact h2 {
-      font-size: clamp(42px, 6vw, 84px);
+      font-size: clamp(42px, 6vw, 82px);
       line-height: 0.95;
       letter-spacing: -0.06em;
       margin-bottom: 24px;
     }
 
     .section-title p,
-    .about p,
+    .big-card p,
     .contact p {
-      color: #bfc3da;
+      color: #c9c9d8;
       font-size: 18px;
       line-height: 1.7;
     }
 
-    .gallery {
+    .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
 
-    .work-card {
-      padding: 14px;
-      min-height: 480px;
+    .info-card {
+      min-height: 250px;
+      padding: 34px;
       border-radius: 32px;
       background: rgba(255,255,255,0.065);
       border: 1px solid rgba(255,255,255,0.12);
       backdrop-filter: blur(18px);
-      overflow: hidden;
       transition: 0.35s;
     }
 
-    .work-card:hover {
-      transform: translateY(-10px);
+    .info-card:hover {
+      transform: translateY(-8px);
       background: rgba(255,255,255,0.105);
     }
 
-    .work-card img {
-      width: 100%;
-      height: 315px;
-      object-fit: cover;
-      border-radius: 23px;
+    .info-card span {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 18px;
     }
 
-    .work-info {
-      padding: 22px 8px 8px;
+    .info-card h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
     }
 
-    .work-info span {
-      color: #99a1ff;
-      font-weight: bold;
+    .info-card p {
+      color: #c9c9d8;
+      line-height: 1.7;
     }
 
-    .work-info h3 {
-      margin-top: 8px;
-      font-size: 25px;
-    }
-
-    .work-info p {
-      margin-top: 10px;
-      color: #bfc3da;
-      line-height: 1.6;
-    }
-
-    .about {
+    .about-grid {
       display: grid;
       grid-template-columns: 0.95fr 1.05fr;
       gap: 24px;
     }
 
-    .about-card,
-    .about-box,
-    .service-card,
+    .big-card,
+    .list-card,
     .contact {
       background: rgba(255,255,255,0.065);
       border: 1px solid rgba(255,255,255,0.12);
@@ -374,46 +382,50 @@
       border-radius: 34px;
     }
 
-    .about-card {
+    .big-card {
       padding: 52px;
     }
 
-    .about-list {
+    .list {
       display: grid;
       gap: 20px;
     }
 
-    .about-box {
-      padding: 34px;
+    .list-card {
+      padding: 32px;
     }
 
-    .about-box h3,
-    .service-card h3 {
-      font-size: 25px;
-      margin-bottom: 12px;
+    .list-card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
-    .about-box p,
-    .service-card p {
-      color: #bfc3da;
+    .list-card p {
+      color: #c9c9d8;
       line-height: 1.7;
     }
 
-    .services {
+    .tips {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 22px;
     }
 
-    .service-card {
-      padding: 36px;
-      min-height: 220px;
-      transition: 0.35s;
+    .tip {
+      padding: 34px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
-    .service-card:hover {
-      transform: translateY(-8px);
-      background: rgba(255,255,255,0.105);
+    .tip h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .tip p {
+      color: #c9c9d8;
+      line-height: 1.7;
     }
 
     .contact {
@@ -424,7 +436,7 @@
 
     .contact p {
       max-width: 700px;
-      margin: 0 auto;
+      margin: auto;
     }
 
     .contact .buttons {
@@ -434,7 +446,7 @@
     footer {
       padding: 32px 7%;
       text-align: center;
-      color: #8d92aa;
+      color: #9b9bb2;
       border-top: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -451,32 +463,25 @@
 
     @keyframes float {
       0%, 100% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0);
       }
 
       50% {
-        transform: translateY(-18px) rotate(1deg);
-      }
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
+        transform: translateY(-18px);
       }
     }
 
     @media (max-width: 1000px) {
       .hero,
-      .about {
+      .about-grid {
         grid-template-columns: 1fr;
       }
 
-      .gallery,
-      .services {
+      .phone {
+        margin: auto;
+      }
+
+      .cards {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -506,29 +511,27 @@
         padding: 85px 6%;
       }
 
-      .gallery,
-      .services {
+      .cards,
+      .tips {
         grid-template-columns: 1fr;
       }
 
-      .visual {
-        min-height: 540px;
+      .phone-area {
+        min-height: auto;
       }
 
-      .orbit,
-      .mini-card,
-      .chip {
+      .phone {
+        height: 560px;
+      }
+
+      .floating-card {
         display: none;
       }
 
-      .main-card {
-        width: 100%;
-        right: 0;
-      }
-
-      .about-card,
-      .about-box,
-      .service-card,
+      .big-card,
+      .list-card,
+      .info-card,
+      .tip,
       .contact {
         padding: 32px;
       }
@@ -550,14 +553,14 @@
   <div class="grid"></div>
 
   <header>
-    <div class="logo">OBED</div>
+    <div class="logo"><span>Instagram</span> Web</div>
 
     <nav>
       <a href="#inicio">Inicio</a>
-      <a href="#trabajos">Diseños</a>
-      <a href="#sobre-mi">Sobre mí</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#contacto">Contacto</a>
+      <a href="#que-es">Qué es</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#consejos">Consejos</a>
     </nav>
   </header>
 
@@ -565,202 +568,269 @@
 
     <section class="hero" id="inicio">
       <div class="reveal">
-        <div class="tag">Creative Web / Visual Portfolio</div>
+        <div class="tag">Red social / Comunicación digital</div>
 
         <h1>
-          Designs that <br>
-          feel alive.
+          El mundo de <br>
+          <span>Instagram</span>
         </h1>
 
         <p>
-          Una página web visual para mostrar mis diseños, mockups, branding,
-          posters y proyectos creativos con una estética moderna, oscura y futurista.
+          Instagram es una red social visual donde las personas comparten fotos,
+          videos, historias, reels y mensajes. También es una herramienta importante
+          para marcas, creadores de contenido, negocios y comunicación digital.
         </p>
 
         <div class="buttons">
-          <a href="#trabajos" class="btn btn-primary">Ver diseños</a>
-          <a href="#contacto" class="btn btn-secondary">Contactarme</a>
+          <a href="#que-es" class="btn btn-primary">Conocer más</a>
+          <a href="#funciones" class="btn btn-secondary">Ver funciones</a>
         </div>
       </div>
 
-      <div class="visual reveal">
-        <div class="orbit one"></div>
-        <div class="orbit two"></div>
+      <div class="phone-area reveal">
+        <div class="floating-card card-one">Historias</div>
+        <div class="floating-card card-two">Reels</div>
 
-        <div class="main-card">
-          <img src="img/design1.png" alt="Diseño principal de Obed">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="story-bar">
+              <div class="story"><div></div></div>
+              <div class="story"><div></div></div>
+              <div class="story"><div></div></div>
+              <div class="story"><div></div></div>
+            </div>
+
+            <div class="post">
+              <div class="post-header">
+                <div class="avatar"></div>
+                <h4>@usuario_creativo</h4>
+              </div>
+
+              <div class="post-image"></div>
+
+              <div class="icons">
+                <span>♡</span>
+                <span>💬</span>
+                <span>↗</span>
+              </div>
+
+              <p class="caption">
+                Una plataforma para compartir momentos, ideas, diseños,
+                experiencias y contenido creativo.
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div class="mini-card mini-one">
-          <img src="img/design2.png" alt="Diseño de Obed">
-        </div>
-
-        <div class="mini-card mini-two">
-          <img src="img/design3.png" alt="Diseño de Obed">
-        </div>
-
-        <div class="chip one">Branding</div>
-        <div class="chip two">Mockups</div>
-        <div class="chip three">Visual Design</div>
       </div>
     </section>
 
-    <section id="trabajos">
+    <section id="que-es">
+      <div class="about-grid">
+        <div class="big-card reveal">
+          <div class="tag">Qué es Instagram</div>
+          <h2>Una plataforma visual.</h2>
+          <p>
+            Instagram permite crear y compartir contenido visual. Su objetivo principal
+            es conectar a las personas a través de imágenes, videos, historias,
+            transmisiones en vivo y mensajes directos.
+          </p>
+        </div>
+
+        <div class="list reveal">
+          <div class="list-card">
+            <h3>Comunicación</h3>
+            <p>
+              Sirve para hablar con amigos, compartir experiencias y seguir a personas
+              o marcas de interés.
+            </p>
+          </div>
+
+          <div class="list-card">
+            <h3>Creatividad</h3>
+            <p>
+              Permite publicar fotos, reels, historias, diseños, videos cortos
+              y contenido artístico.
+            </p>
+          </div>
+
+          <div class="list-card">
+            <h3>Marketing</h3>
+            <p>
+              Muchas empresas usan Instagram para mostrar productos, promocionar
+              servicios y conectar con clientes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="funciones">
       <div class="section-title reveal">
-        <div class="tag">Selected Work</div>
-        <h2>Mis diseños</h2>
+        <div class="tag">Funciones principales</div>
+        <h2>Qué puedes hacer en Instagram</h2>
         <p>
-          Una galería para presentar mis proyectos visuales de forma profesional,
-          parecida a una landing moderna de tecnología.
+          La plataforma combina entretenimiento, comunicación, creación de contenido
+          y herramientas para negocios.
         </p>
       </div>
 
-      <div class="gallery">
+      <div class="cards">
+        <div class="info-card reveal">
+          <span>📸</span>
+          <h3>Publicaciones</h3>
+          <p>
+            Fotos o videos que aparecen en el perfil del usuario y pueden recibir
+            comentarios, likes y compartidos.
+          </p>
+        </div>
 
-        <article class="work-card reveal">
-          <img src="img/design1.png" alt="Proyecto 1">
-          <div class="work-info">
-            <span>01</span>
-            <h3>Brand Identity</h3>
-            <p>Identidad visual, logo, composición y dirección gráfica.</p>
-          </div>
-        </article>
+        <div class="info-card reveal">
+          <span>🎬</span>
+          <h3>Reels</h3>
+          <p>
+            Videos cortos y dinámicos usados para entretenimiento, tendencias,
+            educación rápida y contenido creativo.
+          </p>
+        </div>
 
-        <article class="work-card reveal">
-          <img src="img/design2.png" alt="Proyecto 2">
-          <div class="work-info">
-            <span>02</span>
-            <h3>Poster Design</h3>
-            <p>Afiches, piezas editoriales y comunicación visual.</p>
-          </div>
-        </article>
+        <div class="info-card reveal">
+          <span>✨</span>
+          <h3>Historias</h3>
+          <p>
+            Contenido temporal que permite compartir momentos del día de forma rápida,
+            usando texto, música, stickers y encuestas.
+          </p>
+        </div>
 
-        <article class="work-card reveal">
-          <img src="img/design3.png" alt="Proyecto 3">
-          <div class="work-info">
-            <span>03</span>
-            <h3>Mockup System</h3>
-            <p>Presentaciones realistas para productos, marcas y empaques.</p>
-          </div>
-        </article>
+        <div class="info-card reveal">
+          <span>💬</span>
+          <h3>Mensajes</h3>
+          <p>
+            Los mensajes directos permiten conversar, enviar publicaciones,
+            responder historias y crear chats privados.
+          </p>
+        </div>
 
-        <article class="work-card reveal">
-          <img src="img/design4.png" alt="Proyecto 4">
-          <div class="work-info">
-            <span>04</span>
-            <h3>Social Media</h3>
-            <p>Contenido visual para Instagram, campañas y publicaciones.</p>
-          </div>
-        </article>
+        <div class="info-card reveal">
+          <span>🛍️</span>
+          <h3>Negocios</h3>
+          <p>
+            Las marcas pueden mostrar productos, crear campañas y comunicarse con
+            su audiencia de manera visual.
+          </p>
+        </div>
 
-        <article class="work-card reveal">
-          <img src="img/design5.png" alt="Proyecto 5">
-          <div class="work-info">
-            <span>05</span>
-            <h3>Web Concept</h3>
-            <p>Diseños para páginas web, landing pages e interfaces.</p>
-          </div>
-        </article>
-
-        <article class="work-card reveal">
-          <img src="img/design6.png" alt="Proyecto 6">
-          <div class="work-info">
-            <span>06</span>
-            <h3>Experimental Design</h3>
-            <p>Exploraciones creativas con color, textura y composición.</p>
-          </div>
-        </article>
-
+        <div class="info-card reveal">
+          <span>📊</span>
+          <h3>Estadísticas</h3>
+          <p>
+            Las cuentas profesionales pueden revisar alcance, interacción,
+            visitas al perfil y rendimiento del contenido.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="about" id="sobre-mi">
-      <div class="about-card reveal">
-        <div class="tag">About</div>
-        <h2>Hola, soy Obed.</h2>
+    <section id="impacto">
+      <div class="section-title reveal">
+        <div class="tag">Impacto digital</div>
+        <h2>Importancia de Instagram</h2>
         <p>
-          Soy un creador visual enfocado en diseño, composición, branding
-          y experiencias digitales. Me gusta crear piezas modernas,
-          limpias y con una identidad fuerte.
+          Instagram influye en la forma en que las personas consumen información,
+          descubren tendencias, conocen marcas y expresan su identidad visual.
         </p>
       </div>
 
-      <div class="about-list reveal">
-        <div class="about-box">
-          <h3>Branding</h3>
-          <p>Logos, identidad visual, paletas, tipografías y sistemas gráficos.</p>
+      <div class="cards">
+        <div class="info-card reveal">
+          <span>🌎</span>
+          <h3>Conexión global</h3>
+          <p>
+            Permite comunicarse con personas de diferentes lugares y compartir
+            contenido de manera inmediata.
+          </p>
         </div>
 
-        <div class="about-box">
-          <h3>Diseño digital</h3>
-          <p>Piezas para redes sociales, campañas, portafolios y páginas web.</p>
+        <div class="info-card reveal">
+          <span>🎨</span>
+          <h3>Expresión visual</h3>
+          <p>
+            Es una plataforma donde el diseño, la fotografía, el video y la estética
+            tienen un papel muy importante.
+          </p>
         </div>
 
-        <div class="about-box">
-          <h3>Dirección visual</h3>
-          <p>Composición, moodboards, mockups y presentación profesional.</p>
+        <div class="info-card reveal">
+          <span>🚀</span>
+          <h3>Oportunidades</h3>
+          <p>
+            Ayuda a creadores, emprendedores y negocios a mostrar su trabajo,
+            atraer público y construir una comunidad.
+          </p>
         </div>
       </div>
     </section>
 
-    <section id="servicios">
+    <section id="consejos">
       <div class="section-title reveal">
-        <div class="tag">Services</div>
-        <h2>Qué puedo crear</h2>
+        <div class="tag">Uso responsable</div>
+        <h2>Consejos para usar Instagram</h2>
       </div>
 
-      <div class="services">
-        <div class="service-card reveal">
-          <h3>Branding</h3>
-          <p>Identidad visual para marcas, proyectos personales o negocios.</p>
+      <div class="tips">
+        <div class="tip reveal">
+          <h3>Cuida tu privacidad</h3>
+          <p>
+            No compartas datos personales como dirección, horarios, contraseñas
+            o información sensible.
+          </p>
         </div>
 
-        <div class="service-card reveal">
-          <h3>Posters</h3>
-          <p>Afiches modernos para eventos, campañas, redes o impresión.</p>
+        <div class="tip reveal">
+          <h3>Verifica la información</h3>
+          <p>
+            No todo lo que aparece en redes es verdadero. Es importante revisar
+            fuentes y evitar compartir rumores.
+          </p>
         </div>
 
-        <div class="service-card reveal">
-          <h3>Mockups</h3>
-          <p>Presentaciones realistas para productos, logos y empaques.</p>
+        <div class="tip reveal">
+          <h3>Usa bien tu tiempo</h3>
+          <p>
+            Instagram puede entretener, pero también es bueno equilibrar su uso
+            con estudio, descanso y actividades fuera de pantalla.
+          </p>
         </div>
 
-        <div class="service-card reveal">
-          <h3>Web Design</h3>
-          <p>Páginas web visuales, modernas y adaptadas a celular.</p>
-        </div>
-
-        <div class="service-card reveal">
-          <h3>Social Media</h3>
-          <p>Contenido gráfico para Instagram, carruseles y anuncios.</p>
-        </div>
-
-        <div class="service-card reveal">
-          <h3>Experimental</h3>
-          <p>Diseños conceptuales con estética futurista, artística o premium.</p>
+        <div class="tip reveal">
+          <h3>Respeta a los demás</h3>
+          <p>
+            Comenta con respeto, evita burlas y no compartas contenido que pueda
+            dañar a otras personas.
+          </p>
         </div>
       </div>
     </section>
 
-    <section class="contact reveal" id="contacto">
-      <div class="tag">Contact</div>
-      <h2>Trabajemos juntos.</h2>
+    <section class="contact reveal">
+      <div class="tag">Conclusión</div>
+      <h2>Instagram es más que una app.</h2>
       <p>
-        Escríbeme para proyectos de diseño, branding, mockups, portafolio
-        o páginas web.
+        Es una herramienta de comunicación, creatividad, entretenimiento y trabajo.
+        Usada correctamente, puede servir para aprender, inspirarse, crear comunidad
+        y mostrar proyectos personales o profesionales.
       </p>
 
       <div class="buttons">
-        <a href="mailto:tu-correo@gmail.com" class="btn btn-primary">Email</a>
-        <a href="https://wa.me/51999999999" target="_blank" class="btn btn-secondary">WhatsApp</a>
-        <a href="https://instagram.com/tuusuario" target="_blank" class="btn btn-secondary">Instagram</a>
+        <a href="#inicio" class="btn btn-primary">Volver arriba</a>
+        <a href="#funciones" class="btn btn-secondary">Repasar funciones</a>
       </div>
     </section>
 
   </main>
 
   <footer>
-    <p>© <span id="year"></span> Obed. Todos los derechos reservados.</p>
+    <p>© <span id="year"></span> Página informativa creada por Obed.</p>
   </footer>
 
   <script>
