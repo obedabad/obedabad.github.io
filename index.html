@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Parker The Ingeniere | Instagram Creator</title>
+  <title>Parker The Ingeniere | @parker_the_ingeniere</title>
+  <link rel="icon" type="image/png" href="img/parker-profile.png" />
 
   <style>
     * {
@@ -214,12 +215,12 @@
 
     .phone-area {
       position: relative;
-      min-height: 560px;
+      min-height: 600px;
     }
 
     .phone {
-      width: min(340px, 100%);
-      height: 610px;
+      width: min(360px, 100%);
+      height: 660px;
       border-radius: 45px;
       padding: 16px;
       margin-left: auto;
@@ -251,26 +252,48 @@
       font-size: 16px;
     }
 
-    .story-bar {
+    .story-row {
       display: flex;
-      gap: 10px;
+      gap: 13px;
       padding: 16px 14px;
+      overflow-x: auto;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    .story {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf);
+    .story-row::-webkit-scrollbar {
+      display: none;
     }
 
-    .story div {
+    .story-item {
+      min-width: 62px;
+      text-align: center;
+    }
+
+    .story-ring {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      margin-bottom: 7px;
+    }
+
+    .story-ring img {
       width: 100%;
       height: 100%;
-      background: #111;
       border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0d0d18;
+      display: block;
+    }
+
+    .story-item p {
+      font-size: 11px;
+      color: #c9c9d8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 65px;
     }
 
     .post {
@@ -284,11 +307,12 @@
       margin-bottom: 14px;
     }
 
-    .avatar {
+    .avatar-img {
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #feda75, #d62976, #4f5bd5);
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.25);
     }
 
     .post-header h4 {
@@ -296,7 +320,7 @@
     }
 
     .post-image {
-      height: 285px;
+      height: 300px;
       border-radius: 22px;
       background:
         radial-gradient(circle at 20% 20%, #feda75, transparent 30%),
@@ -309,12 +333,15 @@
       align-items: center;
       text-align: center;
       padding: 24px;
+      overflow: hidden;
     }
 
-    .post-image h2 {
-      font-size: 34px;
-      line-height: 1;
-      letter-spacing: -0.04em;
+    .post-image img {
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 45px rgba(255,255,255,0.18);
     }
 
     .icons {
@@ -388,7 +415,10 @@
     .list-card,
     .info-card,
     .tip,
-    .contact {
+    .contact,
+    .profile-card,
+    .content-box,
+    .stories-panel {
       background: rgba(255,255,255,0.065);
       border: 1px solid rgba(255,255,255,0.12);
       backdrop-filter: blur(18px);
@@ -460,10 +490,6 @@
 
     .profile-card {
       padding: 40px;
-      border-radius: 34px;
-      background: rgba(255,255,255,0.065);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(18px);
       text-align: center;
     }
 
@@ -473,19 +499,16 @@
       margin: 0 auto 24px;
       border-radius: 50%;
       background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-      padding: 6px;
+      padding: 5px;
     }
 
-    .profile-avatar div {
+    .profile-avatar img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: #11111d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 44px;
-      font-weight: 900;
+      object-fit: cover;
+      display: block;
+      border: 5px solid #11111d;
     }
 
     .profile-card h3 {
@@ -524,10 +547,6 @@
 
     .content-box {
       padding: 45px;
-      border-radius: 34px;
-      background: rgba(255,255,255,0.065);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(18px);
     }
 
     .content-box h2 {
@@ -541,6 +560,48 @@
       color: #c9c9d8;
       font-size: 18px;
       line-height: 1.7;
+    }
+
+    .stories-panel {
+      padding: 38px;
+    }
+
+    .stories-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .story-big {
+      text-align: center;
+      padding: 24px 14px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: 0.35s ease;
+    }
+
+    .story-big:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .story-big .story-ring {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 14px;
+    }
+
+    .story-big h3 {
+      font-size: 15px;
+      color: #ffffff;
+    }
+
+    .story-big p {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #c9c9d8;
     }
 
     .tips {
@@ -620,6 +681,10 @@
       .cards {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .stories-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 700px) {
@@ -668,7 +733,8 @@
 
       .cards,
       .tips,
-      .stats {
+      .stats,
+      .stories-list {
         grid-template-columns: 1fr;
       }
 
@@ -677,7 +743,7 @@
       }
 
       .phone {
-        height: 560px;
+        height: 620px;
       }
 
       .floating-card {
@@ -690,7 +756,8 @@
       .tip,
       .contact,
       .profile-card,
-      .content-box {
+      .content-box,
+      .stories-panel {
         padding: 32px;
       }
 
@@ -722,7 +789,7 @@
       <a href="#inicio">Inicio</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#contenido">Contenido</a>
-      <a href="#proyectos">Proyectos</a>
+      <a href="#historias">Historias</a>
       <a href="#instagram">Instagram</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -754,8 +821,8 @@
       </div>
 
       <div class="phone-area reveal">
-        <div class="floating-card card-one">Ingeniería</div>
-        <div class="floating-card card-two">Contenido</div>
+        <div class="floating-card card-one">Historias</div>
+        <div class="floating-card card-two">Instagram</div>
 
         <div class="phone">
           <div class="phone-screen">
@@ -764,21 +831,44 @@
               <span>● ● ●</span>
             </div>
 
-            <div class="story-bar">
-              <div class="story"><div></div></div>
-              <div class="story"><div></div></div>
-              <div class="story"><div></div></div>
-              <div class="story"><div></div></div>
+            <div class="story-row">
+              <div class="story-item">
+                <div class="story-ring">
+                  <img src="img/story1.png" alt="Historia de fatinnititus">
+                </div>
+                <p>fatinnititus</p>
+              </div>
+
+              <div class="story-item">
+                <div class="story-ring">
+                  <img src="img/story2.png" alt="Historia de luci_150412">
+                </div>
+                <p>luci_150412</p>
+              </div>
+
+              <div class="story-item">
+                <div class="story-ring">
+                  <img src="img/story3.png" alt="Historia de andrxz._09">
+                </div>
+                <p>andrxz._09</p>
+              </div>
+
+              <div class="story-item">
+                <div class="story-ring">
+                  <img src="img/story4.png" alt="Historia de yamsxva">
+                </div>
+                <p>yamsxva</p>
+              </div>
             </div>
 
             <div class="post">
               <div class="post-header">
-                <div class="avatar"></div>
+                <img class="avatar-img" src="img/parker-profile.png" alt="Foto de perfil Parker">
                 <h4>@parker_the_ingeniere</h4>
               </div>
 
               <div class="post-image">
-                <h2>Parker<br>The<br>Ingeniere</h2>
+                <img src="img/parker-profile.png" alt="Logo Parker The Ingeniere">
               </div>
 
               <div class="icons">
@@ -886,51 +976,50 @@
       </div>
     </section>
 
-    <section id="proyectos">
-      <div class="section-title reveal">
-        <div class="tag">Proyectos</div>
-        <h2>Lo que puedo mostrar</h2>
-        <p>
-          Esta sección presenta los tipos de proyectos que pueden formar parte de
-          la marca Parker The Ingeniere.
+    <section id="historias">
+      <div class="stories-panel reveal">
+        <div class="tag">Historias</div>
+        <h2 class="gradient-text" style="font-size: clamp(38px, 5vw, 72px); margin-bottom: 16px;">
+          Personas que sigo y subieron historias
+        </h2>
+
+        <p style="color:#c9c9d8; line-height:1.7; font-size:18px;">
+          Esta sección está inspirada en la barra de historias de Instagram.
+          Puedes cambiar las imágenes y nombres cuando quieras.
         </p>
-      </div>
 
-      <div class="cards">
-        <div class="info-card reveal">
-          <span>🖥️</span>
-          <h3>Páginas web</h3>
-          <p>Landing pages, portafolios, páginas personales y diseños interactivos.</p>
-        </div>
+        <div class="stories-list">
+          <div class="story-big">
+            <div class="story-ring">
+              <img src="img/story1.png" alt="Historia 1">
+            </div>
+            <h3>fatinnititus</h3>
+            <p>Historia activa</p>
+          </div>
 
-        <div class="info-card reveal">
-          <span>📸</span>
-          <h3>Posts para Instagram</h3>
-          <p>Diseños para publicaciones, carruseles, anuncios e identidad visual.</p>
-        </div>
+          <div class="story-big">
+            <div class="story-ring">
+              <img src="img/story2.png" alt="Historia 2">
+            </div>
+            <h3>luci_150412</h3>
+            <p>Historia activa</p>
+          </div>
 
-        <div class="info-card reveal">
-          <span>🎬</span>
-          <h3>Reels</h3>
-          <p>Ideas para videos cortos sobre tecnología, procesos creativos y proyectos.</p>
-        </div>
+          <div class="story-big">
+            <div class="story-ring">
+              <img src="img/story3.png" alt="Historia 3">
+            </div>
+            <h3>andrxz._09</h3>
+            <p>Historia activa</p>
+          </div>
 
-        <div class="info-card reveal">
-          <span>🔧</span>
-          <h3>Tech projects</h3>
-          <p>Proyectos relacionados con ingeniería, programación, prototipos o sistemas.</p>
-        </div>
-
-        <div class="info-card reveal">
-          <span>🧩</span>
-          <h3>Branding personal</h3>
-          <p>Logo, colores, estilo, tono visual y presentación como creador digital.</p>
-        </div>
-
-        <div class="info-card reveal">
-          <span>🌐</span>
-          <h3>Presencia digital</h3>
-          <p>Una identidad consistente para Instagram, web, portafolio y redes sociales.</p>
+          <div class="story-big">
+            <div class="story-ring">
+              <img src="img/story4.png" alt="Historia 4">
+            </div>
+            <h3>yamsxva</h3>
+            <p>Historia activa</p>
+          </div>
         </div>
       </div>
     </section>
@@ -939,7 +1028,7 @@
       <div class="profile-preview">
         <div class="profile-card reveal">
           <div class="profile-avatar">
-            <div>P</div>
+            <img src="img/parker-profile.png" alt="Logo Parker The Ingeniere">
           </div>
 
           <h3>Parker The Ingeniere</h3>
@@ -973,7 +1062,7 @@
           <div class="tag">Instagram</div>
           <h2>Una identidad para redes.</h2>
           <p>
-            Parker The Ingeniere puede funcionar como una marca personal para mostrar
+            Parker The Ingeniere funciona como una marca personal para mostrar
             proyectos, ideas, contenido educativo, diseños, procesos creativos y
             publicaciones relacionadas con tecnología. La idea es que tu perfil se vea
             profesional, moderno y reconocible.
