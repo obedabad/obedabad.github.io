@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Parker The Ingeniere | @parker_the_ingeniere</title>
+  <title>Parker The Ingeniere | Creative Identity</title>
   <link rel="icon" type="image/png" href="img/parker-profile.png" />
 
   <style>
@@ -20,23 +20,23 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #070711;
-      color: #ffffff;
+      background: #050505;
+      color: #f4efe4;
       overflow-x: hidden;
     }
 
     body::before {
       content: "";
       position: fixed;
-      width: 650px;
-      height: 650px;
-      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-      filter: blur(140px);
-      opacity: 0.55;
+      width: 620px;
+      height: 620px;
       top: -220px;
       right: -180px;
-      z-index: -5;
+      background: #d8c9a7;
+      filter: blur(150px);
+      opacity: 0.28;
       border-radius: 50%;
+      z-index: -5;
     }
 
     body::after {
@@ -44,31 +44,31 @@
       position: fixed;
       width: 600px;
       height: 600px;
-      background: linear-gradient(135deg, #4f5bd5, #962fbf, #d62976);
-      filter: blur(130px);
-      opacity: 0.45;
       bottom: -220px;
       left: -180px;
-      z-index: -5;
+      background: #6f6250;
+      filter: blur(150px);
+      opacity: 0.32;
       border-radius: 50%;
+      z-index: -5;
     }
 
     .grid {
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 70px 70px;
-      z-index: -6;
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 72px 72px;
       mask-image: radial-gradient(circle at center, black, transparent 75%);
+      z-index: -6;
     }
 
     .cursor-light {
       position: fixed;
       width: 420px;
       height: 420px;
-      background: radial-gradient(circle, rgba(214, 41, 118, 0.25), transparent 65%);
+      background: radial-gradient(circle, rgba(216, 201, 167, 0.18), transparent 65%);
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
@@ -85,23 +85,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(7, 7, 17, 0.72);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(5, 5, 5, 0.72);
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid rgba(244,239,228,0.12);
       z-index: 100;
     }
 
     .logo {
       font-size: 18px;
       font-weight: 900;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
     }
 
     .logo span {
-      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: #d8c9a7;
     }
 
     nav {
@@ -110,7 +107,7 @@
     }
 
     nav a {
-      color: #c9c9d8;
+      color: #bdb5a5;
       text-decoration: none;
       font-size: 14px;
       transition: 0.3s ease;
@@ -125,8 +122,8 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(244,239,228,0.18);
+      background: rgba(244,239,228,0.08);
       cursor: pointer;
     }
 
@@ -134,7 +131,7 @@
       display: block;
       width: 18px;
       height: 2px;
-      background: #ffffff;
+      background: #f4efe4;
       margin: 5px auto;
     }
 
@@ -148,7 +145,7 @@
     }
 
     .tag {
-      color: #ff9bd2;
+      color: #d8c9a7;
       text-transform: uppercase;
       letter-spacing: 0.22em;
       font-size: 12px;
@@ -164,7 +161,7 @@
 
     h1 span,
     .gradient-text {
-      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      background: linear-gradient(135deg, #ffffff, #d8c9a7, #8d806b);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -173,7 +170,7 @@
     .hero p {
       margin-top: 30px;
       max-width: 650px;
-      color: #d0d0df;
+      color: #c9c0af;
       font-size: 20px;
       line-height: 1.7;
     }
@@ -198,174 +195,36 @@
     }
 
     .btn-primary {
-      color: white;
-      background: linear-gradient(135deg, #fa7e1e, #d62976, #962fbf);
-      box-shadow: 0 12px 35px rgba(214, 41, 118, 0.35);
+      color: #050505;
+      background: #f4efe4;
+      box-shadow: 0 12px 35px rgba(216, 201, 167, 0.28);
     }
 
     .btn-secondary {
-      color: white;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.16);
+      color: #f4efe4;
+      background: rgba(244,239,228,0.08);
+      border: 1px solid rgba(244,239,228,0.16);
     }
 
     .btn:hover {
       transform: translateY(-5px);
     }
 
-    .phone-area {
+    .profile-area {
       position: relative;
       min-height: 600px;
-    }
-
-    .phone {
-      width: min(360px, 100%);
-      height: 660px;
-      border-radius: 45px;
-      padding: 16px;
-      margin-left: auto;
-      background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
-      border: 1px solid rgba(255,255,255,0.18);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-      animation: float 5s ease-in-out infinite;
-    }
-
-    .phone-screen {
-      width: 100%;
-      height: 100%;
-      border-radius: 32px;
-      background: #0d0d18;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .top-phone {
-      padding: 18px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .top-phone h3 {
-      font-size: 16px;
-    }
-
-    .story-row {
-      display: flex;
-      gap: 13px;
-      padding: 16px 14px;
-      overflow-x: auto;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .story-row::-webkit-scrollbar {
-      display: none;
-    }
-
-    .story-item {
-      min-width: 62px;
-      text-align: center;
-    }
-
-    .story-ring {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-      margin-bottom: 7px;
-    }
-
-    .story-ring img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #0d0d18;
-      display: block;
-    }
-
-    .story-item p {
-      font-size: 11px;
-      color: #c9c9d8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 65px;
-    }
-
-    .post {
-      padding: 16px;
-    }
-
-    .post-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .avatar-img {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.25);
-    }
-
-    .post-header h4 {
-      font-size: 14px;
-    }
-
-    .post-image {
-      height: 300px;
-      border-radius: 22px;
-      background:
-        radial-gradient(circle at 20% 20%, #feda75, transparent 30%),
-        radial-gradient(circle at 70% 40%, #d62976, transparent 35%),
-        radial-gradient(circle at 50% 90%, #4f5bd5, transparent 35%),
-        #181827;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 24px;
-      overflow: hidden;
-    }
-
-    .post-image img {
-      width: 230px;
-      height: 230px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 45px rgba(255,255,255,0.18);
-    }
-
-    .icons {
-      display: flex;
-      gap: 14px;
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-
-    .caption {
-      color: #cfcfe0;
-      font-size: 14px;
-      line-height: 1.5;
     }
 
     .floating-card {
       position: absolute;
       padding: 16px 20px;
       border-radius: 22px;
-      background: rgba(255,255,255,0.09);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(244,239,228,0.08);
+      border: 1px solid rgba(244,239,228,0.15);
       backdrop-filter: blur(18px);
       font-weight: bold;
       animation: float 4.5s ease-in-out infinite;
+      z-index: 4;
     }
 
     .card-one {
@@ -377,6 +236,152 @@
       right: 0;
       bottom: 110px;
       animation-delay: 0.8s;
+    }
+
+    .profile-device {
+      width: min(370px, 100%);
+      min-height: 650px;
+      border-radius: 46px;
+      padding: 16px;
+      margin-left: auto;
+      background: linear-gradient(145deg, rgba(244,239,228,0.16), rgba(244,239,228,0.04));
+      border: 1px solid rgba(244,239,228,0.18);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.55);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .device-screen {
+      width: 100%;
+      min-height: 618px;
+      border-radius: 32px;
+      background: #0c0c0c;
+      overflow: hidden;
+      border: 1px solid rgba(244,239,228,0.1);
+    }
+
+    .device-top {
+      padding: 18px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(244,239,228,0.08);
+    }
+
+    .device-top h3 {
+      font-size: 16px;
+      color: #f4efe4;
+    }
+
+    .circle-row {
+      display: flex;
+      gap: 13px;
+      padding: 16px 14px;
+      overflow-x: auto;
+      border-bottom: 1px solid rgba(244,239,228,0.08);
+    }
+
+    .circle-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .circle-item {
+      min-width: 64px;
+      text-align: center;
+    }
+
+    .circle-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #ffffff, #d8c9a7, #6f6250);
+      margin-bottom: 7px;
+    }
+
+    .circle-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #111;
+      border: 3px solid #0c0c0c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #d8c9a7;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .circle-item p {
+      font-size: 11px;
+      color: #bdb5a5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 65px;
+    }
+
+    .profile-post {
+      padding: 16px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .avatar-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(244,239,228,0.25);
+    }
+
+    .post-header h4 {
+      font-size: 14px;
+      color: #f4efe4;
+    }
+
+    .post-image {
+      height: 315px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 30%),
+        radial-gradient(circle at 70% 40%, rgba(216,201,167,0.28), transparent 35%),
+        radial-gradient(circle at 50% 90%, rgba(111,98,80,0.32), transparent 35%),
+        #111;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(244,239,228,0.1);
+    }
+
+    .post-image img {
+      width: 245px;
+      height: 245px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 50px rgba(216,201,167,0.24);
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 14px;
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #f4efe4;
+    }
+
+    .caption {
+      color: #c9c0af;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     section {
@@ -400,7 +405,7 @@
     .section-title p,
     .big-card p,
     .contact p {
-      color: #c9c9d8;
+      color: #c9c0af;
       font-size: 18px;
       line-height: 1.7;
     }
@@ -414,13 +419,12 @@
     .big-card,
     .list-card,
     .info-card,
-    .tip,
-    .contact,
+    .spotlight-panel,
     .profile-card,
     .content-box,
-    .stories-panel {
-      background: rgba(255,255,255,0.065);
-      border: 1px solid rgba(255,255,255,0.12);
+    .contact {
+      background: rgba(244,239,228,0.065);
+      border: 1px solid rgba(244,239,228,0.12);
       backdrop-filter: blur(18px);
       border-radius: 34px;
     }
@@ -444,7 +448,7 @@
     }
 
     .list-card p {
-      color: #c9c9d8;
+      color: #c9c0af;
       line-height: 1.7;
     }
 
@@ -462,7 +466,7 @@
 
     .info-card:hover {
       transform: translateY(-8px);
-      background: rgba(255,255,255,0.105);
+      background: rgba(244,239,228,0.105);
     }
 
     .info-card span {
@@ -477,8 +481,54 @@
     }
 
     .info-card p {
-      color: #c9c9d8;
+      color: #c9c0af;
       line-height: 1.7;
+    }
+
+    .spotlight-panel {
+      padding: 38px;
+    }
+
+    .spotlight-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .spotlight-item {
+      text-align: center;
+      padding: 24px 14px;
+      border-radius: 26px;
+      background: rgba(244,239,228,0.055);
+      border: 1px solid rgba(244,239,228,0.1);
+      transition: 0.35s ease;
+    }
+
+    .spotlight-item:hover {
+      transform: translateY(-8px);
+      background: rgba(244,239,228,0.1);
+    }
+
+    .spotlight-item .circle-ring {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 14px;
+    }
+
+    .spotlight-item .circle-inner {
+      font-size: 26px;
+    }
+
+    .spotlight-item h3 {
+      font-size: 15px;
+      color: #ffffff;
+    }
+
+    .spotlight-item p {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #c9c0af;
     }
 
     .profile-preview {
@@ -494,11 +544,11 @@
     }
 
     .profile-avatar {
-      width: 145px;
-      height: 145px;
+      width: 150px;
+      height: 150px;
       margin: 0 auto 24px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+      background: linear-gradient(135deg, #ffffff, #d8c9a7, #6f6250);
       padding: 5px;
     }
 
@@ -508,7 +558,7 @@
       border-radius: 50%;
       object-fit: cover;
       display: block;
-      border: 5px solid #11111d;
+      border: 5px solid #111;
     }
 
     .profile-card h3 {
@@ -517,7 +567,7 @@
     }
 
     .profile-card p {
-      color: #c9c9d8;
+      color: #c9c0af;
       line-height: 1.6;
     }
 
@@ -531,8 +581,8 @@
     .stat {
       padding: 18px;
       border-radius: 22px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(244,239,228,0.07);
+      border: 1px solid rgba(244,239,228,0.1);
     }
 
     .stat strong {
@@ -541,7 +591,7 @@
     }
 
     .stat span {
-      color: #c9c9d8;
+      color: #c9c0af;
       font-size: 13px;
     }
 
@@ -557,70 +607,8 @@
     }
 
     .content-box p {
-      color: #c9c9d8;
+      color: #c9c0af;
       font-size: 18px;
-      line-height: 1.7;
-    }
-
-    .stories-panel {
-      padding: 38px;
-    }
-
-    .stories-list {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
-      margin-top: 28px;
-    }
-
-    .story-big {
-      text-align: center;
-      padding: 24px 14px;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.055);
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: 0.35s ease;
-    }
-
-    .story-big:hover {
-      transform: translateY(-8px);
-      background: rgba(255,255,255,0.1);
-    }
-
-    .story-big .story-ring {
-      width: 86px;
-      height: 86px;
-      margin: 0 auto 14px;
-    }
-
-    .story-big h3 {
-      font-size: 15px;
-      color: #ffffff;
-    }
-
-    .story-big p {
-      margin-top: 6px;
-      font-size: 13px;
-      color: #c9c9d8;
-    }
-
-    .tips {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-    }
-
-    .tip {
-      padding: 34px;
-    }
-
-    .tip h3 {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .tip p {
-      color: #c9c9d8;
       line-height: 1.7;
     }
 
@@ -642,8 +630,8 @@
     footer {
       padding: 32px 7%;
       text-align: center;
-      color: #9b9bb2;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      color: #9d9484;
+      border-top: 1px solid rgba(244,239,228,0.08);
     }
 
     .reveal {
@@ -674,7 +662,7 @@
         grid-template-columns: 1fr;
       }
 
-      .phone {
+      .profile-device {
         margin: auto;
       }
 
@@ -682,7 +670,7 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .stories-list {
+      .spotlight-list {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -703,9 +691,9 @@
         left: 0;
         width: 100%;
         padding: 24px 6%;
-        background: rgba(7, 7, 17, 0.96);
+        background: rgba(5, 5, 5, 0.96);
         backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(244,239,228,0.1);
         display: none;
         flex-direction: column;
         align-items: flex-start;
@@ -732,18 +720,21 @@
       }
 
       .cards,
-      .tips,
       .stats,
-      .stories-list {
+      .spotlight-list {
         grid-template-columns: 1fr;
       }
 
-      .phone-area {
+      .profile-area {
         min-height: auto;
       }
 
-      .phone {
-        height: 620px;
+      .profile-device {
+        min-height: 620px;
+      }
+
+      .device-screen {
+        min-height: 590px;
       }
 
       .floating-card {
@@ -753,11 +744,10 @@
       .big-card,
       .list-card,
       .info-card,
-      .tip,
       .contact,
       .profile-card,
       .content-box,
-      .stories-panel {
+      .spotlight-panel {
         padding: 32px;
       }
 
@@ -789,8 +779,8 @@
       <a href="#inicio">Inicio</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#contenido">Contenido</a>
-      <a href="#historias">Historias</a>
-      <a href="#instagram">Instagram</a>
+      <a href="#destacados">Destacados</a>
+      <a href="#perfil">Perfil</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
@@ -799,7 +789,7 @@
 
     <section class="hero" id="inicio">
       <div class="reveal">
-        <div class="tag">Marca personal / Instagram / Creatividad</div>
+        <div class="tag">Marca personal / Tecnología / Creatividad</div>
 
         <h1>
           Parker The <br>
@@ -807,80 +797,80 @@
         </h1>
 
         <p>
-          Soy Parker The Ingeniere, creador de contenido enfocado en tecnología,
-          ingeniería, diseño, creatividad digital y proyectos visuales. Esta página
-          presenta mi identidad, mi contenido y mi estilo como marca personal.
+          Soy Parker The Ingeniere, una identidad creativa enfocada en tecnología,
+          ingeniería, diseño visual y proyectos digitales. Esta página presenta mi
+          estilo, mis ideas y mi forma de crear contenido.
         </p>
 
         <div class="buttons">
           <a href="#sobre-mi" class="btn btn-primary">Conocerme</a>
-          <a href="https://instagram.com/parker_the_ingeniere" target="_blank" class="btn btn-secondary">
-            @parker_the_ingeniere
-          </a>
+          <a href="#perfil" class="btn btn-secondary">Ver perfil</a>
         </div>
       </div>
 
-      <div class="phone-area reveal">
-        <div class="floating-card card-one">Historias</div>
-        <div class="floating-card card-two">Instagram</div>
+      <div class="profile-area reveal">
+        <div class="floating-card card-one">Creatividad</div>
+        <div class="floating-card card-two">Tecnología</div>
 
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="top-phone">
-              <h3>Instagram</h3>
+        <div class="profile-device">
+          <div class="device-screen">
+
+            <div class="device-top">
+              <h3>Parker Board</h3>
               <span>● ● ●</span>
             </div>
 
-            <div class="story-row">
-              <div class="story-item">
-                <div class="story-ring">
-                  <img src="img/story1.png" alt="Historia de fatinnititus">
+            <div class="circle-row">
+              <div class="circle-item">
+                <div class="circle-ring">
+                  <div class="circle-inner">D</div>
                 </div>
-                <p>fatinnititus</p>
+                <p>Diseño</p>
               </div>
 
-              <div class="story-item">
-                <div class="story-ring">
-                  <img src="img/story2.png" alt="Historia de luci_150412">
+              <div class="circle-item">
+                <div class="circle-ring">
+                  <div class="circle-inner">T</div>
                 </div>
-                <p>luci_150412</p>
+                <p>Tech</p>
               </div>
 
-              <div class="story-item">
-                <div class="story-ring">
-                  <img src="img/story3.png" alt="Historia de andrxz._09">
+              <div class="circle-item">
+                <div class="circle-ring">
+                  <div class="circle-inner">I</div>
                 </div>
-                <p>andrxz._09</p>
+                <p>Ideas</p>
               </div>
 
-              <div class="story-item">
-                <div class="story-ring">
-                  <img src="img/story4.png" alt="Historia de yamsxva">
+              <div class="circle-item">
+                <div class="circle-ring">
+                  <div class="circle-inner">P</div>
                 </div>
-                <p>yamsxva</p>
+                <p>Proyectos</p>
               </div>
             </div>
 
-            <div class="post">
+            <div class="profile-post">
               <div class="post-header">
-                <img class="avatar-img" src="img/parker-profile.png" alt="Foto de perfil Parker">
-                <h4>@parker_the_ingeniere</h4>
+                <img class="avatar-img" src="img/parker-profile.png" alt="Logo Parker">
+                <h4>Parker The Ingeniere</h4>
               </div>
 
               <div class="post-image">
                 <img src="img/parker-profile.png" alt="Logo Parker The Ingeniere">
               </div>
 
-              <div class="icons">
-                <span>♡</span>
-                <span>💬</span>
+              <div class="post-actions">
+                <span>✦</span>
+                <span>⌁</span>
                 <span>↗</span>
               </div>
 
               <p class="caption">
-                Tecnología, creatividad, ingeniería y diseño en una sola identidad digital.
+                Tecnología, diseño, ingeniería y creatividad en una sola identidad visual.
               </p>
             </div>
+
           </div>
         </div>
       </div>
@@ -892,10 +882,10 @@
           <div class="tag">Sobre mí</div>
           <h2>Hola, soy Parker.</h2>
           <p>
-            Me presento como Parker The Ingeniere, una marca personal que mezcla
-            ingeniería, tecnología, diseño y creatividad. Mi objetivo es compartir
-            ideas, proyectos, aprendizajes y contenido visual con un estilo moderno,
-            digital y auténtico.
+            Parker The Ingeniere es una marca personal que mezcla ingeniería,
+            tecnología, diseño y creatividad. Mi objetivo es compartir ideas,
+            proyectos, aprendizajes y contenido visual con una estética moderna,
+            oscura y reconocible.
           </p>
         </div>
 
@@ -903,24 +893,24 @@
           <div class="list-card">
             <h3>Ingeniería</h3>
             <p>
-              Me interesa la tecnología, los sistemas, la innovación y cómo las ideas
-              pueden convertirse en proyectos reales.
+              Me interesa la tecnología, los sistemas, la innovación y cómo convertir
+              ideas en proyectos reales.
             </p>
           </div>
 
           <div class="list-card">
             <h3>Diseño</h3>
             <p>
-              Trabajo con estética visual, composición, branding, redes sociales
-              y presentación digital.
+              Trabajo con composición, estética visual, identidad, presentación digital
+              y estilo de marca.
             </p>
           </div>
 
           <div class="list-card">
             <h3>Contenido</h3>
             <p>
-              Creo contenido para comunicar ideas de forma clara, visual y atractiva,
-              especialmente para Instagram y plataformas digitales.
+              Creo piezas visuales para comunicar ideas de forma clara, atractiva
+              y profesional.
             </p>
           </div>
         </div>
@@ -947,13 +937,13 @@
         <div class="info-card reveal">
           <span>🎨</span>
           <h3>Diseño visual</h3>
-          <p>Composición, estética, branding, mockups y piezas para redes sociales.</p>
+          <p>Composición, estética, branding, mockups y piezas digitales.</p>
         </div>
 
         <div class="info-card reveal">
-          <span>📱</span>
-          <h3>Instagram</h3>
-          <p>Contenido digital pensado para comunicar, crecer y construir identidad.</p>
+          <span>🖥️</span>
+          <h3>Web</h3>
+          <p>Páginas modernas, portafolios, interfaces y experiencias digitales.</p>
         </div>
 
         <div class="info-card reveal">
@@ -976,55 +966,56 @@
       </div>
     </section>
 
-    <section id="historias">
-      <div class="stories-panel reveal">
-        <div class="tag">Historias</div>
+    <section id="destacados">
+      <div class="spotlight-panel reveal">
+        <div class="tag">Destacados</div>
+
         <h2 class="gradient-text" style="font-size: clamp(38px, 5vw, 72px); margin-bottom: 16px;">
-          Personas que sigo y subieron historias
+          Círculos creativos
         </h2>
 
-        <p style="color:#c9c9d8; line-height:1.7; font-size:18px;">
-          Esta sección está inspirada en la barra de historias de Instagram.
-          Puedes cambiar las imágenes y nombres cuando quieras.
+        <p style="color:#c9c0af; line-height:1.7; font-size:18px;">
+          Esta sección reemplaza las historias por categorías visuales de tu marca:
+          áreas, ideas, proyectos y contenido destacado.
         </p>
 
-        <div class="stories-list">
-          <div class="story-big">
-            <div class="story-ring">
-              <img src="img/story1.png" alt="Historia 1">
+        <div class="spotlight-list">
+          <div class="spotlight-item">
+            <div class="circle-ring">
+              <div class="circle-inner">D</div>
             </div>
-            <h3>fatinnititus</h3>
-            <p>Historia activa</p>
+            <h3>Diseño</h3>
+            <p>Identidad visual</p>
           </div>
 
-          <div class="story-big">
-            <div class="story-ring">
-              <img src="img/story2.png" alt="Historia 2">
+          <div class="spotlight-item">
+            <div class="circle-ring">
+              <div class="circle-inner">T</div>
             </div>
-            <h3>luci_150412</h3>
-            <p>Historia activa</p>
+            <h3>Tech</h3>
+            <p>Tecnología</p>
           </div>
 
-          <div class="story-big">
-            <div class="story-ring">
-              <img src="img/story3.png" alt="Historia 3">
+          <div class="spotlight-item">
+            <div class="circle-ring">
+              <div class="circle-inner">W</div>
             </div>
-            <h3>andrxz._09</h3>
-            <p>Historia activa</p>
+            <h3>Web</h3>
+            <p>Páginas digitales</p>
           </div>
 
-          <div class="story-big">
-            <div class="story-ring">
-              <img src="img/story4.png" alt="Historia 4">
+          <div class="spotlight-item">
+            <div class="circle-ring">
+              <div class="circle-inner">P</div>
             </div>
-            <h3>yamsxva</h3>
-            <p>Historia activa</p>
+            <h3>Proyectos</h3>
+            <p>Ideas en proceso</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="instagram">
+    <section id="perfil">
       <div class="profile-preview">
         <div class="profile-card reveal">
           <div class="profile-avatar">
@@ -1032,7 +1023,7 @@
           </div>
 
           <h3>Parker The Ingeniere</h3>
-          <p>@parker_the_ingeniere</p>
+          <p>Creative identity / Technology / Visual design</p>
 
           <div class="stats">
             <div class="stat">
@@ -1052,61 +1043,18 @@
           </div>
 
           <div class="buttons" style="justify-content:center;">
-            <a href="https://instagram.com/parker_the_ingeniere" target="_blank" class="btn btn-primary">
-              Visitar Instagram
-            </a>
+            <a href="#contacto" class="btn btn-primary">Contactar</a>
           </div>
         </div>
 
         <div class="content-box reveal">
-          <div class="tag">Instagram</div>
-          <h2>Una identidad para redes.</h2>
+          <div class="tag">Perfil creativo</div>
+          <h2>Una identidad visual propia.</h2>
           <p>
             Parker The Ingeniere funciona como una marca personal para mostrar
-            proyectos, ideas, contenido educativo, diseños, procesos creativos y
-            publicaciones relacionadas con tecnología. La idea es que tu perfil se vea
-            profesional, moderno y reconocible.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="consejos">
-      <div class="section-title reveal">
-        <div class="tag">Estrategia</div>
-        <h2>Ideas para tu Instagram</h2>
-      </div>
-
-      <div class="tips">
-        <div class="tip reveal">
-          <h3>Publica procesos</h3>
-          <p>
-            Muestra cómo haces tus diseños, páginas web, proyectos o ideas. Eso hace
-            que tu contenido se vea más real y profesional.
-          </p>
-        </div>
-
-        <div class="tip reveal">
-          <h3>Usa una estética fija</h3>
-          <p>
-            Mantén colores, tipografías y estilo visual parecidos para que la marca
-            Parker The Ingeniere sea fácil de reconocer.
-          </p>
-        </div>
-
-        <div class="tip reveal">
-          <h3>Combina tecnología y diseño</h3>
-          <p>
-            Puedes crear contenido sobre páginas web, herramientas digitales,
-            ingeniería, creatividad y branding personal.
-          </p>
-        </div>
-
-        <div class="tip reveal">
-          <h3>Cuenta tu historia</h3>
-          <p>
-            Comparte quién eres, qué estás aprendiendo, qué estás creando y hacia
-            dónde quieres llevar tu marca.
+            proyectos, ideas, contenido educativo, diseños, procesos creativos
+            y publicaciones relacionadas con tecnología. La idea es que tu presencia
+            digital se vea profesional, moderna y reconocible.
           </p>
         </div>
       </div>
@@ -1114,19 +1062,14 @@
 
     <section class="contact reveal" id="contacto">
       <div class="tag">Contacto</div>
-      <h2>Sigue a Parker The Ingeniere.</h2>
+      <h2>Trabajemos algo visual.</h2>
       <p>
-        Puedes encontrarme como <strong>@parker_the_ingeniere</strong>.
         Esta página funciona como presentación personal, portafolio digital
-        y espacio para mostrar mi identidad visual.
+        y espacio para mostrar la identidad visual de Parker The Ingeniere.
       </p>
 
       <div class="buttons">
-        <a href="https://instagram.com/parker_the_ingeniere" target="_blank" class="btn btn-primary">
-          Instagram
-        </a>
-
-        <a href="mailto:tu-correo@gmail.com" class="btn btn-secondary">
+        <a href="mailto:tu-correo@gmail.com" class="btn btn-primary">
           Email
         </a>
 
@@ -1139,7 +1082,7 @@
   </main>
 
   <footer>
-    <p>© <span id="year"></span> Parker The Ingeniere — @parker_the_ingeniere</p>
+    <p>© <span id="year"></span> Parker The Ingeniere — Creative Identity</p>
   </footer>
 
   <script>
