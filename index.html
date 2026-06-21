@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Información - Colegio La Roca</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Obed | Creative Web</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Segoe UI", Arial, sans-serif;
     }
 
     html {
@@ -18,390 +18,527 @@
     }
 
     body {
-      background: #ffffff;
-      color: #2b1017;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #05060f;
+      color: white;
+      overflow-x: hidden;
     }
 
-    /* BARRA SUPERIOR */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -200px;
+      right: -160px;
+      width: 600px;
+      height: 600px;
+      background: #5865ff;
+      filter: blur(130px);
+      opacity: 0.55;
+      z-index: -3;
+      border-radius: 50%;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -220px;
+      left: -170px;
+      width: 650px;
+      height: 650px;
+      background: #a855f7;
+      filter: blur(130px);
+      opacity: 0.45;
+      z-index: -3;
+      border-radius: 50%;
+    }
+
+    .cursor-light {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(130, 120, 255, 0.25), transparent 65%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black, transparent 75%);
+      z-index: -4;
+    }
+
     header {
       width: 100%;
-      padding: 18px 60px;
-      background: rgba(255, 255, 255, 0.96);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      height: 82px;
       position: fixed;
       top: 0;
       left: 0;
+      padding: 0 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 6, 15, 0.65);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
       z-index: 100;
-      box-shadow: 0 4px 25px rgba(123, 16, 37, 0.15);
-      border-bottom: 3px solid #7b1025;
     }
 
     .logo {
-      font-size: 24px;
-      font-weight: 800;
-      color: #7b1025;
-      letter-spacing: 0.5px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.28em;
     }
 
-    .logo span {
-      color: #2b1017;
+    nav {
+      display: flex;
+      gap: 32px;
     }
 
     nav a {
+      color: #bfc3da;
       text-decoration: none;
-      color: #7b1025;
-      margin-left: 24px;
-      font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       transition: 0.3s;
     }
 
     nav a:hover {
-      color: #2b1017;
-      border-bottom: 2px solid #7b1025;
-      padding-bottom: 5px;
-    }
-
-    /* SECCIONES GENERALES */
-    section {
-      min-height: 100vh;
-      padding: 120px 70px 70px;
-      display: flex;
-      align-items: center;
-    }
-
-    .contenedor {
-      max-width: 1150px;
-      width: 100%;
-      margin: auto;
-    }
-
-    .etiqueta {
-      display: inline-block;
-      background: #7b1025;
       color: white;
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 18px;
-      letter-spacing: 1px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 7% 80px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .tag {
+      color: #a7adff;
       text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: 56px;
-      color: #7b1025;
-      margin-bottom: 20px;
-      line-height: 1.1;
-    }
-
-    h2 {
-      font-size: 42px;
-      color: #7b1025;
+      letter-spacing: 0.22em;
+      font-size: 12px;
+      font-weight: bold;
       margin-bottom: 22px;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #4d333a;
+    h1 {
+      font-size: clamp(58px, 9vw, 128px);
+      line-height: 0.88;
+      letter-spacing: -0.08em;
     }
 
-    .boton {
-      display: inline-block;
-      margin-top: 28px;
-      padding: 14px 30px;
-      background: #7b1025;
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: bold;
-      transition: 0.3s;
+    .hero p {
+      margin-top: 30px;
+      max-width: 620px;
+      color: #c9cce0;
+      font-size: 20px;
+      line-height: 1.7;
     }
 
-    .boton:hover {
-      background: #4a0616;
-      transform: translateY(-4px);
-    }
-
-    /* INICIO */
-    #inicio {
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,247,249,0.95)),
-        radial-gradient(circle at top right, #7b102533, transparent 35%);
-    }
-
-    .inicio-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .hero-card {
-      background: #7b1025;
-      color: white;
-      padding: 40px;
-      border-radius: 35px;
-      box-shadow: 0 25px 60px rgba(123, 16, 37, 0.28);
-    }
-
-    .hero-card h3 {
-      font-size: 30px;
-      margin-bottom: 15px;
-    }
-
-    .hero-card p {
-      color: #ffe8ef;
-      font-size: 16px;
-    }
-
-    /* PRESENTACIÓN */
-    #presentacion {
-      background: #fff7f9;
-    }
-
-    .presentacion-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .imagen-box {
-      height: 360px;
-      background: linear-gradient(135deg, #7b1025, #c79aa8);
-      border-radius: 32px;
+    .buttons {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 38px;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.35s;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #05060f;
+    }
+
+    .btn-secondary {
       color: white;
-      padding: 30px;
-      box-shadow: 0 20px 45px rgba(123, 16, 37, 0.25);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .btn:hover {
+      transform: translateY(-5px);
+    }
+
+    .visual {
+      position: relative;
+      min-height: 560px;
+    }
+
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      animation: rotate 18s linear infinite;
+    }
+
+    .orbit.one {
+      width: 430px;
+      height: 430px;
+      right: 20px;
+      top: 60px;
+    }
+
+    .orbit.two {
+      width: 300px;
+      height: 300px;
+      right: 85px;
+      top: 125px;
+      animation-direction: reverse;
+      animation-duration: 12s;
+    }
+
+    .main-card,
+    .mini-card {
+      position: absolute;
+      background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.16);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.45);
       overflow: hidden;
     }
 
-    .imagen-box img {
+    .main-card {
+      width: min(420px, 100%);
+      padding: 14px;
+      border-radius: 34px;
+      right: 10px;
+      top: 70px;
+      animation: float 5.5s ease-in-out infinite;
+      z-index: 4;
+    }
+
+    .main-card img {
       width: 100%;
-      height: 100%;
+      height: 500px;
       object-fit: cover;
+      border-radius: 24px;
     }
 
-    .imagen-box h3 {
-      font-size: 30px;
-      margin-bottom: 12px;
+    .mini-card {
+      width: 180px;
+      padding: 10px;
+      border-radius: 24px;
+      z-index: 5;
+      animation: float 5s ease-in-out infinite;
     }
 
-    .imagen-box p {
-      color: #ffe8ef;
-      font-size: 16px;
+    .mini-card img {
+      width: 100%;
+      height: 175px;
+      object-fit: cover;
+      border-radius: 17px;
     }
 
-    /* UBICACIÓN */
-    #ubicacion {
-      background: white;
+    .mini-one {
+      top: 30px;
+      left: 10px;
     }
 
-    .ubicacion-card {
-      background: #fff7f9;
-      padding: 45px;
-      border-radius: 32px;
-      border-left: 8px solid #7b1025;
-      box-shadow: 0 18px 45px rgba(123, 16, 37, 0.12);
+    .mini-two {
+      bottom: 55px;
+      left: 90px;
+      animation-delay: 0.8s;
     }
 
-    .ubicacion-card h3 {
-      color: #7b1025;
-      font-size: 28px;
-      margin-bottom: 15px;
+    .chip {
+      position: absolute;
+      padding: 13px 19px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(18px);
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 6;
     }
 
-    /* DATOS */
-    #datos {
-      background: #7b1025;
-      color: white;
+    .chip.one {
+      right: 20px;
+      top: 80px;
     }
 
-    #datos h2,
-    #datos .etiqueta {
-      color: white;
+    .chip.two {
+      right: 0;
+      bottom: 120px;
     }
 
-    #datos .etiqueta {
-      background: white;
-      color: #7b1025;
+    .chip.three {
+      left: 10px;
+      bottom: 55px;
     }
 
-    .datos-grid {
-      margin-top: 35px;
+    section {
+      padding: 110px 7%;
+    }
+
+    .section-title {
+      max-width: 780px;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2,
+    .about h2,
+    .contact h2 {
+      font-size: clamp(42px, 6vw, 84px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      margin-bottom: 24px;
+    }
+
+    .section-title p,
+    .about p,
+    .contact p {
+      color: #bfc3da;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .gallery {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
 
-    .dato {
-      background: white;
-      color: #2b1017;
-      padding: 28px;
-      border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.16);
-      transition: 0.3s;
+    .work-card {
+      padding: 14px;
+      min-height: 480px;
+      border-radius: 32px;
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+      transition: 0.35s;
     }
 
-    .dato:hover {
-      transform: translateY(-8px);
+    .work-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.105);
     }
 
-    .dato h3 {
-      color: #7b1025;
-      font-size: 21px;
-      margin-bottom: 10px;
+    .work-card img {
+      width: 100%;
+      height: 315px;
+      object-fit: cover;
+      border-radius: 23px;
     }
 
-    .dato p {
-      color: #4d333a;
-      font-size: 15px;
+    .work-info {
+      padding: 22px 8px 8px;
+    }
+
+    .work-info span {
+      color: #99a1ff;
+      font-weight: bold;
+    }
+
+    .work-info h3 {
+      margin-top: 8px;
+      font-size: 25px;
+    }
+
+    .work-info p {
+      margin-top: 10px;
+      color: #bfc3da;
       line-height: 1.6;
     }
 
-    /* VALORES */
-    #valores {
-      background: #fff7f9;
-    }
-
-    .valores-grid {
-      margin-top: 35px;
+    .about {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
     }
 
-    .valor {
-      background: white;
-      padding: 35px;
-      border-radius: 28px;
-      text-align: center;
-      border: 1px solid #efd4dc;
-      box-shadow: 0 15px 35px rgba(123, 16, 37, 0.10);
+    .about-card,
+    .about-box,
+    .service-card,
+    .contact {
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+      border-radius: 34px;
     }
 
-    .valor .numero {
-      width: 55px;
-      height: 55px;
-      background: #7b1025;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 18px;
-      font-weight: bold;
-      font-size: 20px;
+    .about-card {
+      padding: 52px;
     }
 
-    .valor h3 {
-      color: #7b1025;
-      font-size: 24px;
+    .about-list {
+      display: grid;
+      gap: 20px;
+    }
+
+    .about-box {
+      padding: 34px;
+    }
+
+    .about-box h3,
+    .service-card h3 {
+      font-size: 25px;
       margin-bottom: 12px;
     }
 
-    .valor p {
-      font-size: 16px;
+    .about-box p,
+    .service-card p {
+      color: #bfc3da;
+      line-height: 1.7;
     }
 
-    /* CONTACTO */
-    #contacto {
-      background: white;
-    }
-
-    .contacto-box {
-      background: linear-gradient(135deg, #7b1025, #4a0616);
-      color: white;
-      padding: 55px;
-      border-radius: 35px;
-      box-shadow: 0 25px 60px rgba(123, 16, 37, 0.28);
-    }
-
-    .contacto-box h2 {
-      color: white;
-    }
-
-    .contacto-box p {
-      color: #ffe8ef;
-    }
-
-    .contacto-grid {
-      margin-top: 35px;
+    .services {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
 
-    .contacto-card {
-      background: white;
-      color: #2b1017;
-      padding: 25px;
-      border-radius: 22px;
+    .service-card {
+      padding: 36px;
+      min-height: 220px;
+      transition: 0.35s;
     }
 
-    .contacto-card h3 {
-      color: #7b1025;
-      margin-bottom: 10px;
-      font-size: 21px;
+    .service-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.105);
     }
 
-    .contacto-card p {
-      color: #4d333a;
-      font-size: 15px;
+    .contact {
+      margin: 80px 7% 100px;
+      padding: 75px;
+      text-align: center;
+    }
+
+    .contact p {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .contact .buttons {
+      justify-content: center;
     }
 
     footer {
-      background: #2b1017;
-      color: white;
+      padding: 32px 7%;
       text-align: center;
-      padding: 25px;
+      color: #8d92aa;
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
 
-    footer p {
-      color: #ffe8ef;
-      font-size: 14px;
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: 0.9s ease;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-18px) rotate(1deg);
+      }
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .hero,
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery,
+      .services {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
       header {
-        padding: 18px 25px;
-        flex-direction: column;
-        gap: 12px;
+        padding: 0 6%;
       }
 
-      nav a {
-        margin: 0 8px;
-        font-size: 14px;
+      nav {
+        display: none;
       }
 
-      section {
-        padding: 150px 25px 60px;
+      .hero {
+        padding: 130px 6% 70px;
       }
 
       h1 {
-        font-size: 40px;
+        font-size: 58px;
       }
 
-      h2 {
-        font-size: 34px;
+      .hero p {
+        font-size: 17px;
       }
 
-      .inicio-grid,
-      .presentacion-grid,
-      .datos-grid,
-      .valores-grid,
-      .contacto-grid {
+      section {
+        padding: 85px 6%;
+      }
+
+      .gallery,
+      .services {
         grid-template-columns: 1fr;
+      }
+
+      .visual {
+        min-height: 540px;
+      }
+
+      .orbit,
+      .mini-card,
+      .chip {
+        display: none;
+      }
+
+      .main-card {
+        width: 100%;
+        right: 0;
+      }
+
+      .about-card,
+      .about-box,
+      .service-card,
+      .contact {
+        padding: 32px;
+      }
+
+      .contact {
+        margin: 60px 6% 80px;
+      }
+
+      .cursor-light {
+        display: none;
       }
     }
   </style>
@@ -409,218 +546,250 @@
 
 <body>
 
-  <!-- BARRA DE NAVEGACIÓN -->
+  <div class="cursor-light"></div>
+  <div class="grid"></div>
+
   <header>
-    <div class="logo">La Roca <span>Chosica</span></div>
+    <div class="logo">OBED</div>
 
     <nav>
       <a href="#inicio">Inicio</a>
-      <a href="#presentacion">Presentación</a>
-      <a href="#ubicacion">Ubicación</a>
-      <a href="#datos">Datos</a>
-      <a href="#valores">Valores</a>
-      <a href="#contacto">Contáctanos</a>
+      <a href="#trabajos">Diseños</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
     </nav>
   </header>
 
-  <!-- ESPACIO 1: INICIO -->
-  <section id="inicio">
-    <div class="contenedor">
-      <div class="inicio-grid">
+  <main>
 
-        <div>
-          <span class="etiqueta">Información del colegio</span>
-          <h1>I.E.P. “La Roca” Chosica</h1>
-          <p>
-            Bienvenido a la sección informativa del Colegio La Roca,
-            un espacio dedicado a presentar los datos principales de la institución,
-            su ubicación, valores y medios de contacto.
-          </p>
+    <section class="hero" id="inicio">
+      <div class="reveal">
+        <div class="tag">Creative Web / Visual Portfolio</div>
 
-          <a href="#presentacion" class="boton">Ver presentación</a>
-        </div>
+        <h1>
+          Designs that <br>
+          feel alive.
+        </h1>
 
-        <div class="hero-card">
-          <h3>Formación con valores</h3>
-          <p>
-            La institución busca formar estudiantes responsables, respetuosos
-            y preparados para enfrentar nuevos retos dentro y fuera del aula.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ESPACIO 2: PRESENTACIÓN -->
-  <section id="presentacion">
-    <div class="contenedor">
-      <div class="presentacion-grid">
-
-        <div>
-          <span class="etiqueta">Presentación</span>
-          <h2>Sobre la institución</h2>
-          <p>
-            La Institución Educativa Privada “La Roca” se encuentra ubicada
-            en Chosica, distrito de Lurigancho. Es una institución educativa
-            privada que forma parte de la comunidad escolar de la zona.
-          </p>
-          <p>
-            Su propuesta está relacionada con la formación académica,
-            la convivencia escolar y la práctica de valores.
-          </p>
-        </div>
-
-        <div class="imagen-box">
-          <!-- 
-            Para colocar una foto real:
-            1. Crea una carpeta llamada "imagenes"
-            2. Guarda tu foto como "colegio-la-roca.jpg"
-            3. Reemplaza este bloque por:
-            <img src="imagenes/colegio-la-roca.jpg" alt="Colegio La Roca Chosica">
-          -->
-
-          <div>
-            <h3>Foto del colegio</h3>
-            <p>Aquí puedes colocar una imagen de la fachada, patio o entrada principal.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ESPACIO 3: UBICACIÓN -->
-  <section id="ubicacion">
-    <div class="contenedor">
-      <span class="etiqueta">Ubicación</span>
-      <h2>¿Dónde se encuentra?</h2>
-
-      <div class="ubicacion-card">
-        <h3>Pasaje Navidad 156, Chosica</h3>
         <p>
-          El Colegio La Roca está ubicado en Pasaje Navidad 156,
-          en el distrito de Lurigancho-Chosica, provincia y departamento
-          de Lima.
+          Una página web visual para mostrar mis diseños, mockups, branding,
+          posters y proyectos creativos con una estética moderna, oscura y futurista.
+        </p>
+
+        <div class="buttons">
+          <a href="#trabajos" class="btn btn-primary">Ver diseños</a>
+          <a href="#contacto" class="btn btn-secondary">Contactarme</a>
+        </div>
+      </div>
+
+      <div class="visual reveal">
+        <div class="orbit one"></div>
+        <div class="orbit two"></div>
+
+        <div class="main-card">
+          <img src="img/design1.png" alt="Diseño principal de Obed">
+        </div>
+
+        <div class="mini-card mini-one">
+          <img src="img/design2.png" alt="Diseño de Obed">
+        </div>
+
+        <div class="mini-card mini-two">
+          <img src="img/design3.png" alt="Diseño de Obed">
+        </div>
+
+        <div class="chip one">Branding</div>
+        <div class="chip two">Mockups</div>
+        <div class="chip three">Visual Design</div>
+      </div>
+    </section>
+
+    <section id="trabajos">
+      <div class="section-title reveal">
+        <div class="tag">Selected Work</div>
+        <h2>Mis diseños</h2>
+        <p>
+          Una galería para presentar mis proyectos visuales de forma profesional,
+          parecida a una landing moderna de tecnología.
         </p>
       </div>
-    </div>
-  </section>
 
-  <!-- ESPACIO 4: DATOS GENERALES -->
-  <section id="datos">
-    <div class="contenedor">
-      <span class="etiqueta">Datos generales</span>
-      <h2>Información principal</h2>
+      <div class="gallery">
 
-      <div class="datos-grid">
-        <div class="dato">
-          <h3>Nombre</h3>
-          <p>I.E.P. “La Roca”</p>
+        <article class="work-card reveal">
+          <img src="img/design1.png" alt="Proyecto 1">
+          <div class="work-info">
+            <span>01</span>
+            <h3>Brand Identity</h3>
+            <p>Identidad visual, logo, composición y dirección gráfica.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <img src="img/design2.png" alt="Proyecto 2">
+          <div class="work-info">
+            <span>02</span>
+            <h3>Poster Design</h3>
+            <p>Afiches, piezas editoriales y comunicación visual.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <img src="img/design3.png" alt="Proyecto 3">
+          <div class="work-info">
+            <span>03</span>
+            <h3>Mockup System</h3>
+            <p>Presentaciones realistas para productos, marcas y empaques.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <img src="img/design4.png" alt="Proyecto 4">
+          <div class="work-info">
+            <span>04</span>
+            <h3>Social Media</h3>
+            <p>Contenido visual para Instagram, campañas y publicaciones.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <img src="img/design5.png" alt="Proyecto 5">
+          <div class="work-info">
+            <span>05</span>
+            <h3>Web Concept</h3>
+            <p>Diseños para páginas web, landing pages e interfaces.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <img src="img/design6.png" alt="Proyecto 6">
+          <div class="work-info">
+            <span>06</span>
+            <h3>Experimental Design</h3>
+            <p>Exploraciones creativas con color, textura y composición.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="about" id="sobre-mi">
+      <div class="about-card reveal">
+        <div class="tag">About</div>
+        <h2>Hola, soy Obed.</h2>
+        <p>
+          Soy un creador visual enfocado en diseño, composición, branding
+          y experiencias digitales. Me gusta crear piezas modernas,
+          limpias y con una identidad fuerte.
+        </p>
+      </div>
+
+      <div class="about-list reveal">
+        <div class="about-box">
+          <h3>Branding</h3>
+          <p>Logos, identidad visual, paletas, tipografías y sistemas gráficos.</p>
         </div>
 
-        <div class="dato">
-          <h3>Gestión</h3>
-          <p>Institución educativa privada.</p>
+        <div class="about-box">
+          <h3>Diseño digital</h3>
+          <p>Piezas para redes sociales, campañas, portafolios y páginas web.</p>
         </div>
 
-        <div class="dato">
-          <h3>Área</h3>
-          <p>Zona urbana.</p>
-        </div>
-
-        <div class="dato">
-          <h3>Alumnado</h3>
-          <p>Colegio mixto.</p>
-        </div>
-
-        <div class="dato">
-          <h3>Distrito</h3>
-          <p>Lurigancho-Chosica.</p>
-        </div>
-
-        <div class="dato">
-          <h3>Departamento</h3>
-          <p>Lima, Perú.</p>
+        <div class="about-box">
+          <h3>Dirección visual</h3>
+          <p>Composición, moodboards, mockups y presentación profesional.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ESPACIO 5: VALORES -->
-  <section id="valores">
-    <div class="contenedor">
-      <span class="etiqueta">Valores</span>
-      <h2>Valores que promueve</h2>
+    <section id="servicios">
+      <div class="section-title reveal">
+        <div class="tag">Services</div>
+        <h2>Qué puedo crear</h2>
+      </div>
+
+      <div class="services">
+        <div class="service-card reveal">
+          <h3>Branding</h3>
+          <p>Identidad visual para marcas, proyectos personales o negocios.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Posters</h3>
+          <p>Afiches modernos para eventos, campañas, redes o impresión.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Mockups</h3>
+          <p>Presentaciones realistas para productos, logos y empaques.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Web Design</h3>
+          <p>Páginas web visuales, modernas y adaptadas a celular.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Social Media</h3>
+          <p>Contenido gráfico para Instagram, carruseles y anuncios.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <h3>Experimental</h3>
+          <p>Diseños conceptuales con estética futurista, artística o premium.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact reveal" id="contacto">
+      <div class="tag">Contact</div>
+      <h2>Trabajemos juntos.</h2>
       <p>
-        La formación de los estudiantes no solo se basa en conocimientos,
-        sino también en actitudes que ayudan a mejorar la convivencia escolar.
+        Escríbeme para proyectos de diseño, branding, mockups, portafolio
+        o páginas web.
       </p>
 
-      <div class="valores-grid">
-        <div class="valor">
-          <div class="numero">1</div>
-          <h3>Respeto</h3>
-          <p>
-            Fomenta una convivencia sana entre estudiantes,
-            docentes y familias.
-          </p>
-        </div>
-
-        <div class="valor">
-          <div class="numero">2</div>
-          <h3>Responsabilidad</h3>
-          <p>
-            Promueve el cumplimiento de deberes, la puntualidad
-            y el compromiso académico.
-          </p>
-        </div>
-
-        <div class="valor">
-          <div class="numero">3</div>
-          <h3>Formación cristiana</h3>
-          <p>
-            Refuerza principios y valores cristianos dentro
-            de la comunidad educativa.
-          </p>
-        </div>
+      <div class="buttons">
+        <a href="mailto:tu-correo@gmail.com" class="btn btn-primary">Email</a>
+        <a href="https://wa.me/51999999999" target="_blank" class="btn btn-secondary">WhatsApp</a>
+        <a href="https://instagram.com/tuusuario" target="_blank" class="btn btn-secondary">Instagram</a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ESPACIO 6: CONTACTO -->
-  <section id="contacto">
-    <div class="contenedor">
-      <div class="contacto-box">
-        <span class="etiqueta">Contáctanos</span>
-        <h2>Medios de contacto</h2>
-        <p>
-          Estos son algunos datos públicos de contacto de la institución.
-        </p>
-
-        <div class="contacto-grid">
-          <div class="contacto-card">
-            <h3>Dirección</h3>
-            <p>Pasaje Navidad 156, Chosica.</p>
-          </div>
-
-          <div class="contacto-card">
-            <h3>Teléfono</h3>
-            <p>3838098 / 4921820</p>
-          </div>
-
-          <div class="contacto-card">
-            <h3>Correo</h3>
-            <p>ieplaroca@hotmail.com</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </main>
 
   <footer>
-    <p>Sección informativa escolar - I.E.P. “La Roca” Chosica</p>
+    <p>© <span id="year"></span> Obed. Todos los derechos reservados.</p>
   </footer>
+
+  <script>
+    const cursorLight = document.querySelector(".cursor-light");
+
+    document.addEventListener("mousemove", function(event) {
+      cursorLight.style.left = event.clientX + "px";
+      cursorLight.style.top = event.clientY + "px";
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    function revealOnScroll() {
+      revealElements.forEach(function(element) {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        if (elementTop < windowHeight - 90) {
+          element.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    window.addEventListener("load", revealOnScroll);
+
+    const year = document.getElementById("year");
+    year.textContent = new Date().getFullYear();
+  </script>
 
 </body>
 </html>
